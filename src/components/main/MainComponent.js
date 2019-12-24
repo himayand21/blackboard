@@ -27,7 +27,9 @@ export const MainComponent = (props) => {
                         className="board-tile board-tile-last"
                         onClick={showAddBoard}
                     >
-                        Add New Board
+                        <div className="board-tile-name">
+                            Add New Board
+                        </div>
                     </div>
                 </section>
                 
