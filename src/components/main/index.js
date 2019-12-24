@@ -1,6 +1,7 @@
 import {connect} from 'react-redux';
 import {MainComponent} from './MainComponent';
 import './main.scss';
+import {showAddBoard} from '../../actions';
 
 const mapStateToProps = (state) => {
 	const {boards} = state;
@@ -11,5 +12,5 @@ const mapStateToProps = (state) => {
 
 export const Main = connect(
     mapStateToProps,
-    null
+    {showAddBoard}
 )(MainComponent);

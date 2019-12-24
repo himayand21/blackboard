@@ -1,4 +1,7 @@
-import {ADD_COMMENT} from '../constants/actionTypes';
+import {
+    ADD_COMMENT,
+    UPDATE_COMMENTS
+} from '../constants/actionTypes';
 
 const initialState = [
     {
@@ -46,7 +49,10 @@ export default (state = initialState, action) => {
                 ...state,
                 {...action.payload}
             ]
-		}
+        }
+        case UPDATE_COMMENTS: {
+            return action.payload
+        }
 		default: {
 			return state
 		}

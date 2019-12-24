@@ -1,5 +1,6 @@
 import React, { useState, Fragment } from 'react';
 import { Comment } from '../comment';
+import {Popup} from '../popup';
 
 export const CardComponent = (props) => {
     const [commentsVisible, setCommentVisible] = useState(false);
@@ -9,7 +10,7 @@ export const CardComponent = (props) => {
         comments,
         addCommentToCard,
         showEditCard,
-        removeCard
+        removeCardAndUpdateList
     } = props;
     const {
         comments: commentIds,
@@ -40,10 +41,10 @@ export const CardComponent = (props) => {
         <section className="card-wrapper">
             <header className="card-header">
                 <div className="card-name">{cardName}</div>
-                <div className="card-actions">
-                    <button onClick={() => showEditCard(card)}><i className="fa fa-pencil" /></button>
-                    <button onClick={() => removeCard({cardId, listId})}><i className="fa fa-trash" /></button>
-                </div>
+                <Popup>
+                    <button onClick={() => showEditCard(card)}>Edit</button>
+                    <button onClick={() => removeCardAndUpdateList({cardId, listId})}>Delete</button>
+                </Popup>
             </header>
             <article className="card-details">
                 <div className="card-desc">{cardDescription}</div>
@@ -53,7 +54,12 @@ export const CardComponent = (props) => {
                     <button className="card-button" onClick={toggleCommentsVisible}>{buttonLabel}</button>
                     {commentsVisible ?
                         <div className="comments-wrapper">
-                            {cardComments.map(comment => <Comment comment={comment} />)}
+                            {cardComments.map(comment => (
+                                <Comment
+                                    key={`comment-${comment.id}`}
+                                    comment={comment}
+                                />
+                            ))}
                         </div> : null}
                 </Fragment> : null}
             <div className="comment-add">

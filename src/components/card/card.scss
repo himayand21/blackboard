@@ -17,17 +17,11 @@
                 font-size: 15px;
                 font-weight: bold;
             }
-            .card-actions {
-                button {
-                    margin-right: 5px;
-                    padding: 8px;
-                }
-            }
         }
         .card-button {
             width: 150px;
-            align-self: flex-end;
-            margin-right: 5px;
+            align-self: flex-start;
+            padding: 5px;
         }
         .card-details {
             margin: 10px 0 15px;

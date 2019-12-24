@@ -1,7 +1,16 @@
 import {connect} from 'react-redux';
 import {ModalComponent} from './ModalComponent';
 import './modal.scss';
-import {hideModal, handleFormChange, addCard, updateCard} from '../../actions';
+import {
+    hideModal,
+    handleFormChange,
+    addCard,
+    updateCard,
+    addList,
+    updateList,
+    updateBoard,
+    addBoard
+} from '../../actions';
 
 const mapStateToProps = (state) => {
 	const {modal} = state;
@@ -12,5 +21,14 @@ const mapStateToProps = (state) => {
 
 export const Modal = connect(
     mapStateToProps,
-    {hideModal, handleFormChange, addCard, updateCard}
+    {
+        hideModal,
+        handleFormChange,
+        addCard,
+        updateCard,
+        addList,
+        updateList,
+        updateBoard,
+        addBoard
+    }
 )(ModalComponent);

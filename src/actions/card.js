@@ -5,6 +5,7 @@ import {
 import { generateId } from '../util/generateId';
 import { updateLists } from './list';
 import { hideModal, showFormError } from './modal';
+import { removeComment } from './comment';
 
 export const addCard = () => async (dispatch, getState) => {
 	const { modal, lists } = getState();
@@ -72,9 +73,16 @@ export const updateCards = (payload) => {
 	})
 }
 
-export const removeCard = ({cardId, listId}) => async (dispatch, getState) => {
-	const {cards, lists} = getState();
+export const removeCard = ({cardId}) => async (dispatch, getState) => {
+	const {cards} = getState();
+	const selectedCard = cards.find(card => card.id === cardId);
 	const newCards = cards.filter(card => card.id !== cardId);
+	await dispatch(updateCards(newCards));
+	selectedCard.comments.forEach(commentId => dispatch(removeComment({commentId})));
+}
+
+export const removeCardAndUpdateList = ({cardId, listId}) => async (dispatch, getState) => {
+	const {lists} = getState();
 	const updatedLists = lists.map(list => {
 		if (list.id === listId) {
 			return ({
@@ -84,6 +92,6 @@ export const removeCard = ({cardId, listId}) => async (dispatch, getState) => {
 		}
 		return list
 	});
-	dispatch(updateCards(newCards));
-	dispatch(updateLists(updatedLists));
+	await dispatch(updateLists(updatedLists));
+	dispatch(removeCard({cardId}));
 }
