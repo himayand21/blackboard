@@ -1,7 +1,7 @@
 import React, { useState, Fragment, useEffect } from 'react';
 import { Comment } from '../comment';
 import { Popup } from '../popup';
-import {ListOptions} from './listOptions';
+import {ListOptions} from './ListOptions';
 
 export const CardComponent = (props) => {
     const [commentsVisible, setCommentVisible] = useState(false);
