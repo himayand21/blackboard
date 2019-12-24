@@ -4,7 +4,7 @@ import './list.scss';
 import {
     showAddCard,
     showEditList,
-    removeListAndUpdateBoard
+    removeList
 } from '../../actions';
 
 const mapStateToProps = (state) => {
@@ -19,6 +19,6 @@ export const List = connect(
     {
         showAddCard,
         showEditList,
-        removeListAndUpdateBoard
+        removeList
     }
 )(ListComponent);

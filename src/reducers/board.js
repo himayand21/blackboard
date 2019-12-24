@@ -3,8 +3,7 @@ import {UPDATE_BOARDS, ADD_BOARD} from '../constants/actionTypes';
 const initialState = [
     {
         id: 'board#1',
-        name: 'Favorites',
-        lists: ['list#1', 'list#2']
+        name: 'Favorites'
     }
 ];
 

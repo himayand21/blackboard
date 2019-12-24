@@ -36,11 +36,11 @@ export const updateBoard = () => async (dispatch, getState) => {
 }
 
 export const removeBoard = ({boardId}) => async (dispatch, getState) => {
-	const {boards} = getState();
-	const selectedBoard = boards.find(board => board.id === boardId);
+	const {boards, lists} = getState();
 	const newBoards = boards.filter(board => board.id !== boardId);
 	await dispatch(updateBoards(newBoards));
-	selectedBoard.lists.forEach(list => dispatch(removeList({listId: list})))
+	const removedList = lists.filter(list => list.parent === boardId);
+	removedList.forEach(async (list) => await dispatch(removeList({listId: list.id})));
 }
 
 export const addBoard = () => async (dispatch, getState) => {
@@ -55,8 +55,7 @@ export const addBoard = () => async (dispatch, getState) => {
 			type: ADD_BOARD,
 			payload: {
 				...form,
-				id,
-				lists: []
+				id
 			}
 		});
 		dispatch(hideModal());
