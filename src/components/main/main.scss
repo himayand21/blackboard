@@ -9,11 +9,16 @@
         display: flex;
         align-items: center;
         flex-wrap: wrap;
-        margin-bottom: 25px;
+        margin-bottom: 15px;
         .board-tile {
             width: 150px;
             height: 150px;
+            max-width: 30vw;
+            min-width: 75px;
+            max-height: 10vh;
+            min-height: 75px;
             margin-right: 10px;
+            margin-bottom: 10px;
             background-color: rgb(235, 235, 235);
             border-radius: 10px;
             border: 1px solid lightgray;
@@ -26,12 +31,17 @@
                 background-color: rgb(215, 215, 215);
             }
             .board-tile-name {
+                text-align: center;
+                padding: 0 10px;
                 font-weight: bold;
+                box-sizing: border-box;
+                width: 100%;
+                text-overflow: ellipsis;
+                overflow: hidden;
             }
 
             &.board-tile-last {
                 background-color: white;
-                font-weight: bold;
                 &:hover {
                     background-color: rgb(245, 245, 245);
                 }
