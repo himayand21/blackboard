@@ -8,35 +8,21 @@ import { hideModal, showFormError } from './modal';
 import {removeCard} from './card';
 
 export const addList = () => async (dispatch, getState) => {
-	const { modal, boards } = getState();
+	const { modal } = getState();
 	const { form, origin: boardId } = modal;
 	const emptyKey = Object.keys(form).find(elem => !form[elem]);
 	if (emptyKey) {
 		dispatch(showFormError(emptyKey))
 	} else {
 		const id = generateId();
-		const newBoards = boards.map(board => {
-			if (board.id === boardId) {
-				return ({
-					...board,
-					lists: [
-						...board.lists,
-						id
-					]
-				})
-			}
-			return board
-		});
 		await dispatch({
 			type: ADD_LIST,
 			payload: {
 				...form,
 				parent: boardId,
-				id,
-				cards: []
+				id
 			}
 		});
-		await dispatch(updateBoards(newBoards));
 		dispatch(hideModal());
 	}
 }
@@ -64,26 +50,11 @@ export const updateList = () => async (dispatch, getState) => {
 }
 
 export const removeList = ({listId}) => async (dispatch, getState) => {
-	const {lists} = getState();
-	const selectedList = lists.find(list => list.id === listId);
+	const {lists, cards} = getState();
 	const newLists = lists.filter(list => list.id !== listId);
 	await dispatch(updateLists(newLists));
-	selectedList.cards.forEach(card => dispatch(removeCard({cardId: card})))
-}
-
-export const removeListAndUpdateBoard = ({boardId, listId}) => async (dispatch, getState) => {
-	const {boards} = getState();
-	const updatedBoards = boards.map(board => {
-		if (board.id === boardId) {
-			return ({
-				...board,
-				lists: board.lists.filter(list => list !== listId)
-			});
-		}
-		return board
-	});
-	await dispatch(updateBoards(updatedBoards));
-	dispatch(removeList({listId}));
+	const removedCards = cards.filter(card => card.parent === listId);
+	removedCards.forEach(async (card) => await dispatch(removeCard({cardId: card.id})))
 }
 
 export const updateLists = (payload) => {

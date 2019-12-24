@@ -7,14 +7,12 @@ const initialState = [
     {
         id: 'list#1',
         name: 'Trips',
-        parent: 'board#1',
-        cards: ['card#1', 'card#2']
+        parent: 'board#1'
     },
     {
         id: 'list#2',
         parent: 'board#1',
-        name: 'Movies',
-        cards: ['card#3']
+        name: 'Movies'
     }
 ];
 

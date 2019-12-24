@@ -8,35 +8,21 @@ import { hideModal, showFormError } from './modal';
 import { removeComment } from './comment';
 
 export const addCard = () => async (dispatch, getState) => {
-	const { modal, lists } = getState();
+	const { modal } = getState();
 	const { form, origin: listId } = modal;
 	const emptyKey = Object.keys(form).find(elem => !form[elem]);
 	if (emptyKey) {
 		dispatch(showFormError(emptyKey))
 	} else {
 		const id = generateId();
-		const newLists = lists.map(list => {
-			if (list.id === listId) {
-				return {
-					...list,
-					cards: [
-						...list.cards,
-						id
-					]
-				}
-			}
-			return list
-		});
 		await dispatch({
 			type: ADD_CARD,
 			payload: {
 				...form,
 				parent: listId,
-				id,
-				comments: []
+				id
 			}
 		});
-		await dispatch(updateLists(newLists));
 		dispatch(hideModal());
 	}
 }
@@ -58,10 +44,7 @@ export const updateCard = () => async (dispatch, getState) => {
 			}
 			return card
 		});
-		await dispatch({
-			type: UPDATE_CARDS,
-			payload: newCards
-		});
+		await dispatch(updateCards(newCards));
 		dispatch(hideModal());
 	}
 }
@@ -74,24 +57,23 @@ export const updateCards = (payload) => {
 }
 
 export const removeCard = ({cardId}) => async (dispatch, getState) => {
-	const {cards} = getState();
-	const selectedCard = cards.find(card => card.id === cardId);
+	const {cards, comments} = getState();
 	const newCards = cards.filter(card => card.id !== cardId);
 	await dispatch(updateCards(newCards));
-	selectedCard.comments.forEach(commentId => dispatch(removeComment({commentId})));
+	const removedComments = comments.filter(comment => comment.parent === cardId);
+	removedComments.forEach(async (comment) => await dispatch(removeComment({commentId: comment.id})));
 }
 
-export const removeCardAndUpdateList = ({cardId, listId}) => async (dispatch, getState) => {
-	const {lists} = getState();
-	const updatedLists = lists.map(list => {
-		if (list.id === listId) {
+export const moveCardToList = ({cardId, listId}) => async (dispatch, getState) => {
+	const {cards} = getState();
+	const newCards = cards.map(card => {
+		if (card.id === cardId) {
 			return ({
-				...list,
-				cards: list.cards.filter(card => card !== cardId)
+				...card,
+				parent: listId
 			});
 		}
-		return list
+		return card;
 	});
-	await dispatch(updateLists(updatedLists));
-	dispatch(removeCard({cardId}));
+	dispatch(updateCards(newCards));
 }

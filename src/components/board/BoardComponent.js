@@ -11,11 +11,10 @@ export const BoardComponent = (props) => {
         showEditBoard
     } = props;
     const {
-        lists: listIds,
         id: boardId,
         name: boardName
     } = board;
-    const boardLists = lists.filter(list => listIds.includes(list.id))
+    const boardLists = lists.filter(list => list.parent === boardId);
 	return (
         <section className="board-wrapper">
             <header className="board-header">

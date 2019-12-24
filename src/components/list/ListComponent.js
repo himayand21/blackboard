@@ -8,22 +8,20 @@ export const ListComponent = (props) => {
         list,
         showAddCard,
         showEditList,
-        removeListAndUpdateBoard
+        removeList
     } = props;
     const {
-        cards: cardIds,
         id: listId,
-        parent: boardId,
         name: listName
     } = list;
-    const listCards = cards.filter(card => cardIds.includes(card.id))
+    const listCards = cards.filter(card => card.parent === listId);
 	return (
         <section className="list-wrapper">
             <header className="list-header">
                 <div className="list-name">{listName}</div>
                 <Popup>
                     <button onClick={() => showEditList(list)}>Edit</button>
-                    <button onClick={() => removeListAndUpdateBoard({boardId, listId})}>Delete</button>
+                    <button onClick={() => removeList({listId})}>Delete</button>
                 </Popup>
             </header>
             <div className="cards-wrapper">

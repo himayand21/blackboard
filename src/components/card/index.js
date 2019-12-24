@@ -1,24 +1,27 @@
 import {connect} from 'react-redux';
 import {CardComponent} from './CardComponent';
 import {
-    addCommentToCard,
+    addComment,
     showEditCard,
-    removeCardAndUpdateList
+    removeCard,
+    moveCardToList
 } from '../../actions';
 import './card.scss';
 
 const mapStateToProps = (state) => {
-	const {comments} = state;
+	const {comments, lists} = state;
 	return ({
-        comments
+        comments,
+        lists
     });
 }
 
 export const Card = connect(
     mapStateToProps,
     {
-        addCommentToCard,
+        addComment,
         showEditCard,
-        removeCardAndUpdateList
+        removeCard,
+        moveCardToList
     }
 )(CardComponent);
