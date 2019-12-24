@@ -1,7 +1,11 @@
 import React from "react";
 import {
     ADD_CARD_MODAL,
-    EDIT_CARD_MODAL
+    EDIT_CARD_MODAL,
+    ADD_LIST_MODAL,
+    EDIT_LIST_MODAL,
+    EDIT_BOARD_MODAL,
+    ADD_BOARD_MODAL
 } from '../../constants/modalTypes';
 import {capitaliseFirst} from '../../util/capitaliseFirst';
 
@@ -18,7 +22,11 @@ export const ModalComponent = (props) => {
         hideModal,
         handleFormChange,
         addCard,
-        updateCard
+        updateCard,
+        addList,
+        updateList,
+        updateBoard,
+        addBoard
     } = props;
 
     const getFormDetails = (modalType) => {
@@ -32,7 +40,27 @@ export const ModalComponent = (props) => {
                 return ({
                     header: 'Edit Card',
                     handleSubmit: updateCard
-                })
+                });
+            case ADD_LIST_MODAL:
+                return ({
+                    header: "Add new List",
+                    handleSubmit: addList
+                });
+            case EDIT_LIST_MODAL:
+                return ({
+                    header: 'Edit List',
+                    handleSubmit: updateList
+                });
+            case EDIT_BOARD_MODAL:
+                return ({
+                    header: 'Edit Board',
+                    handleSubmit: updateBoard
+                });
+            case ADD_BOARD_MODAL:
+                return ({
+                    header: 'Add new Board',
+                    handleSubmit: addBoard
+                });
             default:
                 return null
         }
@@ -53,7 +81,10 @@ export const ModalComponent = (props) => {
                 {form ?
                 <section className="modal-content">
                     {Object.keys(form).map(elem => (
-                        <div className="form-row">
+                        <div
+                            key={elem}
+                            className="form-row"
+                        >
                             <div
                                 className="form-label"
                             >

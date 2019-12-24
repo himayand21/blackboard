@@ -1,7 +1,11 @@
 import {connect} from 'react-redux';
 import {ListComponent} from './ListComponent';
 import './list.scss';
-import {showAddCard} from '../../actions';
+import {
+    showAddCard,
+    showEditList,
+    removeListAndUpdateBoard
+} from '../../actions';
 
 const mapStateToProps = (state) => {
 	const {cards} = state;
@@ -12,5 +16,9 @@ const mapStateToProps = (state) => {
 
 export const List = connect(
     mapStateToProps,
-    {showAddCard}
+    {
+        showAddCard,
+        showEditList,
+        removeListAndUpdateBoard
+    }
 )(ListComponent);

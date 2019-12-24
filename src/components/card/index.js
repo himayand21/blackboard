@@ -3,7 +3,7 @@ import {CardComponent} from './CardComponent';
 import {
     addCommentToCard,
     showEditCard,
-    removeCard
+    removeCardAndUpdateList
 } from '../../actions';
 import './card.scss';
 
@@ -19,6 +19,6 @@ export const Card = connect(
     {
         addCommentToCard,
         showEditCard,
-        removeCard
+        removeCardAndUpdateList
     }
 )(CardComponent);

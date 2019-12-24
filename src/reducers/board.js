@@ -1,4 +1,4 @@
-import {ADD_BOARD_ITEM} from '../constants/actionTypes';
+import {UPDATE_BOARDS, ADD_BOARD} from '../constants/actionTypes';
 
 const initialState = [
     {
@@ -10,12 +10,15 @@ const initialState = [
 
 export default (state = initialState, action) => {
 	switch (action.type) {
-		case ADD_BOARD_ITEM: {
-			return ([
-                ...initialState,
-                {...action.payload}
-            ])
+		case UPDATE_BOARDS: {
+			return action.payload
 		}
+		case ADD_BOARD: {
+			return [
+                ...state,
+                {...action.payload}
+            ]
+        }
 		default: {
 			return state
 		}

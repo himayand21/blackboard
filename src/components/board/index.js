@@ -1,6 +1,11 @@
 import {connect} from 'react-redux';
 import {BoardComponent} from './BoardComponent';
 import './board.scss';
+import {
+    showAddList,
+    showEditBoard,
+    removeBoard
+} from '../../actions';
 
 const mapStateToProps = (state) => {
 	const {lists} = state;
@@ -11,5 +16,9 @@ const mapStateToProps = (state) => {
 
 export const Board = connect(
     mapStateToProps,
-    null
+    {
+        showAddList,
+        showEditBoard,
+        removeBoard
+    }
 )(BoardComponent);

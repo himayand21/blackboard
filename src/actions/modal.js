@@ -6,13 +6,23 @@ import {
 } from '../constants/actionTypes';
 import {
 	ADD_CARD_MODAL,
-	EDIT_CARD_MODAL
+	EDIT_CARD_MODAL,
+	ADD_LIST_MODAL,
+	EDIT_LIST_MODAL,
+	EDIT_BOARD_MODAL,
+	ADD_BOARD_MODAL
 } from '../constants/modalTypes';
 
 const formConfig = {
 	card: {
-		name: null,
-		description: null
+		name: '',
+		description: ''
+	},
+	list: {
+		name: ''
+	},
+	board: {
+		name: ''
 	}
 }
 
@@ -35,6 +45,30 @@ export const showEditCard = (cardDetails) => async (dispatch) => {
 		modalType,
 		form,
 		origin: cardDetails.id
+	}));
+}
+
+export const showEditList = (listDetails) => async (dispatch) => {
+	const modalType = EDIT_LIST_MODAL;
+	const form = {
+		name: listDetails.name
+	}
+    dispatch(showModal({
+		modalType,
+		form,
+		origin: listDetails.id
+	}));
+}
+
+export const showEditBoard = (boardDetails) => async (dispatch) => {
+	const modalType = EDIT_BOARD_MODAL;
+	const form = {
+		name: boardDetails.name
+	}
+    dispatch(showModal({
+		modalType,
+		form,
+		origin: boardDetails.id
 	}));
 }
 
@@ -61,6 +95,26 @@ export const showAddCard = (listId) => async (dispatch) => {
 		modalType,
 		form,
 		origin: listId
+	}));
+}
+
+export const showAddList = (boardId) => async (dispatch) => {
+	const modalType = ADD_LIST_MODAL;
+	const form = formConfig.list;
+    dispatch(showModal({
+		modalType,
+		form,
+		origin: boardId
+	}));
+}
+
+export const showAddBoard = () => async (dispatch) => {
+	const modalType = ADD_BOARD_MODAL;
+	const form = formConfig.board;
+    dispatch(showModal({
+		modalType,
+		form,
+		origin: null
 	}));
 }
 
