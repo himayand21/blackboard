@@ -1,31 +1,43 @@
-import {ADD_CARD_ITEM} from '../constants/actionTypes';
+import {
+    ADD_CARD,
+    UPDATE_CARDS
+} from '../constants/actionTypes';
 
 const initialState = [
     {
         id: 'card#1',
         name: 'Goa',
-        comments: ['comment#1', 'comment#2']
+        parent: 'list#1',
+        comments: ['comment#1', 'comment#2'],
+        description: 'Just so that we can cancel it later.'
     },
     {
         id: 'card#2',
         name: 'Pondicherry',
-        comments: ['comment#3']
+        comments: ['comment#3'],
+        parent: 'list#1',
+        description: `We are gonna settle for this, aren't we?`
     },
     {
         id: 'card#3',
         name: 'Dark Knight Rises',
-        comments: ['comment#4']
+        parent: 'list#2',
+        comments: ['comment#4'],
+        description: 'I am BATMAN !!!'
     }
 ];
 
 export default (state = initialState, action) => {
 	switch (action.type) {
-		case ADD_CARD_ITEM: {
+		case ADD_CARD: {
 			return [
-                ...initialState,
+                ...state,
                 {...action.payload}
             ]
-		}
+        }
+        case UPDATE_CARDS: {
+            return action.payload
+        }
 		default: {
 			return state
 		}

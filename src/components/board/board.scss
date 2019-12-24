@@ -1,0 +1,21 @@
+.board-wrapper {
+    width: 100%;
+    border: 1px solid lightgray;
+    border-radius: 10px;
+    overflow: hidden;
+
+    .board-header {
+        padding: 20px;
+        background-color: rgb(235, 235, 235);
+        border-bottom: 1px solid lightgray;
+        font-size: 18px;
+        font-weight: 600;
+    }
+    .lists-wrapper {
+        margin: 20px;
+        display: flex;
+        width: calc(100% - 40px);
+        box-sizing: border-box;
+        align-items: stretch;
+    }
+}

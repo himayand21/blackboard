@@ -1,8 +1,15 @@
-import { ADD_LIST_ITEM } from '../constants/actionTypes';
+import {UPDATE_LISTS} from '../constants/actionTypes';
 
-export const addListItem = (payload) => {
+// export const addListItem = (payload) => {
+// 	return ({
+// 		type: ADD_LIST_ITEM,
+// 		payload
+// 	})
+// }
+
+export const updateLists = (payload) => {
 	return ({
-		type: ADD_LIST_ITEM,
+		type: UPDATE_LISTS,
 		payload
 	})
 }

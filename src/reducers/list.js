@@ -1,4 +1,4 @@
-import {ADD_LIST_ITEM} from '../constants/actionTypes';
+import {UPDATE_LISTS} from '../constants/actionTypes';
 
 const initialState = [
     {
@@ -15,11 +15,8 @@ const initialState = [
 
 export default (state = initialState, action) => {
 	switch (action.type) {
-		case ADD_LIST_ITEM: {
-			return [
-                ...initialState,
-                {...action.payload}
-            ]
+		case UPDATE_LISTS: {
+            return action.payload
 		}
 		default: {
 			return state

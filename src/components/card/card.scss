@@ -1,0 +1,46 @@
+.cards-wrapper {
+    display: flex;
+    flex-direction: column;
+    .card-wrapper {
+        padding: 20px 10px;
+        display: flex;
+        flex-direction: column;
+        &:not(:last-child) {
+            border-bottom: 1px solid rgb(235, 235, 235);
+        }
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .card-name {
+                flex: 1;
+                font-size: 15px;
+                font-weight: bold;
+            }
+            .card-actions {
+                button {
+                    margin-right: 5px;
+                    padding: 8px;
+                }
+            }
+        }
+        .card-button {
+            width: 150px;
+            align-self: flex-end;
+            margin-right: 5px;
+        }
+        .card-details {
+            margin: 10px 0 15px;
+            font-size: 14px;
+        }
+        .comment-add {
+            display: flex;
+            width: calc(100% - 10px);
+            margin: 15px 5px 10px;
+            .comment-add-input {
+                flex: 1;
+                margin-right: 10px;
+            }
+        }
+    }
+}

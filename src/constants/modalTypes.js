@@ -1,0 +1,2 @@
+export const ADD_CARD_MODAL = 'ADD_CARD_MODAL';
+export const EDIT_CARD_MODAL = 'EDIT_CARD_MODAL';
