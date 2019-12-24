@@ -43,7 +43,7 @@ export default (state = initialState, action) => {
 	switch (action.type) {
 		case ADD_COMMENT: {
 			return [
-                ...initialState,
+                ...state,
                 {...action.payload}
             ]
 		}

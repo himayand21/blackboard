@@ -1,0 +1,30 @@
+.lists-wrapper {
+    .list-wrapper {
+        width: 350px;
+        margin: 5px;
+        border-radius: 10px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        border: 1px solid rgb(235, 235, 235);
+        .list-header {
+            padding: 15px 10px;
+            background: rgb(235, 235, 235);
+            font-size: 17px;
+            font-weight: bold;
+            width: 100%;
+        }
+        .cards-wrapper {
+            flex: 1;
+            width: 100%;
+        }
+        .card-footer {
+            padding: 10px;
+            box-sizing: border-box;
+            width: 100%;
+            text-align: right;
+            border-top: 1px solid rgb(235, 235, 235);
+        }
+    }
+}

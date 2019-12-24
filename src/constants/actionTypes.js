@@ -2,14 +2,15 @@ export const ADD_BOARD_ITEM = 'ADD_BOARD_ITEM';
 export const UPDATE_BOARD_ITEM = 'UPDATE_BOARD_ITEM';
 export const DELETE_BOARD_ITEM = 'DELETE_BOARD_ITEM';
 
-export const ADD_LIST_ITEM = 'ADD_LIST_ITEM';
-export const UPDATE_LIST_ITEM = 'UPDATE_LIST_ITEM';
-export const DELETE_LIST_ITEM = 'DELETE_LIST_ITEM';
+export const UPDATE_LISTS = 'UPDATE_LISTS';
 
-export const ADD_CARD_ITEM = 'ADD_CARD_ITEM';
-export const UPDATE_CARD_ITEM = 'UPDATE_CARD_ITEM';
-export const DELETE_CARD_ITEM = 'DELETE_CARD_ITEM';
+export const UPDATE_CARDS = 'UPDATE_CARDS';
+export const ADD_CARD = 'ADD_CARD';
 
 export const ADD_COMMENT = 'ADD_COMMENT';
-export const UPDATE_COMMENT = 'UPDATE_COMMENT';
-export const DELETE_COMMENT = 'DELETE_COMMENT';
+
+export const SHOW_MODAL = 'SHOW_MODAL';
+export const HIDE_MODAL = 'HIDE_MODAL';
+export const SHOW_FORM_ERROR = 'SHOW_FORM_ERROR';
+
+export const UPDATE_FORM = 'UPDATE_FORM';

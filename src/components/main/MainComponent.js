@@ -1,14 +1,17 @@
-import React from 'react';
+import React, {Fragment} from 'react';
+import {Board} from '../board';
+import {Modal} from '../modal';
 
 export const MainComponent = (props) => {
 	const {boards} = props;
 	return (
-        <main>
-            {boards.map(each => (
-                <div>
-                    {each.name}
-                </div>
-            ))}
-        </main>
+        <Fragment>
+            <main className="boards-wrapper">
+                {boards.map(board => (
+                    <Board board={board} />
+                ))}
+            </main>
+            <Modal />
+        </Fragment>
 	)
 };
