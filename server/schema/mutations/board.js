@@ -24,7 +24,7 @@ const boardMutation = {
 		type: BoardType,
 		args: {
 			name: { type: GraphQLString },
-			id: {type: GraphQLID }
+			id: { type: GraphQLID }
 		},
 		resolve(parentValue, {
 			id,

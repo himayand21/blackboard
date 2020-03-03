@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 
 const {
 	GraphQLID,
-    GraphQLString
+	GraphQLString
 } = graphql;
 
 const UserDetail = mongoose.model('userdetail');
