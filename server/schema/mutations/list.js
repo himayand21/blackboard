@@ -7,6 +7,9 @@ const {
 } = graphql;
 
 const List = mongoose.model('list');
+const Card = mongoose.model('card');
+const Comment = mongoose.model('comment');
+
 const ListType = require('../types/list');
 
 const listMutation = {
@@ -35,6 +38,24 @@ const listMutation = {
 					name
 				}
 			}, { 'new': true })
+		}
+	},
+	deleteList: {
+		type: ListType,
+		args: {
+			id: { type: GraphQLID }
+		},
+		resolve(parentValue, { id }) {
+			return List.findById(id, function (err, list) {
+				Card.find({ list: list._id }, function (err, cards) {
+					cards.forEach(function (card) {
+						Comment.deleteMany({ card: card._id }, function (err) {
+							card.deleteOne();
+						});
+					});
+				});
+				list.deleteOne();
+			});
 		}
 	}
 }

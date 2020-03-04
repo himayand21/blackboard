@@ -7,6 +7,8 @@ const {
 } = graphql;
 
 const Card = mongoose.model('card');
+const Comment = mongoose.model('comment');
+
 const CardType = require('../types/card');
 
 const cardMutation = {
@@ -39,6 +41,36 @@ const cardMutation = {
 					description
 				}
 			}, { 'new': true })
+		}
+	},
+	moveCard: {
+		type: CardType,
+		args: {
+			id: { type: GraphQLID },
+			list: { type: GraphQLID }
+		},
+		resolve(parentValue, {
+			id,
+			list
+		}) {
+			return Card.findByIdAndUpdate(id, {
+				$set: {
+					list
+				}
+			}, { 'new': true })
+		}
+	},
+	deleteCard: {
+		type: CardType,
+		args: {
+			id: { type: GraphQLID }
+		},
+		resolve(parentValue, { id }) {
+			return Card.findById(id, function (err, card) {
+				Comment.deleteMany({ card: card._id }, function (err) {
+					card.deleteOne();
+				})
+			});
 		}
 	}
 }

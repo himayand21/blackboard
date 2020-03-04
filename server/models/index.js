@@ -1,5 +1,5 @@
+require('./comment');
+require('./card');
+require('./list');
 require('./board');
 require('./userDetail');
-require('./list');
-require('./card');
-require('./comment');
