@@ -25,6 +25,10 @@ const formConfig = {
 	},
 	board: {
 		name: ''
+	},
+	signup: {
+		email: '',
+		password: ''
 	}
 }
 
@@ -127,8 +131,11 @@ export const hideModal = () => {
 }
 
 export const showSignupModal = () => (dispatch) => {
+	const form = formConfig.signup;
 	dispatch(showModal({
-		modalType: SIGNUP_MODAL
+		modalType: SIGNUP_MODAL,
+		form,
+		origin: null
 	}))
 }
 

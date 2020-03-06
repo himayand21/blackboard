@@ -1,71 +1,103 @@
 .modal-wrapper {
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(50 ,50 ,50, 0.8);
-    position: fixed;
-    top: 0;
-    z-index: 3;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(8, 44, 21, 0.2);
+  position: fixed;
+  top: 0;
+  z-index: 3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-    .modal-section {
-        width: 400px;
-        z-index: 4;
-        max-width: 95vw;
-        box-sizing: border-box;
-        border-radius: 10px;
-        background-color: white;
+  .modal-section {
+    width: 500px;
+    z-index: 4;
+    max-width: 95vw;
+    box-sizing: border-box;
+    border-radius: 10px;
+    background-color: rgb(27, 27, 27);
+    color: white;
+    -webkit-box-shadow: -1px 0px 23px -1px rgba(50, 50, 50, 0.8);
+    -moz-box-shadow: -1px 0px 23px -1px rgba(50, 50, 50, 0.8);
+    box-shadow: -1px 0px 23px -1px rgba(50, 50, 50, 0.8);
 
-        .modal-header {
-            display: flex;
-            width: 100%;
-            box-sizing: border-box;
-            padding: 10px 20px;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid rgb(235, 235, 235);
+    .modal-header {
+      display: flex;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 20px;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(50, 50, 50, 0.8);
 
-            .modal-header-label {
-                font-weight: 600;
-                font-size: 18px;
-            }
+      .modal-header-label {
+        font-weight: 600;
+        font-size: 18px;
+      }
+      .close-button {
+        cursor: pointer;
+        color: rgb(23, 189, 81);
+        background-color: transparent;
+        border: none;
+        outline: none;
+        font-family: inherit;
+        padding: 5px;
+        font-size: 14px;
+        font-weight: bold;
+        transition: color 0.3s ease-in-out;
+        &:hover {
+          color: rgb(35, 212, 97);
         }
-
-        .modal-content {
-            padding: 20px;
-            width: 100%;
-            box-sizing: border-box;
-
-            .form-row {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-bottom: 15px;
-
-                .form-label {
-                    font-weight: 600;
-                    width: 150px;
-                }
-
-                input {
-                    flex: 1;
-                }
-            }
-        }
-
-        .modal-footer {
-            display: flex;
-            width: 100%;
-            box-sizing: border-box;
-            padding: 10px 20px;
-            align-items: center;
-            justify-content: flex-end;
-            border-top: 1px solid rgb(235, 235, 235);
-
-            button {
-                margin-left: 10px;
-            }
-        }
+      }
     }
+
+    .modal-content {
+      padding: 40px;
+      width: 100%;
+      box-sizing: border-box;
+
+      .form-row {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        width: 100%;
+
+        .form-label {
+          flex: 1;
+          font-weight: bolder;
+          width: 100%;
+          margin-bottom: 15px;
+          font-size: 17px;
+        }
+
+        input {
+          flex: 1;
+          background-color: transparent;
+          border-width: 0px 0px 1px 0px;
+          border-bottom-color: rgba(50, 50, 50, 0.8);
+          color: white;
+          font-size: 17px;
+          width: 100%;
+          margin-bottom: 15px;
+          padding-bottom: 5px;
+        }
+      }
+    }
+
+    .modal-footer {
+      display: flex;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 20px;
+      align-items: center;
+      justify-content: flex-end;
+      border-top: 1px solid rgba(50, 50, 50, 0.8);
+
+      button {
+        margin-left: 10px;
+      }
+    }
+  }
 }

@@ -16,7 +16,8 @@ export const WelcomeComponent = (props) => {
 				<div className="welcome-navbar">
 					<NavBar>
 						<button
-							onClick={showSignupModal}
+							className="standard-button"
+							onClick={showLoginModal}
 						>
 							Sign In
 						</button>
@@ -32,7 +33,8 @@ export const WelcomeComponent = (props) => {
             			</div>
 						<div className="welcome-button-row">
 							<button
-								onClick={showLoginModal}
+								className="standard-button"
+								onClick={showSignupModal}
 							>
 								Join Now
 							</button>

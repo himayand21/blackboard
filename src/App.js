@@ -5,6 +5,7 @@ import './App.scss';
 import {Welcome} from './pages/welcome';
 import Home from './pages/home';
 import Loader from './pages/loader';
+import {Modal} from './components/modal';
 
 const App = (props) => {
 	const [appLoading, setAppLoading] = useState(true);
@@ -41,6 +42,7 @@ const App = (props) => {
 		<div>
 			<Route path="/welcome" component={Welcome} />
 			<Route path="/home" component={Home} />
+			<Modal />
 		</div>
 	)
 }
