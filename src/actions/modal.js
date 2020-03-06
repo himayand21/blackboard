@@ -10,7 +10,9 @@ import {
 	ADD_LIST_MODAL,
 	EDIT_LIST_MODAL,
 	EDIT_BOARD_MODAL,
-	ADD_BOARD_MODAL
+	ADD_BOARD_MODAL,
+	SIGNUP_MODAL,
+	LOGIN_MODAL
 } from '../constants/modalTypes';
 
 const formConfig = {
@@ -122,4 +124,16 @@ export const hideModal = () => {
 	return ({
 		type: HIDE_MODAL
 	})
+}
+
+export const showSignupModal = () => (dispatch) => {
+	dispatch(showModal({
+		modalType: SIGNUP_MODAL
+	}))
+}
+
+export const showLoginModal = () => (dispatch) => {
+	dispatch(showModal({
+		modalType: LOGIN_MODAL
+	}))
 }

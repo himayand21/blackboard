@@ -23,6 +23,7 @@ const config = function (env) {
 		plugins: [
 			new HtmlWebpackPlugin({
 				template: "./public/index.html",
+				chunks: ["bundle", "vendor"]
 				//favicon: './src/hero-image.jpg'  //add your website shortcut icon here
 			}),
 			new MiniCssExtractPlugin({
