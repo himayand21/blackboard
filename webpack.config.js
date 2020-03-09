@@ -23,6 +23,7 @@ const config = function (env) {
 		plugins: [
 			new HtmlWebpackPlugin({
 				template: "./public/index.html",
+				chunks: ["bundle", "vendor"]
 				//favicon: './src/hero-image.jpg'  //add your website shortcut icon here
 			}),
 			new MiniCssExtractPlugin({
@@ -49,6 +50,11 @@ const config = function (env) {
 			host: "localhost",
 			open: true,
 			historyApiFallback: true,
+			proxy: {
+				'/user': {
+					target: 'http://localhost:5000'
+				}
+			}
 		},
 		module: {
 			rules: [

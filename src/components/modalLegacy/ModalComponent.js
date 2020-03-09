@@ -5,7 +5,9 @@ import {
     ADD_LIST_MODAL,
     EDIT_LIST_MODAL,
     EDIT_BOARD_MODAL,
-    ADD_BOARD_MODAL
+    ADD_BOARD_MODAL,
+	LOGIN_MODAL,
+	SIGNUP_MODAL
 } from '../../constants/modalTypes';
 import {capitaliseFirst} from '../../util/capitaliseFirst';
 
@@ -61,6 +63,10 @@ export const ModalComponent = (props) => {
                     header: 'Add new Board',
                     handleSubmit: addBoard
                 });
+			case SIGNUP_MODAL:
+				return ({
+					header: 'Sign up'
+				})
             default:
                 return null
         }
@@ -76,7 +82,7 @@ export const ModalComponent = (props) => {
             <div className="modal-section">
                 <header className="modal-header">
                     <div className="modal-header-label">{header}</div>
-                    <button onClick={hideModal}><i className="fa fa-times" /></button>
+                    <button onClick={hideModal} className="close-button"><i className="fa fa-times" /></button>
                 </header>
                 {form ?
                 <section className="modal-content">
@@ -99,8 +105,7 @@ export const ModalComponent = (props) => {
                     ))}
                 </section> : null}
                 <footer className="modal-footer">
-                    <button onClick={hideModal}>Close</button>
-                    <button onClick={handleSubmit}>Save</button>
+                    <button onClick={handleSubmit} className="standard-button">Save</button>
                 </footer>
             </div>
         </main>

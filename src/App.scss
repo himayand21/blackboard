@@ -1,20 +1,21 @@
 body {
     margin: 0px;
     font-family: 'Raleway', sans-serif;
+	background-color: #212121;
 }
-button {
+.standard-button {
     cursor: pointer;
-    background: rgb(235, 235, 235);
+    background: rgb(23, 189, 81);
     border: none;
     outline: none;
     font-family: inherit;
-    padding: 10px;
+    padding: 10px 15px;
     border-radius: 5px;
     font-size: 14px;
     font-weight: bold;
     transition: background-color 0.3s ease-in-out;
     &:hover {
-        background-color: rgb(215, 215, 215);
+        background-color: rgb(35, 212, 97);
     }
 }
 input {

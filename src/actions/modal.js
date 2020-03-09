@@ -10,7 +10,9 @@ import {
 	ADD_LIST_MODAL,
 	EDIT_LIST_MODAL,
 	EDIT_BOARD_MODAL,
-	ADD_BOARD_MODAL
+	ADD_BOARD_MODAL,
+	SIGNUP_MODAL,
+	LOGIN_MODAL
 } from '../constants/modalTypes';
 
 const formConfig = {
@@ -23,6 +25,10 @@ const formConfig = {
 	},
 	board: {
 		name: ''
+	},
+	signup: {
+		email: '',
+		password: ''
 	}
 }
 
@@ -122,4 +128,19 @@ export const hideModal = () => {
 	return ({
 		type: HIDE_MODAL
 	})
+}
+
+export const showSignupModal = () => (dispatch) => {
+	const form = formConfig.signup;
+	dispatch(showModal({
+		modalType: SIGNUP_MODAL,
+		form,
+		origin: null
+	}))
+}
+
+export const showLoginModal = () => (dispatch) => {
+	dispatch(showModal({
+		modalType: LOGIN_MODAL
+	}))
 }

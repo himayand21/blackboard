@@ -4,3 +4,5 @@ export const ADD_LIST_MODAL = 'ADD_LIST_MODAL';
 export const EDIT_LIST_MODAL = 'EDIT_LIST_MODAL';
 export const EDIT_BOARD_MODAL = 'EDIT_BOARD_MODAL';
 export const ADD_BOARD_MODAL = 'ADD_BOARD_MODAL';
+export const SIGNUP_MODAL = 'SIGN_UP_MODAL';
+export const LOGIN_MODAL = 'LOGIN_MODAL';

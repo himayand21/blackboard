@@ -1,6 +1,5 @@
-import React, {Fragment, useState, useEffect} from 'react';
+import React, {Fragment, useState} from 'react';
 import {Board} from '../board';
-import {Modal} from '../modal';
 import {BoardTile} from './BoardTile';
 
 export const MainComponent = (props) => {
@@ -32,12 +31,10 @@ export const MainComponent = (props) => {
                         </div>
                     </div>
                 </section>
-                
                 {boards.length && boards[selectedBoard] ?
                     <Board board={boards[selectedBoard]} /> :
                 null}
             </main>
-            <Modal />
         </Fragment>
 	)
 };
