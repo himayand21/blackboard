@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { withAuth } from 'node-react-auth/client';
 import { Route, useHistory } from "react-router-dom";
-import './App.scss';
+
 import {Welcome} from './pages/welcome';
 import Home from './pages/home';
 import Loader from './pages/loader';
+
 import {Modal} from './components/modal';
+
+import './App.scss';
 
 const App = (props) => {
 	const [appLoading, setAppLoading] = useState(true);
@@ -42,7 +45,7 @@ const App = (props) => {
 		<div>
 			<Route path="/welcome" component={Welcome} />
 			<Route path="/home" component={Home} />
-			<Modal />
+			<Modal withAuthProps={props} />
 		</div>
 	)
 }

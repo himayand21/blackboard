@@ -50,6 +50,11 @@ const config = function (env) {
 			host: "localhost",
 			open: true,
 			historyApiFallback: true,
+			proxy: {
+				'/user': {
+					target: 'http://localhost:5000'
+				}
+			}
 		},
 		module: {
 			rules: [

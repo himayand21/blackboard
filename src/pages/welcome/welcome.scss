@@ -1,40 +1,69 @@
 .welcome-screen {
-	max-height: 100vh;
-	overflow-y: hidden;
-	position: relative;
-	.welcome-section {
-		position: absolute;
-		top: 0;
-		color: white;
-		.welcome-navbar {
-			width: 100vw;
-		}
-		.welcome-article {
-			width: 100vw;
-			height: calc(100vh - 140px);
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			.welcome-header-section {
-				width: 700px;
-				text-align: center;
-				max-width: 85%;
-				.welcome-header {
-					font-weight: bolder;
-					font-size: 44px;
-				}
-				.welcome-subheader {
-					margin-top: 20px;
-					font-size: 24px;
-				}
-				.welcome-button-row {
-					margin-top: 45px;
-					button {
-						font-size: 22px;
-						padding: 15px 30px;
-					}
-				}
-			}
-		}
+  max-height: 100vh;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  position: relative;
+  .welcome-section {
+    position: absolute;
+    top: 0;
+    color: white;
+    .welcome-navbar {
+      width: 100vw;
+    }
+    .welcome-article {
+      width: 100vw;
+      height: calc(100vh - 140px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .welcome-header-section {
+        width: 700px;
+        text-align: center;
+        max-width: 85%;
+
+        .welcome-header {
+          font-weight: bolder;
+          font-size: 44px;
+        }
+        .welcome-subheader {
+          margin-top: 20px;
+          font-size: 24px;
+        }
+        .welcome-button-row {
+          margin-top: 45px;
+          button {
+            font-size: 22px;
+            padding: 15px 30px;
+          }
+        }
+
+        @media only screen and (max-width: 735px) {
+          .welcome-header {
+            font-weight: bolder;
+            font-size: 36px;
+          }
+          .welcome-subheader {
+            margin-top: 20px;
+            font-size: 20px;
+          }
+          .welcome-button-row {
+            margin-top: 45px;
+            button {
+              font-size: 18px;
+              padding: 10px 15px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @media only screen and (max-height: 500px) {
+    min-height: 500px;
+
+	.welcome-section .welcome-article {
+		min-height: 360px;
 	}
+  }
 }
