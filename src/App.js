@@ -8,7 +8,7 @@ import Loader from './pages/loader';
 
 import {Modal} from './components/modal';
 
-import './App.scss';
+import './styles/App.scss';
 
 const App = (props) => {
 	const [appLoading, setAppLoading] = useState(true);
