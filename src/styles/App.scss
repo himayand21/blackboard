@@ -1,0 +1,21 @@
+@import "./partials/mixins";
+@import "./pages/welcome";
+@import "./components/navbar";
+
+body {
+    margin: 0px;
+	background-color: $black;
+}
+
+.standard-button {
+	@include standard-button();
+}
+
+input,
+textarea,
+button,
+select,
+a,
+div {
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+}

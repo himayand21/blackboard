@@ -1,0 +1,5 @@
+@import "../partials/mixins";
+
+.navbar {
+	@include nav-bar();
+}

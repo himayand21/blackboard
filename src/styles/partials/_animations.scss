@@ -1,0 +1,49 @@
+@mixin animate-move($transform-final, $transform-init, $iterator, $duration, $direction) {
+	$delay: $iterator - 1;
+	@keyframes drop-#{$iterator} {
+      0% {
+        transform: $transform-init;
+        opacity: 0;
+      }
+      100% {
+        transform: $transform-final;
+        opacity: 1;
+      }
+    }
+	.animate-#{$iterator} {
+      will-change: transform, opacity;
+	  opacity: 0;
+      animation: {
+        name: drop-#{$iterator};
+        duration: $duration;
+        timing-function: ease-out;
+        delay: $duration * $delay + ($delay / 3);
+        iteration-count: 1;
+        fill-mode: forwards;
+      }
+    }
+}
+
+@mixin animate-drop($duration, $iterator: 1, $direction: "normal") {
+	$transform-init: translateY(-80%);
+	$transform-final: translateY(0);
+	@include animate-move($transform-final, $transform-init, $iterator, $duration, $direction);
+}
+
+@mixin animate-rise($duration, $iterator: 1, $direction: "normal") {
+	$transform-init: translateY(80%);
+	$transform-final: translateY(0);
+	@include animate-move($transform-final, $transform-init, $iterator, $duration, $direction);
+}
+
+@mixin animate-slide-left($duration, $iterator: 1, $direction: "normal") {
+	$transform-init: translateX(30%);
+	$transform-final: translateX(0);
+	@include animate-move($transform-final, $transform-init, $iterator, $duration, $direction);
+}
+
+@mixin animate-slide-right($duration, $iterator: 1, $direction: "normal") {
+	$transform-init: translateX(-30%);
+	$transform-final: translateX(0);
+	@include animate-move($transform-final, $transform-init, $iterator, $duration, $direction);
+}

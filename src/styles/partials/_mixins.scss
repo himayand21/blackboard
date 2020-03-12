@@ -1,0 +1,104 @@
+@import "./transitions";
+@import "./colors";
+@import "./typography";
+@import "./animations";
+
+@mixin lighten-hover($color, $amount: 5) {
+  &:hover {
+    background-color: lighten($color, $amount);
+  }
+}
+
+@mixin darken-hover($color, $amount: 5) {
+  &:hover {
+    background-color: darken($color, $amount);
+  }
+}
+
+@mixin standard-button {
+  @include lighten-hover($green);
+  @include typography-body-reduced();
+  cursor: pointer;
+  background: $green;
+  border: none;
+  outline: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: $background-hover;
+}
+
+@mixin big-button {
+  @include standard-button();
+  padding: 15px 30px;
+  font-size: 22px;
+  border-radius: 7px;
+}
+
+@mixin screen-container($height) {
+  max-height: 100vh;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  position: relative;
+  .absolute {
+    top: 0;
+    position: absolute;
+  }
+  @media only screen and (max-height: $height) {
+    min-height: $height;
+  }
+}
+
+@mixin main-article($height, $justify-content: center) {
+  width: 100%;
+  height: calc(100vh - 140px);
+  display: flex;
+  justify-content: $justify-content;
+  align-items: center;
+  @media only screen and (max-height: $height) {
+    min-height: $height - 140px;
+  }
+}
+
+@mixin nav-bar {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 70px;
+  color: $white;
+  box-sizing: border-box;
+  padding: 0 20px;
+  .header {
+    flex: 1;
+    @include typography-headline-reduced();
+  }
+}
+
+@mixin animate-drop-block($elementCount) {
+  @for $iterator from 1 through $elementCount {
+    $duration: 0.5s;
+	@include animate-drop($duration, $iterator)    
+  }
+}
+
+@mixin animate-rise-block($elementCount) {
+  @for $iterator from 1 through $elementCount {
+    $duration: 0.5s;
+	@include animate-rise($duration, $iterator)    
+  }
+}
+
+@mixin animate-slide-left-block($elementCount) {
+  @for $iterator from 1 through $elementCount {
+    $duration: 0.5s;
+	@include animate-slide-left($duration, $iterator)    
+  }
+}
+
+@mixin animate-slide-right-block($elementCount) {
+  @for $iterator from 1 through $elementCount {
+    $duration: 0.5s;
+	@include animate-slide-right($duration, $iterator)    
+  }
+}

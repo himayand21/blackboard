@@ -1,0 +1,40 @@
+@import "../partials/mixins";
+
+.welcome-screen {
+  $height: 500px;
+  @include screen-container($height);
+
+  .welcome-main {
+    color: $white;
+
+    .welcome-content {
+      width: 100vw;
+
+      .welcome-article {
+        @include main-article($height);
+
+        .welcome-header-section {
+          width: 700px;
+          text-align: center;
+          max-width: 90%;
+		  @include animate-rise-block(3);
+
+          .welcome-header {
+            @include typography-headline();
+          }
+          .welcome-subheader {
+            margin-top: 20px;
+            @include typography-intro();
+          }
+
+          .welcome-button-row {
+            margin-top: 45px;
+            button {
+              @include big-button();
+            }
+          }
+        }
+      }
+    }
+  }
+}

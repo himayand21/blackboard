@@ -37,13 +37,13 @@ export const Welcome = (props) => {
                 <section className="welcome-content">
                     <article className="welcome-article article">
                         <div className="welcome-header-section">
-                            <div className="welcome-header">
+                            <div className="welcome-header animate-1">
                                 Blackboard helps you Organise and Prioritise.
                             </div>
-                            <div className="welcome-subheader">
+                            <div className="welcome-subheader animate-2">
                                 So that you get more work done in less time.
                             </div>
-                            <div className="welcome-button-row">
+                            <div className="welcome-button-row animate-3">
                                 <button
                                     className="standard-button"
                                     onClick={showSignupModal}
