@@ -1,59 +1,67 @@
-import React, { useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { NavBar } from "../../components/navBar";
 import { Background } from "../../components/background";
-import { SHOW_MODAL } from "../../constants/actionTypes";
-import {
-    LOGIN_MODAL,
-    SIGNUP_MODAL
-} from '../../constants/modalTypes';
-
-import { StateContext } from '../../store';
+import { WelcomeHome } from "./WelcomeHome";
+import { Login } from "./Login";
+import { Signup } from "./Signup";
 
 export const Welcome = (props) => {
-    const { state, dispatch } = useContext(StateContext);
 
-    const showSignupModal = () => dispatch({
-        type: SHOW_MODAL,
-        childKey: SIGNUP_MODAL
-    });
+	const [signupActive, setSignupActive] = useState(false);
+	const [loginActive, setLoginActive] = useState(false);
 
-    const showLoginModal = () => dispatch({
-        type: SHOW_MODAL,
-        childKey: LOGIN_MODAL
-    });
+	const homeScreenActive = !(signupActive || loginActive);
+
+	const showSignup = () => {
+		setLoginActive(false);
+		setSignupActive(true);
+	}
+
+	const showLogin = () => {
+		setLoginActive(true)
+		setSignupActive(false);
+	}
+
+	const showHome = () => {
+		setLoginActive(false)
+		setSignupActive(false);
+	}
+
+	const {withAuthProps} = props;
 
     return (
         <div className="welcome-screen">
             <Background />
             <main className="welcome-main absolute">
                 <NavBar>
+					{homeScreenActive ?
                     <button
                         className="standard-button"
-                        onClick={showLoginModal}
+						onClick={showLogin}
                     >
                         Sign In
-                    </button>
+                    </button>:
+					<button
+                        className="standard-button"
+						onClick={showHome}
+                    >
+                        Back
+                    </button>}
                 </NavBar>
-                <section className="welcome-content">
-                    <article className="welcome-article article">
-                        <div className="welcome-header-section">
-                            <div className="welcome-header animate-1">
-                                Blackboard helps you Organise and Prioritise.
-                            </div>
-                            <div className="welcome-subheader animate-2">
-                                So that you get more work done in less time.
-                            </div>
-                            <div className="welcome-button-row animate-3">
-                                <button
-                                    className="standard-button"
-                                    onClick={showSignupModal}
-                                >
-                                    Join Now
-                                </button>
-                            </div>
-                        </div>
-                    </article>
-                </section>
+                <WelcomeHome
+					homeScreenActive={homeScreenActive}
+					showSignup={showSignup}
+				/>
+				<Login
+					withAuthProps={withAuthProps}
+					loginActive={loginActive}
+					showSignup={showSignup}
+				/>
+				<Signup
+					withAuthProps={withAuthProps}
+					signupActive={signupActive}
+					showLogin={showLogin}
+				/>
             </main>
         </div>
     );

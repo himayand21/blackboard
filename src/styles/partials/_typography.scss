@@ -66,7 +66,7 @@ $font-family: 'Raleway', 'sans-serif';
 	}
 }
 
-@mixin typography-label {
+@mixin typography-label-super {
 	font-size: 24px;
 	font-weight: bold;
 	font-family: $font-family;
@@ -75,12 +75,21 @@ $font-family: 'Raleway', 'sans-serif';
 	}
 }
 
-@mixin typography-label-reduced {
+@mixin typography-label {
 	font-size: 21px;
 	font-weight: bold;
 	font-family: $font-family;
 	@media only screen and (max-width: 1068px) {
 		font-size: 19px;
+	}
+}
+
+@mixin typography-label-reduced {
+	font-size: 17px;
+	font-weight: bold;
+	font-family: $font-family;
+	@media only screen and (max-width: 1068px) {
+		font-size: 14px;
 	}
 }
 

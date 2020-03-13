@@ -6,6 +6,75 @@
 
   .welcome-main {
     color: $white;
+    z-index: 3;
+
+    .navbar {
+      @include animate-fade-in(0.5s);
+    }
+
+    .login-content {
+      width: 100vw;
+
+      .login-article {
+        @include main-article($height);
+
+        &.arriving {
+          @include animate-rise(0.5s);
+        }
+
+        &.departing {
+          display: none;
+        }
+
+        .login-modal {
+          @include screen-modal();
+
+          .login-header {
+            @include typography-headline-reduced();
+			color: $lightgreen;
+          }
+          .login-subheader {
+            margin-top: 20px;
+            @include typography-intro-reduced();
+			color: $lightgray;
+          }
+          .login-form {
+            margin-top: 50px;
+            .form-label {
+              @include form-label();
+			  color: $lightgray;
+            }
+            .form-error-row {
+              text-align: center;
+              min-height: 40px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              color: $green;
+              @include typography-caption();
+            }
+            input {
+              @include form-input();
+            }
+          }
+          .login-footer {
+            @include typography-body-reduced();
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+			.login-footer-link-wrapper {
+				span {
+					margin-right: 5px;
+				}
+				.login-footer-link {
+					@include block-link();
+				}
+			}
+          }
+        }
+      }
+    }
 
     .welcome-content {
       width: 100vw;
@@ -13,11 +82,18 @@
       .welcome-article {
         @include main-article($height);
 
+        &.arriving {
+          @include animate-rise-block(3);
+        }
+
+        &.departing {
+          display: none;
+        }
+
         .welcome-header-section {
           width: 700px;
           text-align: center;
           max-width: 90%;
-		  @include animate-rise-block(3);
 
           .welcome-header {
             @include typography-headline();

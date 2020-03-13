@@ -30,9 +30,23 @@
 
 @mixin big-button {
   @include standard-button();
+  @include typography-label();
   padding: 15px 30px;
-  font-size: 22px;
   border-radius: 7px;
+  @media only screen and (max-width: 1068px) {
+	padding: 10px 15px;
+	border-radius: 5px;
+  }
+}
+
+@mixin block-link {
+  color: $lightgreen;
+  transition: color 0.5s ease-out;
+  cursor: pointer;
+  font-weight: bold;
+  &:hover {
+    color: lighten($lightgreen, 10);
+  }
 }
 
 @mixin screen-container($height) {
@@ -51,13 +65,24 @@
 
 @mixin main-article($height, $justify-content: center) {
   width: 100%;
-  height: calc(100vh - 140px);
+  min-height: calc(100vh - 140px);
   display: flex;
   justify-content: $justify-content;
+  flex-direction: column;
   align-items: center;
   @media only screen and (max-height: $height) {
     min-height: $height - 140px;
   }
+}
+
+@mixin screen-modal {
+  width: 700px;
+  max-width: 95vw;
+  margin: auto;
+  background-color: $faded-black;
+  border-radius: 20px;
+  padding: 40px;
+  box-sizing: border-box;
 }
 
 @mixin nav-bar {
@@ -75,30 +100,54 @@
   }
 }
 
-@mixin animate-drop-block($elementCount) {
-  @for $iterator from 1 through $elementCount {
-    $duration: 0.5s;
-	@include animate-drop($duration, $iterator)    
+@mixin form-label {
+  width: 100%;
+  color: white;
+  background-color: transparent;
+  margin-top: 20px;
+  @include typography-label-reduced();
+}
+
+@mixin form-input {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid $gray;
+  outline: none;
+  padding: 5px 0px;
+  color: white;
+  background-color: transparent;
+  margin-top: 20px;
+  @include typography-body();
+  transition: border-bottom-color 0.5s ease-out;
+  &:focus {
+    border-bottom-color: $green;
   }
 }
 
-@mixin animate-rise-block($elementCount) {
+@mixin animate-drop-block($elementCount, $direction: normal) {
   @for $iterator from 1 through $elementCount {
     $duration: 0.5s;
-	@include animate-rise($duration, $iterator)    
+    @include animate-drop($duration, $iterator, $direction);
   }
 }
 
-@mixin animate-slide-left-block($elementCount) {
+@mixin animate-rise-block($elementCount, $direction: normal) {
   @for $iterator from 1 through $elementCount {
     $duration: 0.5s;
-	@include animate-slide-left($duration, $iterator)    
+    @include animate-rise($duration, $iterator, $direction);
   }
 }
 
-@mixin animate-slide-right-block($elementCount) {
+@mixin animate-slide-left-block($elementCount, $direction: normal) {
   @for $iterator from 1 through $elementCount {
     $duration: 0.5s;
-	@include animate-slide-right($duration, $iterator)    
+    @include animate-slide-left($duration, $iterator, $direction);
+  }
+}
+
+@mixin animate-slide-right-block($elementCount, $direction: normal) {
+  @for $iterator from 1 through $elementCount {
+    $duration: 0.5s;
+    @include animate-slide-right($duration, $iterator, $direction);
   }
 }

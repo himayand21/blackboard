@@ -6,7 +6,7 @@ import {Welcome} from './pages/welcome';
 import Home from './pages/home';
 import Loader from './pages/loader';
 
-import {Modal} from './components/modal';
+// import {Modal} from './components/modal';
 
 import './styles/App.scss';
 
@@ -43,9 +43,10 @@ const App = (props) => {
 
 	return (
 		<div>
-			<Route path="/welcome" component={Welcome} />
+			<Route path="/welcome" >
+				<Welcome withAuthProps={props} />
+			</Route>
 			<Route path="/home" component={Home} />
-			<Modal withAuthProps={props} />
 		</div>
 	)
 }
