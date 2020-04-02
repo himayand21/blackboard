@@ -3,6 +3,12 @@
 @import "./typography";
 @import "./animations";
 
+@mixin center() {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
 @mixin lighten-hover($color, $amount: 5) {
   &:hover {
     background-color: lighten($color, $amount);
@@ -24,18 +30,25 @@
   outline: none;
   padding: 10px 15px;
   border-radius: 5px;
+  max-height: 37px;
   font-weight: bold;
   transition: $background-hover;
+
+  &:disabled {
+	  opacity: 0.7;
+	  cursor: not-allowed;
+  }
 }
 
 @mixin big-button {
   @include standard-button();
   @include typography-label();
   padding: 15px 30px;
+  max-height: 55px;
   border-radius: 7px;
   @media only screen and (max-width: 1068px) {
-	padding: 10px 15px;
-	border-radius: 5px;
+    padding: 15px;
+    border-radius: 5px;
   }
 }
 
@@ -50,13 +63,17 @@
 }
 
 @mixin screen-container($height) {
-  max-height: 100vh;
+  height: 100vh;
   overflow-y: hidden;
   overflow-x: hidden;
   position: relative;
   .absolute {
     top: 0;
     position: absolute;
+    z-index: 3;
+  }
+  .navbar {
+    @include animate-fade-in(0.5s);
   }
   @media only screen and (max-height: $height) {
     min-height: $height;
@@ -83,6 +100,19 @@
   border-radius: 20px;
   padding: 40px;
   box-sizing: border-box;
+  box-shadow: 1px 1px 10px 2px $faded-black;
+}
+
+@mixin modal-section {
+  width: 700px;
+  max-width: 95vw;
+  margin: auto;
+  background-color: $black;
+  border-radius: 20px;
+  box-sizing: border-box;
+  box-shadow: 1px 1px 10px 2px $faded-black;
+  border: 1px solid $darkgray;
+  z-index: 4;
 }
 
 @mixin nav-bar {
@@ -131,9 +161,8 @@
   }
 }
 
-@mixin animate-rise-block($elementCount, $direction: normal) {
+@mixin animate-rise-block($elementCount, $direction: normal, $duration: 0.5s) {
   @for $iterator from 1 through $elementCount {
-    $duration: 0.5s;
     @include animate-rise($duration, $iterator, $direction);
   }
 }

@@ -47,12 +47,17 @@ const config = function (env) {
 		},
 		devServer: {
 			contentBase: "./build",
-			host: "localhost",
+			host: "0.0.0.0",
 			open: true,
 			historyApiFallback: true,
 			proxy: {
 				'/user': {
-					target: 'http://localhost:5000'
+					target: 'http://192.168.1.4:5000',
+					secure: false
+				},
+				'/graphql': {
+					target: 'http://192.168.1.4:5000',
+					secure: false
 				}
 			}
 		},

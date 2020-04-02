@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import './popup.scss';
 import { PopupModal } from './PopupModal';
 
 export const Popup = (props) => {

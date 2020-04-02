@@ -1,68 +1,24 @@
-import React, {useContext} from "react";
-
-import { HIDE_MODAL } from "../../constants/actionTypes";
-import {
-	LOGIN_MODAL,
-	SIGNUP_MODAL
-} from '../../constants/modalTypes';
-
-import {StateContext} from '../../store';
-
-import {Signup} from './modals/Signup';
-import {Login} from './modals/Login';
-
-import './modal.scss';
+import React from "react";
 
 export const Modal = (props) => {
-	const {state, dispatch} = useContext(StateContext);
-    const {
-        show,
-		childKey
-    } = state;
+	const {show, hideModal, children} = props;
     if (!show) return null;
 
-	const hideModal = () => dispatch({
-		type: HIDE_MODAL
-	});
-
-	const renderChildModal = (childKey) => {
-		switch(childKey) {
-			case SIGNUP_MODAL: return <Signup {...props} dispatch={dispatch} />
-			case LOGIN_MODAL: return <Login {...props} dispatch={dispatch} />
-			default: return null
-		}
-	}
+	const outsideClick = (event) => {
+        if (event.target === event.currentTarget) {
+            hideModal();
+        }
+    };
 
     return (
-        <main className="modal-wrapper">
-            <div className="modal-section">
+        <main className="modal-wrapper" onClick={outsideClick}>
+            <div className="modal-section animate-1">
                 <header className="modal-header">
-                    <button onClick={hideModal} className="close-button"><i className="fa fa-times" /></button>
+                    <button onClick={hideModal} className="close-button">
+						<i className="fa fa-times" />
+					</button>
                 </header>
-				{renderChildModal(childKey)}
-                {/* {form ?
-                <section className="modal-content">
-                    {Object.keys(form).map(elem => (
-                        <div
-                            key={elem}
-                            className="form-row"
-                        >
-                            <div
-                                className="form-label"
-                            >
-                                {capitaliseFirst(elem)}
-                            </div>
-                            <input
-                                className={formError === elem ? 'error-input' : ''}
-                                value={form[elem]}
-                                onChange={(e) => handleFormChange(e.target.value, elem)}
-                            />
-                        </div>
-                    ))}
-                </section> : null} */}
-                {/* <footer className="modal-footer">
-                    <button onClick={handleSubmit} className="standard-button">Save</button>
-                </footer> */}
+				{children}
             </div>
         </main>
     )

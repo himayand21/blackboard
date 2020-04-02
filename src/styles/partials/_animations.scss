@@ -151,3 +151,27 @@
 @mixin animate-fade-out($duration) {
   @include animate-fade($duration, $direction: reverse);
 }
+
+@mixin animate-hover($duration) {
+	animation: {
+		duration: $duration;
+		name: side-to-side;
+	}
+  @keyframes side-to-side {
+    0% {
+      transform: translate(0px);
+    }
+    40% {
+      transform: translate(15px, 0px);
+      opacity: 0;
+    }
+    50% {
+      transform: translate(-15px, 0px);
+      opacity: 0;
+    }
+    100% {
+      transform: translate(0px);
+      opacity: 1;
+    }
+  }
+}

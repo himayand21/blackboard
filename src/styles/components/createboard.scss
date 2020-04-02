@@ -1,0 +1,48 @@
+.create-board {
+  width: 100%;
+  padding: 0px 5% 5%;
+  box-sizing: border-box;
+  .create-board-header {
+    @include typography-headline-reduced();
+    color: $lightgreen;
+  }
+  .create-board-intro {
+    margin-top: 20px;
+    @include typography-intro-reduced();
+    color: $lightgray;
+    span {
+      color: $lightgreen;
+      margin-left: 5px;
+      font-weight: bold;
+    }
+  }
+  .create-board-form {
+    margin-top: 50px;
+    .form-label {
+      @include form-label();
+      margin-top: 45px;
+      color: $lightgray;
+	  margin-bottom: 15px;
+    }
+    .form-error-row {
+      text-align: center;
+      min-height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: $green;
+      @include typography-caption();
+    }
+    input {
+      @include form-input();
+      padding-bottom: 10px;
+	  margin-top: 10px;
+    }
+  }
+  .create-board-footer {
+    @include typography-body-reduced();
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+}

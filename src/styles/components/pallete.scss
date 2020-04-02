@@ -1,0 +1,71 @@
+$colors: red, blue, orange, yellow, grey, violet, brown, pink, cyan, green;
+
+.box-container {
+  @include center();
+  .box-wrapper {
+    @include center();
+    flex-wrap: wrap;
+    max-width: 250px;
+    .box {
+      flex-basis: 20%;
+      height: 50px;
+      @include center();
+
+      @each $item in $colors {
+        .box-#{$item} {
+          height: 42px;
+          width: 42px;
+          border-radius: 50%;
+		  border: 2px solid $lightgray;
+		  box-sizing: border-box;
+		  $backgroundColor: $box-grey;
+		  cursor: pointer;
+          @if $item == red {
+            $backgroundColor: $box-red;
+          }
+          @if $item == blue {
+            $backgroundColor: $box-blue;
+          }
+          @if $item == orange {
+            $backgroundColor: $box-orange;
+          }
+          @if $item == yellow {
+            $backgroundColor: $box-yellow;
+          }
+          @if $item == grey {
+            $backgroundColor: $box-grey;
+          }
+          @if $item == violet {
+            $backgroundColor: $box-violet;
+          }
+          @if $item == brown {
+            $backgroundColor: $box-brown;
+          }
+          @if $item == pink {
+            $backgroundColor: $box-pink;
+          }
+          @if $item == cyan {
+            $backgroundColor: $box-cyan;
+          }
+          @if $item == green {
+            $backgroundColor: $box-green;
+          }
+		  background-color: $backgroundColor;
+		  &.selected-box {
+			&~.check-container {
+				margin-left: -42px;
+				width: 42px;
+				height: 42px;
+				border-radius: 50%;
+				@include center();
+				background-color: $box-selected;
+				i {
+					color: $lightgray;
+				}
+			}
+		  }
+        }
+      }
+    }
+  }
+}

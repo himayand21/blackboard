@@ -16,6 +16,7 @@ const BoardType = new GraphQLObjectType({
 		id: { type: GraphQLID },
 		name: { type: GraphQLString },
 		user: { type: GraphQLID },
+		color: { type: GraphQLString },
 		lists: {
 			type: new GraphQLList(require("./list")),
 			resolve(parentValue) {

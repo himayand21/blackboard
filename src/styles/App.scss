@@ -1,6 +1,15 @@
 @import "./partials/mixins";
+@import "./components/pallete";
+@import "./components/modal";
 @import "./pages/welcome";
+@import "./pages/loader";
+@import "./pages/home";
+@import "./components/footer";
 @import "./components/navbar";
+@import "./components/loader";
+@import "./components/popup";
+@import "./pages/boards";
+@import "./components/createboard";
 
 body {
     margin: 0px;

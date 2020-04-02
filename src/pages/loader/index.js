@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Background } from "../../components/background";
-import "./loader.scss";
-
 const Loader = () => {
 	const [dotCount, setDotCount] = useState("");
 

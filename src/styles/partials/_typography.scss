@@ -1,4 +1,7 @@
-$font-family: 'Raleway', 'sans-serif';
+$font: Rubik;
+
+@import url('https://fonts.googleapis.com/css?family=#{$font}&display=swap');
+$font-family: $font, sans-serif;
 
 @mixin typography-body {
 	font-size: 17px;
@@ -22,6 +25,9 @@ $font-family: 'Raleway', 'sans-serif';
 	@media only screen and (max-width: 735px) {
 		font-size: 40px;
 	}
+	@media only screen and (max-width: 360px) {
+		font-size: 32px;
+	}
 }
 
 @mixin typography-headline {
@@ -34,6 +40,9 @@ $font-family: 'Raleway', 'sans-serif';
 	@media only screen and (max-width: 735px) {
 		font-size: 32px;
 	}
+	@media only screen and (max-width: 360px) {
+		font-size: 26px;
+	}
 }
 
 @mixin typography-headline-reduced {
@@ -44,7 +53,25 @@ $font-family: 'Raleway', 'sans-serif';
 		font-size: 32px;
 	}
 	@media only screen and (max-width: 735px) {
+		font-size: 26px;
+	}
+	@media only screen and (max-width: 360px) {
+		font-size: 21px;
+	}
+}
+
+@mixin typography-intro-super {
+	font-size: 32px;
+	font-weight: normal;
+	font-family: $font-family;
+	@media only screen and (max-width: 1068px) {
 		font-size: 28px;
+	}
+	@media only screen and (max-width: 735px) {
+		font-size: 24px;
+	}
+	@media only screen and (max-width: 360px) {
+		font-size: 20px;
 	}
 }
 
@@ -55,14 +82,26 @@ $font-family: 'Raleway', 'sans-serif';
 	@media only screen and (max-width: 1068px) {
 		font-size: 21px;
 	}
+	@media only screen and (max-width: 735px) {
+		font-size: 18px;
+	}
+	@media only screen and (max-width: 360px) {
+		font-size: 16px;
+	}
 }
 
 @mixin typography-intro-reduced {
-	font-size: 21px;
+	font-size: 20px;
 	font-weight: normal;
 	font-family: $font-family;
 	@media only screen and (max-width: 1068px) {
-		font-size: 19px;
+		font-size: 18px;
+	}
+	@media only screen and (max-width: 735px) {
+		font-size: 16px;
+	}
+	@media only screen and (max-width: 360px) {
+		font-size: 14px;
 	}
 }
 
@@ -73,6 +112,12 @@ $font-family: 'Raleway', 'sans-serif';
 	@media only screen and (max-width: 1068px) {
 		font-size: 21px;
 	}
+	@media only screen and (max-width: 735px) {
+		font-size: 18px;
+	}
+	@media only screen and (max-width: 360px) {
+		font-size: 16px;
+	}
 }
 
 @mixin typography-label {
@@ -81,6 +126,12 @@ $font-family: 'Raleway', 'sans-serif';
 	font-family: $font-family;
 	@media only screen and (max-width: 1068px) {
 		font-size: 19px;
+	}
+	@media only screen and (max-width: 735px) {
+		font-size: 17px;
+	}
+	@media only screen and (max-width: 360px) {
+		font-size: 14px;
 	}
 }
 

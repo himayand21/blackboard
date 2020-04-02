@@ -1,0 +1,23 @@
+export const signupAPI = async ({
+	email,
+	password
+}) => {
+	const response = await fetch(`/user/signup`, {
+		method: 'POST',
+		body: JSON.stringify({
+			email,
+			password
+		}),
+		headers: {
+			'content-type': 'application/json'
+		},
+		credentials: 'include'
+	});
+	if (response.ok) {
+		const responseJSON = await response.json();
+		return responseJSON;
+	} else {
+		const errorJSON = await response.json();
+		throw errorJSON.error || {message: "Some error occured"};
+	}
+}

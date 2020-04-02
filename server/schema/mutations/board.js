@@ -18,7 +18,8 @@ const boardMutation = {
 		type: BoardType,
 		args: {
 			name: { type: GraphQLString },
-			user: { type: GraphQLID }
+			user: { type: GraphQLID },
+			color: { type: GraphQLString }
 		},
 		resolve(parentValue, args) {
 			return (new Board(args)).save();
@@ -28,15 +29,18 @@ const boardMutation = {
 		type: BoardType,
 		args: {
 			name: { type: GraphQLString },
-			id: { type: GraphQLID }
+			id: { type: GraphQLID },
+			color: { type: GraphQLString }
 		},
 		resolve(parentValue, {
 			id,
-			name
+			name,
+			color
 		}) {
 			return Board.findByIdAndUpdate(id, {
 				$set: {
-					name
+					name,
+					color
 				}
 			}, { 'new': true })
 		}

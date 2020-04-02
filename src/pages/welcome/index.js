@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { NavBar } from "../../components/navBar";
 import { Background } from "../../components/background";
 import { WelcomeHome } from "./WelcomeHome";
 import { Login } from "./Login";
 import { Signup } from "./Signup";
+import { Footer } from "../../components/footer";
 
 export const Welcome = (props) => {
 
@@ -62,6 +63,7 @@ export const Welcome = (props) => {
 					signupActive={signupActive}
 					showLogin={showLogin}
 				/>
+				<Footer />
             </main>
         </div>
     );

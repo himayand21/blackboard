@@ -1,54 +1,119 @@
-import React, { useEffect, useState } from 'react';
-import { withAuth } from 'node-react-auth/client';
-import { Route, useHistory } from "react-router-dom";
+import React, { useState } from 'react';
+import Routes from './Routes';
 
-import {Welcome} from './pages/welcome';
-import Home from './pages/home';
-import Loader from './pages/loader';
-
-// import {Modal} from './components/modal';
+import {
+	loginAPI,
+	logoutAPI,
+	signupAPI,
+	currentUserAPI
+} from './api';
 
 import './styles/App.scss';
 
-const App = (props) => {
-	const [appLoading, setAppLoading] = useState(true);
-	const history = useHistory();
-	const {
-		getCurrentUser,
-		user
-	} = props;
+const initialErrors = {
+	currentError: null,
+	loginError: null,
+	signupError: null,
+	logoutError: null
+}
+const initialState = {
+	user: null,
+	token: null,
+	loading: false,
+	...initialErrors
+};
 
-	useEffect(() => {
-		(async function() {
-			const token = localStorage.getItem('blackboard-token');
-			if (!token) {
-				setAppLoading(false);
-				history.push("/welcome");
-			} else {
-				getCurrentUser(token);
-			}
-		})();
-	}, []);
-
-	useEffect(() => {
-		if (user) {
-			setAppLoading(false);
-			history.push("/home");
+const App = () => {
+	const [state, setState] = useState(initialState);
+	const signup = async body => {
+		try {
+			setState({
+				...state,
+				loading: true
+			});
+			const { user, token } = await signupAPI(body);
+			setState({
+				...initialState,
+				user,
+				token
+			});
+		} catch (error) {
+			setState({
+				...state,
+				...initialErrors,
+				signupError: error
+			});
 		}
-	}, [user]);
+	};
 
-	if (appLoading) return (
-		<Loader />
-	)
+	const login = async body => {
+		try {
+			setState({
+				...state,
+				loading: true
+			});
+			const { user, token } = await loginAPI(body);
+			setState({
+				...initialState,
+				user,
+				token
+			});
+		} catch (error) {
+			setState({
+				...state,
+				...initialErrors,
+				loginError: error
+			});
+		}
+	};
+
+	const logout = async (token, allDeviceFlag) => {
+		try {
+			setState({
+				...state,
+				loading: true
+			});
+			await logoutAPI(token, allDeviceFlag);
+			setState(initialState);
+		} catch (error) {
+			setState({
+				...state,
+				...initialErrors,
+				logoutError: error
+			});
+		}
+	};
+
+	const getCurrentUser = async (token) => {
+		try {
+			setState({
+				...state,
+				loading: true
+			});
+			const user = await currentUserAPI(token);
+			setState({
+				...initialState,
+				user,
+				token
+			});
+		} catch (error) {
+			setState({
+				...state,
+				...initialErrors,
+				currentError: error
+			});
+		}
+	}
 
 	return (
-		<div>
-			<Route path="/welcome" >
-				<Welcome withAuthProps={props} />
-			</Route>
-			<Route path="/home" component={Home} />
-		</div>
+		<Routes
+			{...state}
+			getCurrentUser={getCurrentUser}
+			logout={logout}
+			login={login}
+			signup={signup}
+		/>
 	)
 }
 
-export default withAuth(App, '/user');
+export default App;
