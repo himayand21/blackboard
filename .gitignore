@@ -105,3 +105,6 @@ dist
 
 #DS store
 .DS_Store
+
+#build
+build

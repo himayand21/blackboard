@@ -1,0 +1,208 @@
+.absolute-button-wrapper {
+  position: fixed;
+  bottom: 15px;
+  @include animate-fade-in(0.2s);
+  @include typography-intro-reduced();
+  @include center();
+  justify-content: flex-start;
+  border-radius: 22.5px;
+  background-color: $faded-black;
+  height: 45px;
+  width: 45px;
+  right: 15px;
+  @media only screen and (max-width: 735px) {
+    right: 10px;
+  }
+  transition: width 0.2s ease-out;
+  transition-delay: 0.2s;
+
+  .standard-button {
+    @include standard-button();
+    min-height: 45px;
+    min-width: 45px;
+    padding: 0px;
+    backface-visibility: hidden;
+    @include center();
+    border-radius: 22.5px;
+    color: $black;
+    i {
+      transform: rotate(0deg);
+      transition: transform 0.2s ease-out;
+    }
+  }
+
+  &.with-options {
+    width: 165px;
+    & > .standard-button {
+      i {
+        transform: rotate(180deg);
+      }
+    }
+  }
+
+  .options-wrapper {
+    height: 45px;
+    border-radius: 22.5px;
+    overflow: hidden;
+    margin-left: 5px;
+    @include center();
+    @include animate-fade-in(0.3s);
+    animation-delay: 0.4s;
+    button {
+      @include standard-button();
+      border-radius: 0px;
+      min-height: 45px;
+      min-width: 40px;
+      padding: 0px;
+      @include center();
+      color: $black;
+    }
+  }
+}
+
+.editor-button-wrapper {
+  position: fixed;
+  bottom: 15px;
+  @include animate-fade-in(0.2s);
+  @include typography-intro-reduced();
+  @include center();
+  flex-direction: column;
+  justify-content: flex-start;
+  border-radius: 22.5px;
+  background-color: $faded-black;
+  max-height: 45px;
+  width: 45px;
+  right: 15px;
+  @media only screen and (max-width: 735px) {
+    right: 10px;
+  }
+  transition: max-height 0.2s ease-out;
+  transition-delay: 0.2s;
+
+  .standard-button {
+    @include standard-button();
+    min-height: 45px;
+    min-width: 45px;
+    padding: 0px;
+    backface-visibility: hidden;
+    @include center();
+    border-radius: 22.5px;
+    color: $black;
+    i {
+      transform: rotate(0deg);
+      transition: transform 0.2s ease-out;
+    }
+  }
+
+  &.with-options {
+    max-height: 350px;
+    & > .standard-button {
+      i {
+        transform: rotate(180deg);
+      }
+    }
+  }
+
+  .options-wrapper {
+    width: 45px;
+    border-radius: 22.5px;
+    flex-wrap: wrap;
+    @include center();
+    @include animate-fade-in(0.3s);
+    animation-delay: 0.4s;
+    button {
+      @include standard-button();
+      border-radius: 22.5px;
+      min-width: 45px;
+      min-height: 45px;
+      margin-top: 5px;
+      padding: 0px;
+      font-size: 15px;
+      position: relative;
+      @include center();
+      color: $black;
+    }
+    .editor-submenu {
+      display: flex;
+      flex-direction: row-reverse;
+      position: relative;
+      & > button {
+        &::before {
+          content: "\f053";
+          position: absolute;
+          right: 50px;
+          transition: transform 0.2s ease-out;
+          color: $gray;
+          font: normal normal normal 11px/1 FontAwesome;
+        }
+      }
+      &.open-type {
+        & > button {
+          &::before {
+            transform: rotate(180deg);
+          }
+        }
+      }
+
+      //   &:first-child {
+      //     & > .standard-button {
+      //       border-radius: 22.5px 22.5px 0px 0px;
+      //     }
+      //   }
+      //   &:last-child {
+      //     & > .standard-button {
+      //       border-radius: 0px 0px 22.5px 22.5px;
+      //     }
+      //   }
+
+      .submenu-options-wrapper {
+        position: absolute;
+        right: 65px;
+        height: 45px;
+        @include center();
+        @include animate-slide-left-block(
+          $elementCount: 5,
+          $direction: normal,
+          $duration: 0.5s
+        );
+        margin-top: 5px;
+        .animate-2 {
+          animation-delay: 0.2s !important;
+        }
+        .animate-3 {
+          animation-delay: 0.3s !important;
+        }
+        .animate-4 {
+          animation-delay: 0.37s !important;
+        }
+        .animate-5 {
+          animation-delay: 0.42s !important;
+        }
+        button {
+          @include standard-button();
+          border-radius: 22.5px;
+          margin-top: 0px;
+          margin-right: 4px;
+          min-height: 35px;
+          min-width: 35px;
+          padding: 0px;
+          font-size: 12px;
+          @include center();
+          color: $black;
+          position: relative;
+
+          &.editor-active {
+            &::before {
+                content: "\f111";
+                @include animate-fade-in(0.2s);
+                color: $gray;
+                position: absolute;
+                top: 38px;
+                font: normal normal normal 6px/1 FontAwesome;
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,4 +1,4 @@
-import gql from "graphql-tag";
+import gql from 'graphql-tag';
 
 export default gql`
 query getBoards ($user: ID!) {
@@ -7,9 +7,10 @@ query getBoards ($user: ID!) {
     id,
     user,
 	color,
-    lists {
+	time,
+    notes {
       name
     }
   }
 }
-`
+`;

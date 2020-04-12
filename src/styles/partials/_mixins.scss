@@ -33,9 +33,11 @@
   max-height: 37px;
   font-weight: bold;
   transition: $background-hover;
+  color: $black;
 
   &:disabled {
-	  opacity: 0.7;
+	  opacity: 0.6;
+	  background-color: darken($color: $green, $amount: 10);
 	  cursor: not-allowed;
   }
 }
@@ -126,7 +128,7 @@
   padding: 0 20px;
   .header {
     flex: 1;
-    @include typography-headline-reduced();
+    @include typography-intro-super();
   }
 }
 
@@ -167,9 +169,8 @@
   }
 }
 
-@mixin animate-slide-left-block($elementCount, $direction: normal) {
+@mixin animate-slide-left-block($elementCount, $direction: normal, $duration: 0.5s) {
   @for $iterator from 1 through $elementCount {
-    $duration: 0.5s;
     @include animate-slide-left($duration, $iterator, $direction);
   }
 }

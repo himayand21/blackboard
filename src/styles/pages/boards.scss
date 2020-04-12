@@ -3,6 +3,9 @@
   max-width: 100vw;
   color: $white;
   @include main-article($height);
+  &.home-wrapper {
+    justify-content: flex-start;
+  }
   min-height: calc(100vh - 70px);
   @media only screen and (max-height: $height) {
     min-height: $height - 70px;
@@ -13,7 +16,7 @@
     text-align: center;
     max-width: 90%;
     .board-header {
-      @include typography-headline();
+      @include typography-headline-reduced();
       text-align: center;
     }
     .board-subheader {
@@ -33,70 +36,13 @@
   }
   .loading-section {
     width: 700px;
+	margin-bottom: 70px;
     text-align: center;
     max-width: 90%;
     .loading-board-details {
       @include typography-intro();
       font-weight: bold;
     }
-  }
-  .absolute-button-wrapper {
-    position: fixed;
-    bottom: 15px;
-	@include animate-fade-in(0.2s);
-    @include typography-intro-reduced();
-    @include center();
-	justify-content: flex-start;
-    border-radius: 22.5px;
-	background-color: $faded-black;
-    height: 45px;
-    width: 45px;
-    right: 15px;
-	transition: width 0.2s ease-out;
-	transition-delay: 0.2s;
-
-	.standard-button {
-		@include standard-button();
-		min-height: 45px;
-		min-width: 45px;
-		padding: 0px;
-		backface-visibility: hidden;
-		@include center();
-		border-radius: 22.5px;
-		color: $black;
-		i {
-			transform: rotate(0deg);
-			transition: transform 0.2s ease-out;
-		}
-	}
-
-	&.with-options {
-		width: 165px;
-		.standard-button {
-			i {
-				transform: rotate(180deg);
-			}
-		}
-	}
-
-	.options-wrapper {
-		height: 45px;
-		border-radius: 22.5px;
-		overflow: hidden;
-		margin-left: 5px;
-		@include center();
-		@include animate-fade-in(0.3s);
-		animation-delay: 0.4s;
-		div {
-			@include standard-button();
-			border-radius: 0px;
-			min-height: 45px;
-			width: 40px;
-			padding: 0px;
-			@include center();
-			color: $black;
-		}
-	}
   }
   .boards-container {
     margin: 0;
@@ -106,89 +52,254 @@
     width: 100vw;
     box-sizing: border-box;
     text-align: center;
-	padding: 20px 15vw;
+    padding: 30px 10vw;
+
+    .boards-header-section {
+      margin: auto;
+      margin-bottom: 40px;
+    }
 
     @media only screen and (max-height: $height) {
       max-height: $height - 70px;
     }
 
-	@media only screen and (max-width: 1068px) {
-		padding: 20px 10vw;
-	}
-	@media only screen and (max-width: 735px) {
-		padding: 20px 2vw;
-	}
-	@media only screen and (max-width: 500px) {
-		padding: 20px 1vw;
-	}
-
-    .boards-header-section {
-      margin: auto;
-      margin-bottom: 20px;
+    @media only screen and (max-width: 1068px) {
+      padding: 20px 5vw;
+      .boards-header-section {
+        margin-bottom: 30px;
+      }
     }
+    @media only screen and (max-width: 735px) {
+      padding: 20px 2vw;
+      .boards-header-section {
+        margin-bottom: 20px;
+      }
+    }
+
     .boards {
-      @include center();
-      align-items: stretch;
-      flex-wrap: wrap;
-      @each $item in $colors {
-        .board-box-#{$item} {
-          padding: 20px;
-          width: 250px;
-          max-width: calc(50% - 20px);
-          margin: 5px;
-          border-radius: 10px;
-          box-sizing: border-box;
-          min-height: 150px;
+      @include animate-fade-in(0.3s);
+      display: grid;
+      grid-template-columns: repeat(4, calc(25% - 8px));
+      grid-template-rows: repeat(auto, 1fr);
+      grid-gap: 10px;
+      width: 100%;
+      @media only screen and (max-width: 1068px) {
+        grid-template-columns: repeat(3, calc(33% - 7px));
+      }
+      @media only screen and (max-width: 735px) {
+        grid-template-columns: repeat(2, calc(50% - 4px));
+        grid-gap: 8px;
+      }
+	  @media only screen and (max-width: 400px) {
+        grid-template-columns: repeat(1, 100%);
+      }
+      .board-box {
+        height: 100%;
+        width: 100%;
+        padding: 20px;
+        border-radius: 10px;
+        box-sizing: border-box;
+        min-height: 130px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        position: relative;
+        &.action-box {
+          div:not(.action-box-absolute) {
+            opacity: 0.6;
+          }
+        }
+        &.add-board-box {
+          .board-details {
+            justify-content: center;
+            align-items: center;
+            .add-board-icon {
+              @include typography-headline-super();
+              color: $lightgray;
+            }
+            .add-board-text {
+              @include typography-body();
+              font-weight: bold;
+            }
+          }
+          background-color: transparentize($color: $faded-black, $amount: 0.3);
+          &:hover {
+            background-color: $faded-black;
+          }
+        }
+        .board-details {
           display: flex;
           flex-direction: column;
-          justify-content: space-between;
-		  align-items: flex-start;
-          .board-name {
-            @include typography-intro();
-            margin: 5px 0;
-			text-align: left;
-			max-width: 100%;
-			text-overflow: ellipsis;
-			overflow: hidden;
+          justify-content: flex-start;
+          align-items: flex-start;
+          flex: 1;
+        }
+        cursor: pointer;
+        transition: $background-hover;
+        @for $span from 1 to 4 {
+          &.grid-#{$span} {
+            grid-row: span $span;
           }
-
-          .board-list-count {
-            @include typography-body-reduced();
-            margin: 5px 0;
-			text-align: left;
+        }
+        @media only screen and (max-width: 1068px) {
+          padding: 15px;
+        }
+      }
+      .board-notes {
+        margin: 5px 0;
+        max-width: 100%;
+        .board-note {
+          max-width: 100%;
+          @include typography-body-reduced();
+          text-align: left;
+          color: $lightgray;
+          display: flex;
+          justify-content: flex-start;
+          align-items: flex-start;
+          .board-note-icon {
+            font-size: 10px;
+            margin-right: 3px;
+            margin-top: 3px;
           }
+        }
+      }
+      .board-name {
+        @include typography-intro();
+        margin-bottom: 5px;
+        text-align: left;
+        max-width: 100%;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+      .board-time {
+        height: 110px;
+        margin-top: -80px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-end;
+        width: calc(100% + 40px);
+        margin-left: -20px;
+        margin-bottom: -20px;
+        padding-bottom: 15px;
+        padding-right: 15px;
+        box-sizing: border-box;
+        border-radius: 0 0 10px 10px;
+        background: linear-gradient(
+          180deg,
+          transparent 0%,
+          $low-faded-black 100%
+        );
+        @media only screen and (max-width: 1068px) {
+          width: calc(100% + 30px);
+          margin-left: -15px;
+          margin-bottom: -15px;
+          padding-bottom: 10px;
+          padding-right: 10px;
+        }
+        span {
+          @include typography-caption();
+        }
+      }
 
-          $backgroundColor: $box-grey;
-          cursor: pointer;
+      .board-note-count {
+        @include typography-caption();
+        margin-top: 5px;
+        text-align: left;
+      }
+      .action-box-absolute {
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        display: flex;
+        border-radius: 10px;
+        overflow: hidden;
+        box-sizing: border-box;
+        @include typography-intro-reduced();
+        &.action-box-animate {
+          @include animate-slide-left(0.3s);
+        }
+        &:hover {
+          border: 1px solid $lightgray;
+          span {
+            transform: scale(1.3);
+          }
+        }
+        .action-box-container {
+          background-color: transparentize($color: $black, $amount: 0.5);
+          flex: 1;
+          @include center();
+          span {
+            transition: transform 0.3s ease-out;
+            @include animate-fade-in(0.3s);
+            animation-delay: 0.3s;
+          }
+        }
+      }
+      @each $item in $colors {
+        $backgroundColor: $box-grey;
+        .board-box-#{$item} {
           @if $item == red {
-            $backgroundColor: transparentize($box-red, 0.6);
+            $backgroundColor: transparentize($box-red, 0.4);
+            &:not(.action-box):hover {
+              background-color: transparentize($box-red, 0.2);
+            }
           }
           @if $item == blue {
-            $backgroundColor: transparentize($box-blue, 0.6);
+            $backgroundColor: transparentize($box-blue, 0.4);
+            &:not(.action-box):hover {
+              background-color: transparentize($box-blue, 0.2);
+            }
           }
           @if $item == orange {
-            $backgroundColor: transparentize($box-orange, 0.6);
+            $backgroundColor: transparentize($box-orange, 0.4);
+            &:not(.action-box):hover {
+              background-color: transparentize($box-orange, 0.2);
+            }
           }
           @if $item == yellow {
-            $backgroundColor: transparentize($box-yellow, 0.6);
+            $backgroundColor: transparentize($box-yellow, 0.4);
+            &:not(.action-box):hover {
+              background-color: transparentize($box-yellow, 0.2);
+            }
           }
           @if $item == grey {
-            $backgroundColor: transparentize($box-grey, 0.6);
+            $backgroundColor: transparentize($box-grey, 0.4);
+            &:not(.action-box):hover {
+              background-color: transparentize($box-grey, 0.2);
+            }
           }
           @if $item == violet {
-            $backgroundColor: transparentize($box-violet, 0.6);
+            $backgroundColor: transparentize($box-violet, 0.4);
+            &:not(.action-box):hover {
+              background-color: transparentize($box-violet, 0.2);
+            }
           }
           @if $item == brown {
-            $backgroundColor: transparentize($box-brown, 0.6);
+            $backgroundColor: transparentize($box-brown, 0.4);
+            &:not(.action-box):hover {
+              background-color: transparentize($box-brown, 0.2);
+            }
           }
           @if $item == pink {
-            $backgroundColor: transparentize($box-pink, 0.6);
+            $backgroundColor: transparentize($box-pink, 0.4);
+            &:not(.action-box):hover {
+              background-color: transparentize($box-pink, 0.2);
+            }
           }
           @if $item == cyan {
-            $backgroundColor: transparentize($box-cyan, 0.6);
+            $backgroundColor: transparentize($box-cyan, 0.4);
+            &:not(.action-box):hover {
+              background-color: transparentize($box-cyan, 0.2);
+            }
           }
           @if $item == green {
-            $backgroundColor: transparentize($box-green, 0.6);
+            $backgroundColor: transparentize($box-green, 0.4);
+            &:not(.action-box):hover {
+              background-color: transparentize($box-green, 0.2);
+            }
           }
           background-color: $backgroundColor;
         }

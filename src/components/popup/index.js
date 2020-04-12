@@ -1,5 +1,7 @@
-import React, { useState } from "react";
-import { PopupModal } from './PopupModal';
+import React, {useState} from 'react';
+import PropTypes from 'prop-types';
+
+import {PopupModal} from './PopupModal';
 
 export const Popup = (props) => {
     const [show, setShow] = useState(false);
@@ -12,5 +14,9 @@ export const Popup = (props) => {
                     {props.children}
                 </PopupModal> : null}
         </div>
-    )
-}
+    );
+};
+
+Popup.propTypes = {
+    children: PropTypes.node
+};

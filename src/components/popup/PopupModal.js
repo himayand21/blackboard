@@ -1,4 +1,5 @@
-import React, {useEffect, useRef} from "react";
+import React, {useEffect, useRef} from 'react';
+import PropTypes from 'prop-types';
 
 export const PopupModal = (props) => {
 
@@ -21,5 +22,10 @@ export const PopupModal = (props) => {
         <div className="popup-modal" ref={wrapperRef}>
             {props.children}
         </div>
-    )
-}
+    );
+};
+
+PopupModal.propTypes = {
+    children: PropTypes.node,
+    setShow: PropTypes.func
+};

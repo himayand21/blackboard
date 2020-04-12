@@ -1,0 +1,127 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import {useHistory, useRouteMatch} from 'react-router-dom';
+
+import {getRelativeTime} from '../../util/getRelativeTime';
+import {getPlural} from '../../util/getPlural';
+
+import {
+    BOARDS,
+    NEW,
+    REDIRECT_TOKEN
+} from '../../constants';
+
+export const Notes = (props) => {
+    const history = useHistory();
+    const match = useRouteMatch();
+    const {color, notes, boardName} = props;
+
+    const goBack = () => {
+        sessionStorage.removeItem(REDIRECT_TOKEN);
+        history.push(BOARDS);
+    };
+
+    const goToCreateNote = () => {
+        const newNote = `${match.url}${NEW}`;
+        history.push(newNote);
+        sessionStorage.setItem(REDIRECT_TOKEN, newNote);
+    };
+
+    if (!notes.length) {
+        return (
+            <div className={`notes-section notes-wrapper notes-not-found ${color}-section`}>
+                <div className="notes-header multi-options">
+                    <div className="notes-left-header">
+                        {boardName}
+                    </div>
+                    <button
+                        onClick={goBack}
+                        className="standard-button"
+                    >
+						Back
+                    </button>
+                </div>
+                <div className="notes-message-section">
+                    <div className="notes-header-section">
+                        <div className="note-header">{'Looks like, you don\'t have any notes here.'}</div>
+                    </div>
+                    <div className="notes-button-row">
+                        <button
+                            className="standard-button"
+                            onClick={goToCreateNote}
+                        >
+							Create a Note
+                        </button>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    return (
+        <div className={`notes-section notes-wrapper ${color}-section`}>
+            <div className="notes-header multi-options">
+                <div className="notes-left-header">
+                    {boardName}
+                </div>
+                <button
+                    onClick={goBack}
+                    className="standard-button"
+                >
+					Back
+                </button>
+            </div>
+            <div className="notes-container">
+                <div className="notes">
+                    {notes.map((each) => {
+                        const {
+                            name,
+                            description,
+                            comments,
+                            time
+                        } = each;
+                        const relativeTime = getRelativeTime(time);
+
+                        return (
+                            <div
+                                className="note-box"
+                                key={time}
+                            >
+                                <div className="note-details">
+                                    <div className="note-name">
+                                        {name}
+                                    </div>
+                                    <div className="note-description">
+                                        {description}
+                                    </div>
+                                    <div className="note-comment-count">
+                                        {comments.length ? `${comments.length} comment${getPlural(comments.length)}.` : 'No comments yet.'}
+                                    </div>
+                                </div>
+                                <div className="note-time">
+                                    <span>
+                                        {relativeTime}
+                                    </span>
+                                </div>
+                            </div>
+                        );
+                    })}
+                </div>
+            </div>
+            <div className="absolute-button-wrapper">
+                <button
+                    className="standard-button"
+                    onClick={goToCreateNote}
+                >
+                    <i className="fa fa-plus" />
+                </button>
+            </div>
+        </div>
+    );
+};
+
+Notes.propTypes = {
+    color: PropTypes.string,
+    notes: PropTypes.array,
+    boardName: PropTypes.string
+};

@@ -1,24 +1,22 @@
 const graphql = require('graphql');
 
 const {
-	GraphQLObjectType
+    GraphQLObjectType
 } = graphql;
 
 const userDetailMutations = require('./mutations/userDetail');
 const boardMutations = require('./mutations/board');
-const listMutations = require('./mutations/list');
-const cardMutations = require('./mutations/card');
+const noteMutations = require('./mutations/note');
 const commentMutations = require('./mutations/comment');
 
 const mutation = new GraphQLObjectType({
-	name: 'Mutation',
-	fields: {
-		...userDetailMutations,
-		...boardMutations,
-		...listMutations,
-		...cardMutations,
-		...commentMutations
-	}
+    name: 'Mutation',
+    fields: {
+        ...userDetailMutations,
+        ...boardMutations,
+        ...noteMutations,
+        ...commentMutations
+    }
 });
 
 module.exports = mutation;

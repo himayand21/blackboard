@@ -16,8 +16,11 @@
       font-weight: bold;
     }
   }
+  .delete-board {
+	margin-bottom: 35px;
+  }
   .create-board-form {
-    margin-top: 50px;
+    margin-top: 40px;
     .form-label {
       @include form-label();
       margin-top: 45px;
@@ -44,5 +47,8 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
+	.standard-button {
+		margin-left: 10px;
+	}
   }
 }

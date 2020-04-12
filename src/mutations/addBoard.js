@@ -1,4 +1,4 @@
-import gql from "graphql-tag";
+import gql from 'graphql-tag';
 
 export default gql`
 mutation addBoard($name: String, $user: ID, $color: String) {
@@ -8,4 +8,4 @@ mutation addBoard($name: String, $user: ID, $color: String) {
     user
   }
 }
-`
+`;

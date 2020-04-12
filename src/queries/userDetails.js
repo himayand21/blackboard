@@ -1,4 +1,4 @@
-import gql from "graphql-tag";
+import gql from 'graphql-tag';
 
 export default gql`
 query getUserDetails ($id: ID!) {
@@ -7,4 +7,4 @@ query getUserDetails ($id: ID!) {
     id,
   }
 }
-`
+`;

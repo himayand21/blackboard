@@ -1,67 +1,90 @@
-import React, { useEffect, useState } from 'react';
-import { Route, useHistory } from "react-router-dom";
+import React, {useEffect, useState} from 'react';
+import {Route, useHistory, Switch} from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-import { Welcome } from './pages/welcome';
+import {Welcome} from './pages/welcome';
 import Home from './pages/home';
 import Loader from './pages/loader';
 import Error from './pages/error';
 
+import {
+    WELCOME,
+    BOARDS,
+    ERROR,
+    AUTH_TOKEN,
+    REDIRECT_TOKEN
+} from './constants';
+
 import './styles/App.scss';
 
-const App = (props) => {
-	const [appLoading, setAppLoading] = useState(true);
-	const history = useHistory();
-	const {
-		getCurrentUser,
-		user,
-		token,
-		currentError
-	} = props;
+const Routes = (props) => {
+    const [appLoading, setAppLoading] = useState(true);
+    const history = useHistory();
+    const {
+        getCurrentUser,
+        user,
+        token,
+        currentError
+    } = props;
 
-	useEffect(() => {
-		if (currentError) {
-			setAppLoading(false);
-			history.push('/error');
-		}
-	}, [currentError]);
+    useEffect(() => {
+        if (currentError) {
+            setAppLoading(false);
+            history.push(ERROR);
+        }
+    }, [currentError]);
 
-	useEffect(() => {
-		const token = localStorage.getItem('blackboard-token');
-		if (!token) {
-			setAppLoading(false);
-			history.push("/welcome");
-		} else {
-			getCurrentUser(token);
-		}
-	}, []);
+    useEffect(() => {
+        const authToken = localStorage.getItem(AUTH_TOKEN);
+        if (!authToken) {
+            setAppLoading(false);
+            history.push(WELCOME);
+        } else {
+            getCurrentUser(authToken);
+        }
+    }, []);
 
-	useEffect(() => {
-		if (user) {
-			setAppLoading(false);
-			localStorage.setItem('blackboard-token', token);
-			history.push("/home");
-		} else {
-			history.push('/welcome');
-		}
-	}, [user]);
+    useEffect(() => {
+        if (user) {
+            setAppLoading(false);
+            localStorage.setItem(AUTH_TOKEN, token);
+            const redirectPath = sessionStorage.getItem(REDIRECT_TOKEN);
+            if (redirectPath) {
+                history.push(redirectPath);
+            } else {
+                history.push(BOARDS);
+            }
+        } else {
+            history.push(WELCOME);
+        }
+    }, [user]);
 
-	if (appLoading) return (
-		<Loader />
-	)
+    if (appLoading) {
+        return (
+            <Loader />
+        );
+    }
 
-	return (
-		<div>
-			<Route path="/welcome" >
-				<Welcome withAuthProps={props} />
-			</Route>
-			<Route path="/home">
-				<Home withAuthProps={props} />
-			</Route>
-			<Route path="/error">
-				<Error />
-			</Route>
-		</div>
-	)
-}
+    return (
+        <Switch>
+            <Route path={WELCOME} >
+                <Welcome withAuthProps={props} />
+            </Route>
+            <Route path={BOARDS}>
+                <Home withAuthProps={props} />
+            </Route>
+            <Route path={ERROR}>
+                <Error />
+            </Route>
+        </Switch>
+    );
+};
 
-export default App;
+Routes.propTypes = {
+    getCurrentUser: PropTypes.func,
+    user: PropTypes.object,
+    token: PropTypes.string,
+    currentError: PropTypes.object
+};
+
+export default Routes;

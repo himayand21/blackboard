@@ -1,5 +1,4 @@
 require('./comment');
-require('./card');
-require('./list');
+require('./note');
 require('./board');
 require('./userDetail');

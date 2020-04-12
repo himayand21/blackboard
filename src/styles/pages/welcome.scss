@@ -45,7 +45,7 @@
 
   .login-article {
     @include main-article($height);
-	@include animate-fade-in(0.5s);
+    @include animate-fade-in(0.5s);
 
     .login-modal {
       @include screen-modal();
@@ -63,7 +63,7 @@
         margin-top: 50px;
         .form-label {
           @include form-label();
-		  margin-top: 45px;
+          margin-top: 45px;
           color: $lightgray;
         }
         .form-error-row {
@@ -77,7 +77,15 @@
         }
         input {
           @include form-input();
-		  padding-bottom: 10px;
+          padding-bottom: 10px;
+        }
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus,
+		input:-webkit-autofill:active  {
+			@include form-input();
+          	-webkit-box-shadow: 0 0 0 30px $black inset !important;
+			-webkit-text-fill-color: $white !important;
         }
       }
       .login-footer {

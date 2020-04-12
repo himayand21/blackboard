@@ -1,0 +1,346 @@
+.notes-section {
+  @include animate-fade-in(0.3s);
+  &.notes-wrapper {
+    margin: 0;
+    max-height: calc(100vh - 70px);
+    overflow-y: auto;
+    .notes-message-section {
+      height: calc(100vh - 244px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      .notes-header-section {
+        width: 700px;
+        max-width: 90vw;
+        .note-header {
+          @include typography-headline();
+          color: $white;
+          text-align: center;
+        }
+      }
+      .notes-button-row {
+        margin-top: 30px;
+        .standard-button {
+          @include big-button();
+        }
+      }
+    }
+    .notes-container {
+      margin: 15px 15px;
+    }
+    .notes {
+      @include animate-fade-in(0.3s);
+      display: grid;
+      grid-template-columns: repeat(3, calc(33% - 4px));
+      grid-template-rows: repeat(auto, 1fr);
+      grid-gap: 10px;
+      width: 100%;
+      @media only screen and (max-width: 1068px) {
+        grid-template-columns: repeat(2, calc(50% - 4px));
+        grid-gap: 8px;
+      }
+      @media only screen and (max-width: 735px) {
+        grid-template-columns: repeat(1, 100%);
+        grid-gap: 8px;
+      }
+      .note-box {
+        height: 100%;
+        width: 100%;
+        padding: 20px;
+        border-radius: 10px;
+        box-sizing: border-box;
+        min-height: 200px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        position: relative;
+        background: $faded-black;
+        .note-details {
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-start;
+          align-items: flex-start;
+          flex: 1;
+        }
+        .note-name {
+          @include typography-intro();
+          margin-bottom: 10px;
+          text-align: left;
+          max-width: 100%;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+          color: $white;
+        }
+        .note-description {
+          @include typography-intro-reduced();
+          margin-bottom: 10px;
+          text-align: left;
+          max-width: 100%;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+          color: lightgray;
+        }
+        .note-time {
+          height: 110px;
+          margin-top: -80px;
+          display: flex;
+          justify-content: flex-end;
+          align-items: flex-end;
+          width: calc(100% + 40px);
+          margin-left: -20px;
+          margin-bottom: -20px;
+          padding-bottom: 15px;
+          padding-right: 15px;
+          box-sizing: border-box;
+          border-radius: 0 0 10px 10px;
+          background: linear-gradient(
+            180deg,
+            transparent 0%,
+            $low-faded-black 100%
+          );
+          span {
+            @include typography-caption();
+            color: $lightgray;
+          }
+        }
+
+        .note-comment-count {
+          @include typography-caption();
+          margin-top: 5px;
+          text-align: left;
+          color: $gray;
+        }
+      }
+    }
+  }
+  .notes-header {
+    margin-top: 15px;
+    display: flex;
+    justify-content: flex-end;
+    @include animate-fade-in(0.5s);
+    &.multi-options {
+      justify-content: space-between;
+      .notes-left-header {
+        margin-left: 20px;
+        @include typography-intro();
+        color: $white;
+        line-height: 37px;
+      }
+    }
+    .standard-button {
+      margin-right: 20px;
+    }
+  }
+  .note-wrapper {
+    margin: 15px 10px 0;
+    height: calc(100vh - 140px);
+    background: $faded-black;
+    max-width: calc(100vw - 20px);
+    padding: 25px;
+    border-radius: 15px 15px 0 0;
+    box-sizing: border-box;
+    color: $white;
+    @include animate-fade-in(0.3s);
+    @media only screen and (max-width: 1068px) {
+      padding: 15px;
+    }
+    div:focus {
+      outline: none;
+    }
+    .note-title {
+      input {
+        @include typography-intro-super();
+        border: none;
+        background: none;
+        outline: none !important;
+        color: $white;
+        width: 100%;
+      }
+      margin-bottom: 20px;
+      margin-top: 5px;
+    }
+    .note-description {
+      input {
+        @include typography-intro();
+        border: none;
+        background: none;
+        outline: none !important;
+        color: $white;
+        width: 100%;
+      }
+      margin-bottom: 20px;
+    }
+    .note-story {
+      @include typography-body();
+      font-weight: lighter;
+      height: calc(100vh - 278px);
+      .DraftEditor-editorContainer {
+        height: calc(100vh - 278px);
+      }
+      .public-DraftEditor-content {
+        height: 100%;
+      }
+      @media only screen and (max-height: 500px) {
+        height: 222px;
+        .DraftEditor-editorContainer {
+          height: 222px;
+        }
+      }
+      @media only screen and (max-width: 1068px) {
+        height: calc(100vh - 260px);
+        .DraftEditor-editorContainer {
+          height: calc(100vh - 260px);
+        }
+        @media only screen and (max-height: 500px) {
+          height: 240px;
+          .DraftEditor-editorContainer {
+            height: 240px;
+          }
+        }
+      }
+      @media only screen and (max-width: 735px) {
+        height: calc(100vh - 252px);
+        .DraftEditor-editorContainer {
+          height: calc(100vh - 252px);
+        }
+        @media only screen and (max-height: 500px) {
+          height: 248px;
+          .DraftEditor-editorContainer {
+            height: 248px;
+          }
+        }
+      }
+      overflow: auto;
+      position: relative;
+      .public-DraftEditorPlaceholder-root {
+        position: absolute;
+        top: 0;
+        color: $gray;
+        user-select: none;
+      }
+
+      a {
+        @include block-link();
+        text-decoration: none;
+      }
+      .editor-blockquote,
+      .public-DraftStyleDefault-ul,
+      .public-DraftStyleDefault-ol,
+      .public-DraftStyleDefault-pre,
+      h2 {
+        background-color: transparentize(
+          $color: $low-faded-black,
+          $amount: 0.4
+        );
+        margin: 10px 0;
+        padding: 20px 10px;
+        padding-left: 60px;
+        border-radius: 15px;
+        position: relative;
+        color: $lightgray;
+        &:before {
+          position: absolute;
+          left: 0px;
+          top: 0px;
+          height: 100%;
+          width: 50px;
+          @include center();
+          background-color: $low-faded-black;
+          border-radius: 15px 0 0 15px;
+          color: $gray;
+          font: normal normal normal 16px/1 FontAwesome;
+        }
+      }
+      h2 {
+        padding-left: 10px;
+        border-bottom-left-radius: 0px;
+        border-bottom-right-radius: 0px;
+        border-bottom: 1px solid $gray;
+      }
+      .editor-blockquote {
+        &:before {
+          content: "\f10d";
+        }
+      }
+      .public-DraftStyleDefault-ul {
+        padding-left: 75px;
+        &:before {
+          content: "\f0ca";
+        }
+      }
+      .public-DraftStyleDefault-ol {
+        padding-left: 75px;
+        &:before {
+          content: "\f0cb";
+        }
+      }
+      .public-DraftStyleDefault-pre {
+        padding-top: 20px;
+        padding-right: 10px;
+        padding-bottom: 20px;
+        max-width: 100%;
+        overflow: scroll;
+        pre {
+          margin: 2px 0;
+        }
+        &:before {
+          content: "\f121";
+        }
+      }
+    }
+  }
+}
+
+@each $item in $colors {
+  $color: $box-grey;
+  .#{$item}-section {
+    @if $item == red {
+      $color: $box-red;
+    }
+    @if $item == blue {
+      $color: #6aa6e6;
+    }
+    @if $item == orange {
+      $color: $box-orange;
+    }
+    @if $item == yellow {
+      $color: $box-yellow;
+    }
+    @if $item == grey {
+      $color: #bfbfbf;
+    }
+    @if $item == violet {
+      $color: #d18fbf;
+    }
+    @if $item == brown {
+      $color: #c38765;
+    }
+    @if $item == pink {
+      $color: $box-pink;
+    }
+    @if $item == cyan {
+      $color: #38aaa4;
+    }
+    @if $item == green {
+      $color: $green;
+    }
+    .note-box {
+      border: 1px solid transparentize($color, $amount: 0.7);
+      .note-name {
+        color: $color !important;
+      }
+      .note-time span {
+        color: transparentize($color, $amount: 0.3) !important;
+      }
+    }
+    .standard-button {
+      background-color: $color !important;
+      &:hover {
+        background-color: lighten($color, 5) !important;
+      }
+    }
+  }
+}

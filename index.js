@@ -1,9 +1,9 @@
-const path = require("path");
-const express = require("express");
-const bodyParser = require("body-parser");
+const path = require('path');
+const express = require('express');
+const bodyParser = require('body-parser');
 const expressGraphQL = require('express-graphql');
-const mongoose = require("mongoose");
-const server = require("node-react-auth/server");
+const mongoose = require('mongoose');
+const server = require('node-react-auth/server');
 
 const schema = require('./server/schema');
 
@@ -13,41 +13,41 @@ const MONGO_URI = process.env.MONGO_URI;
 mongoose.Promise = global.Promise;
 
 const {
-	createSchema,
-	checkAuth,
-	createAuth
+    createSchema,
+    checkAuth,
+    createAuth
 } = server;
 
 const app = express();
 
 mongoose.connect(MONGO_URI, {
-	useNewUrlParser: true,
-	useCreateIndex: true,
-	useUnifiedTopology: true,
-	useFindAndModify: false
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false
 });
 
 const db = mongoose.connection;
 const model = createSchema(db);
 
-db.once("open", () => {
-	console.log("Connected to MongoLab instance.");
-}).on("error", error => console.log("Error connecting to MongoLab:", error));
+db.once('open', () => {
+    console.log('Connected to MongoLab instance.');
+}).on('error', (error) => console.log('Error connecting to MongoLab:', error));
 
 app.listen(PORT, () => {
-	console.log('Listening');
+    console.log('Listening');
 });
 
-app.use(express.static(__dirname + "/build"));
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static(__dirname + '/build'));
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 app.use('/user', createAuth(model));
-app.use('/graphql', expressGraphQL({
-	schema,
-	graphiql: true
+app.use('/graphql', checkAuth(model), expressGraphQL({
+    schema,
+    graphiql: true
 }));
 
 app.get('*', (req, res) => {
-	res.sendFile(path.join(__dirname + "/build/index.html"))
+    res.sendFile(path.join(__dirname + '/build/index.html'));
 });
