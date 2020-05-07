@@ -4,11 +4,16 @@ import PropTypes from 'prop-types';
 import {PopupModal} from './PopupModal';
 
 export const Popup = (props) => {
+    const {isButton} = props;
     const [show, setShow] = useState(false);
 
     return (
         <div className="popup-wrapper">
-            <i className="fa fa-ellipsis-v" onClick={() => setShow(true)} />
+            {isButton ?
+                <button className="standard-button popup-button" onClick={() => setShow(true)}>
+                    <i className="fa fa-cog" />
+                </button> :
+                <i className="fa fa-ellipsis-v" onClick={() => setShow(true)} />}
             {show ?
                 <PopupModal setShow={setShow}>
                     {props.children}
@@ -18,5 +23,6 @@ export const Popup = (props) => {
 };
 
 Popup.propTypes = {
-    children: PropTypes.node
+    children: PropTypes.node,
+    isButton: PropTypes.bool
 };

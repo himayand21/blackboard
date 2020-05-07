@@ -1,12 +1,13 @@
 import gql from 'graphql-tag';
 
 export default gql`
-mutation updateNote($id: ID, $description: String, $name: String) {
-  updateNote(id: $id, description: $description, name: $name) {
+mutation updateNote($id: ID, $name: String, $description: String, $editor: String){
+  updateNote (id: $id, name: $name, description: $description, editor: $editor) {
+    id,
     name,
     description,
-    board,
-    id
+	editor,
+    board
   }
 }
 `;

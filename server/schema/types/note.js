@@ -18,8 +18,8 @@ const NoteType = new GraphQLObjectType({
         description: {type: GraphQLString},
         board: {type: GraphQLID},
         editor: {type: GraphQLString},
-        content: {type: GraphQLString},
         time: {type: GraphQLString},
+        owner: {type: GraphQLString},
         comments: {
             type: new GraphQLList(require('./comment')),
             resolve(parentValue) {

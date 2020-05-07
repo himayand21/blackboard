@@ -10,7 +10,7 @@
     }
     .popup-modal {
 		@include animate-fade-in(0.2s);
-        min-width: 120px;
+        min-width: 150px;
 		width: 100%;
         border-radius: 5px;
 		background-color: $black;
@@ -38,4 +38,7 @@
 			}
 		}
     }
+	.popup-button ~ .popup-modal {
+		top: 40px;
+	}
 }

@@ -7,7 +7,6 @@ import query from '../../queries/boardDetails';
 
 import {Notes} from './Notes';
 import {AddNote} from './AddNote';
-import {EditNote} from './EditNote';
 import {Note} from './Note';
 
 const BoardComponent = (props) => {
@@ -30,7 +29,7 @@ const BoardComponent = (props) => {
         );
     }
 
-    const {notes, color, name} = board;
+    const {notes, color, name, user} = board;
 
     return (
         <Switch>
@@ -39,13 +38,15 @@ const BoardComponent = (props) => {
                     backURL={backURL}
                     color={color}
                     boardId={boardId}
+                    owner={user}
                 />
             </Route>
-            <Route path={`${match.path}/:noteId/edit`}>
-                <EditNote />
-            </Route>
             <Route path={`${match.path}/:noteId`}>
-                <Note />
+                <Note
+                    color={color}
+                    backURL={backURL}
+                    owner={user}
+                />
             </Route>
             <Route path={match.path}>
                 <Notes

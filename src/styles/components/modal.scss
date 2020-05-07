@@ -5,16 +5,16 @@
   background-color: $low-faded-black;
   position: fixed;
   top: 0;
-  z-index: 3;
+  left: 0;
+  z-index: 99;
   overflow-y: auto;
   @include center();
   @include animate-rise(0.2s);
-  
 
   .modal-section {
-	@include modal-section();
-	margin: 40px 0;
-	
+    @include modal-section();
+    margin: 40px 0;
+
     .modal-header {
       display: flex;
       width: 100%;
@@ -38,9 +38,9 @@
         font-size: 14px;
         font-weight: bold;
         transition: color 0.3s ease-in-out;
-		&:hover {
-			color: lighten($green, 5);
-		}
+        &:hover {
+          color: lighten($green, 5);
+        }
       }
     }
   }

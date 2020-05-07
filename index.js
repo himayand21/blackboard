@@ -43,7 +43,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 app.use('/user', createAuth(model));
-app.use('/graphql', checkAuth(model), expressGraphQL({
+app.use('/graphql', expressGraphQL({
     schema,
     graphiql: true
 }));

@@ -28,11 +28,12 @@
     }
     .notes-container {
       margin: 15px 15px;
+      max-width: calc(100vw - 30px);
     }
     .notes {
       @include animate-fade-in(0.3s);
       display: grid;
-      grid-template-columns: repeat(3, calc(33% - 4px));
+      grid-template-columns: repeat(3, calc(33.1% - 4px));
       grid-template-rows: repeat(auto, 1fr);
       grid-gap: 10px;
       width: 100%;
@@ -50,12 +51,18 @@
         padding: 20px;
         border-radius: 10px;
         box-sizing: border-box;
-        min-height: 200px;
+        min-height: 180px;
+        background-color: $faded-black;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
         position: relative;
-        background: $faded-black;
+        box-shadow: 1px 1px 3px 1px $faded-black;
+        transition: box-shadow 0.3s ease-out;
+        &:hover {
+          box-shadow: none;
+          cursor: pointer;
+        }
         .note-details {
           display: flex;
           flex-direction: column;
@@ -64,17 +71,22 @@
           flex: 1;
         }
         .note-name {
-          @include typography-intro();
-          margin-bottom: 10px;
+          @include typography-intro-reduced();
+          margin-bottom: 20px;
+          margin-top: -20px;
+          margin-left: -20px;
+          width: calc(100% + 40px);
+          border-radius: 10px 10px 0 0;
+          padding: 15px 20px;
+          box-sizing: border-box;
           text-align: left;
-          max-width: 100%;
           text-overflow: ellipsis;
           overflow: hidden;
           white-space: nowrap;
           color: $white;
         }
         .note-description {
-          @include typography-intro-reduced();
+          @include typography-body();
           margin-bottom: 10px;
           text-align: left;
           max-width: 100%;
@@ -111,7 +123,7 @@
           @include typography-caption();
           margin-top: 5px;
           text-align: left;
-          color: $gray;
+          color: lightgray;
         }
       }
     }
@@ -120,6 +132,8 @@
     margin-top: 15px;
     display: flex;
     justify-content: flex-end;
+    position: relative;
+    z-index: 3;
     @include animate-fade-in(0.5s);
     &.multi-options {
       justify-content: space-between;
@@ -128,6 +142,34 @@
         @include typography-intro();
         color: $white;
         line-height: 37px;
+      }
+      .option-wrapper {
+        display: flex;
+        margin-right: 20px;
+        align-items: center;
+        ul {
+          @include typography-label-reduced();
+          font-weight: normal;
+        }
+        color: $white;
+        .standard-button {
+          margin-right: 10px;
+        }
+        .popup-button {
+          margin-right: 0px;
+        }
+      }
+    }
+    .note-header-name {
+      padding-right: 15px;
+      padding-left: 150px;
+      padding-bottom: 15px;
+      @include typography-intro-super();
+      @media only screen and (max-width: 1068px) {
+        padding-left: 100px;
+      }
+      @media only screen and (max-width: 735px) {
+        padding-left: 60px;
       }
     }
     .standard-button {
@@ -151,6 +193,7 @@
       outline: none;
     }
     .note-title {
+      position: relative;
       input {
         @include typography-intro-super();
         border: none;
@@ -163,6 +206,7 @@
       margin-top: 5px;
     }
     .note-description {
+      position: relative;
       input {
         @include typography-intro();
         border: none;
@@ -172,6 +216,12 @@
         width: 100%;
       }
       margin-bottom: 20px;
+    }
+    .note-length {
+      position: absolute;
+      @include typography-caption();
+      color: $box-grey;
+      right: 5px;
     }
     .note-story {
       @include typography-body();
@@ -250,7 +300,6 @@
           @include center();
           background-color: $low-faded-black;
           border-radius: 15px 0 0 15px;
-          color: $gray;
           font: normal normal normal 16px/1 FontAwesome;
         }
       }
@@ -295,51 +344,74 @@
 }
 
 @each $item in $colors {
-  $color: $box-grey;
+  $color: #bfbfbf;
+  $boxColor: $box-grey;
   .#{$item}-section {
     @if $item == red {
       $color: $box-red;
+      $boxColor: $box-red;
     }
     @if $item == blue {
       $color: #6aa6e6;
+      $boxColor: $box-blue;
     }
     @if $item == orange {
       $color: $box-orange;
+      $boxColor: $box-orange;
     }
     @if $item == yellow {
       $color: $box-yellow;
+      $boxColor: $box-yellow;
     }
     @if $item == grey {
       $color: #bfbfbf;
+      $boxColor: $box-grey;
     }
     @if $item == violet {
       $color: #d18fbf;
+      $boxColor: $box-violet;
     }
     @if $item == brown {
       $color: #c38765;
+      $boxColor: $box-brown;
     }
     @if $item == pink {
       $color: $box-pink;
+      $boxColor: $box-pink;
     }
     @if $item == cyan {
       $color: #38aaa4;
+      $boxColor: $box-cyan;
     }
     @if $item == green {
       $color: $green;
+      $boxColor: $box-green;
     }
-    .note-box {
-      border: 1px solid transparentize($color, $amount: 0.7);
-      .note-name {
-        color: $color !important;
-      }
-      .note-time span {
-        color: transparentize($color, $amount: 0.3) !important;
-      }
+    .note-box .note-name {
+      box-shadow: 0px 3px 3px -3px $boxColor;
+      background-color: #1c1c1c;
     }
-    .standard-button {
+    .note-header-name {
+      box-shadow: 10px 3px 6px -4px $boxColor;
+      color: $color;
+    }
+
+    .standard-button:not(.footer-button) {
       background-color: $color !important;
       &:hover {
         background-color: lighten($color, 5) !important;
+      }
+    }
+    .standard-badge {
+      background-color: $color;
+    }
+    .editor-blockquote,
+    .public-DraftStyleDefault-ul,
+    .public-DraftStyleDefault-ol,
+    .public-DraftStyleDefault-pre,
+    h2 {
+      &:before {
+        color: $color;
       }
     }
   }

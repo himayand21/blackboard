@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import {useHistory} from 'react-router-dom';
 import {graphql} from 'react-apollo';
+import {convertToRaw} from 'draft-js';
 
 import {Loader} from '../../components/loader';
 import {
@@ -20,7 +21,7 @@ const AddNoteComponent = (props) => {
     const [adding, setAdding] = useState(false);
 
     const history = useHistory();
-    const {backURL, color, mutate, boardId} = props;
+    const {backURL, color, mutate, boardId, owner} = props;
 
     const goBack = () => {
         sessionStorage.setItem(REDIRECT_TOKEN, backURL);
@@ -29,14 +30,13 @@ const AddNoteComponent = (props) => {
 
     const saveNote = async () => {
         setAdding(true);
-        const content = document.getElementById('note-editor').innerHTML;
         await mutate({
             variables: {
                 board: boardId,
                 name: title,
                 description,
-                content,
-                editor: JSON.stringify(editorState)
+                editor: JSON.stringify(convertToRaw(editorState.getCurrentContent())),
+                owner
             },
             refetchQueries: [{
                 query,
@@ -48,11 +48,17 @@ const AddNoteComponent = (props) => {
     };
 
     const handleTitleChange = (event) => {
-        setTitle(event.target.value);
+        const newTitle = event.target.value;
+        if (newTitle.length <= 25) {
+            setTitle(event.target.value);
+        }
     };
 
     const handleDescriptionChange = (event) => {
-        setDescription(event.target.value);
+        const newDescription = event.target.value;
+        if (newDescription.length <= 140) {
+            setDescription(event.target.value);
+        }
     };
 
     return (
@@ -61,17 +67,18 @@ const AddNoteComponent = (props) => {
                 <div className="notes-left-header">
                     <button
                         className="standard-button"
-                        onClick={saveNote}
+                        onClick={goBack}
                     >
-                        {adding ? <Loader /> : 'Save'}
+						Back
                     </button>
                 </div>
                 <div className="notes-right-header">
                     <button
                         className="standard-button"
-                        onClick={goBack}
+                        disabled={!title || !description}
+                        onClick={saveNote}
                     >
-						Back
+                        {adding ? <Loader /> : 'Save'}
                     </button>
                 </div>
             </div>
@@ -84,6 +91,9 @@ const AddNoteComponent = (props) => {
                         value={title}
                         placeholder={'Title'}
                     />
+                    <span className="note-length">
+						[{title.length}/25]
+                    </span>
                 </div>
                 <div className="note-description">
                     <input
@@ -92,6 +102,9 @@ const AddNoteComponent = (props) => {
                         placeholder={'Overview'}
                         rows={3}
                     />
+                    <span className="note-length">
+						[{description.length}/140]
+                    </span>
                 </div>
                 <div className="note-story">
                     <NoteEditor
@@ -108,7 +121,8 @@ AddNoteComponent.propTypes = {
     backURL: PropTypes.string,
     color: PropTypes.string,
     mutate: PropTypes.func,
-    boardId: PropTypes.string
+    boardId: PropTypes.string,
+    owner: PropTypes.string
 };
 
 export const AddNote = graphql(mutation, {

@@ -53,11 +53,11 @@ const config = function(env) {
             historyApiFallback: true,
             proxy: {
                 '/user': {
-                    target: 'http://192.168.1.6:5000',
+                    target: 'http://0.0.0.0:5000',
                     secure: false
                 },
                 '/graphql': {
-                    target: 'http://192.168.1.6:5000',
+                    target: 'http://0.0.0.0:5000',
                     secure: false
                 }
             }

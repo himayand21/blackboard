@@ -9,7 +9,7 @@ import {keyBindingFunction} from './util/keyBindingFunction';
 export const NoteEditor = (props) => {
     const [showOptions, setShowOptions] = useState(false);
     const [optionButton, setOptionButton] = useState(false);
-    const {editorState, onChange} = props;
+    const {editorState, onChange, readOnly} = props;
 
     const toggleShowOptions = () => setShowOptions(!showOptions);
     const showOptionButton = () => setOptionButton(true);
@@ -69,6 +69,7 @@ export const NoteEditor = (props) => {
                         handleKeyCommand={handleKeyCommand}
                         placeholder={optionButton || (blockType !== 'unstyled') ? '' : '...'}
                         keyBindingFn={keyBindingFunction}
+                        readOnly={readOnly}
                     />
                 </div>
                 <div
@@ -101,5 +102,6 @@ export const NoteEditor = (props) => {
 
 NoteEditor.propTypes = {
     editorState: PropTypes.object,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    readOnly: PropTypes.bool
 };

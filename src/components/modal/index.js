@@ -28,5 +28,5 @@ export const Modal = (props) => {
 Modal.propTypes = {
     show: PropTypes.bool,
     hideModal: PropTypes.func,
-    children: PropTypes.node
+    children: PropTypes.node,
 };

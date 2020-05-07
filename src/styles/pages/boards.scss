@@ -52,7 +52,7 @@
     width: 100vw;
     box-sizing: border-box;
     text-align: center;
-    padding: 30px 10vw;
+    padding: 30px 5vw;
 
     .boards-header-section {
       margin: auto;
@@ -64,13 +64,12 @@
     }
 
     @media only screen and (max-width: 1068px) {
-      padding: 20px 5vw;
+      padding: 20px 2vw;
       .boards-header-section {
         margin-bottom: 30px;
       }
     }
     @media only screen and (max-width: 735px) {
-      padding: 20px 2vw;
       .boards-header-section {
         margin-bottom: 20px;
       }
@@ -99,7 +98,7 @@
         padding: 20px;
         border-radius: 10px;
         box-sizing: border-box;
-        min-height: 130px;
+        min-height: 150px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;

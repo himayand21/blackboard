@@ -5,7 +5,9 @@ mutation addBoard($name: String, $user: ID, $color: String) {
   addBoard(name: $name, user: $user, color: $color) {
     name,
     id,
-    user
+    user,
+	color,
+	time
   }
 }
 `;

@@ -21,6 +21,12 @@ export const Notes = (props) => {
         history.push(BOARDS);
     };
 
+    const goToNote = (noteId) => {
+        const noteURL = `${match.url}/${noteId}`;
+        history.push(noteURL);
+        sessionStorage.setItem(REDIRECT_TOKEN, noteURL);
+    };
+
     const goToCreateNote = () => {
         const newNote = `${match.url}${NEW}`;
         history.push(newNote);
@@ -32,14 +38,18 @@ export const Notes = (props) => {
             <div className={`notes-section notes-wrapper notes-not-found ${color}-section`}>
                 <div className="notes-header multi-options">
                     <div className="notes-left-header">
-                        {boardName}
+                        <button
+                            onClick={goBack}
+                            className="standard-button"
+                        >
+							Back
+                        </button>
                     </div>
-                    <button
-                        onClick={goBack}
-                        className="standard-button"
-                    >
-						Back
-                    </button>
+                    <div className="notes-right-header">
+                        <div className="note-header-name">
+                            {boardName}
+                        </div>
+                    </div>
                 </div>
                 <div className="notes-message-section">
                     <div className="notes-header-section">
@@ -62,14 +72,18 @@ export const Notes = (props) => {
         <div className={`notes-section notes-wrapper ${color}-section`}>
             <div className="notes-header multi-options">
                 <div className="notes-left-header">
-                    {boardName}
+                    <button
+                        onClick={goBack}
+                        className="standard-button"
+                    >
+						Back
+                    </button>
                 </div>
-                <button
-                    onClick={goBack}
-                    className="standard-button"
-                >
-					Back
-                </button>
+                <div className="notes-right-header">
+                    <div className="note-header-name">
+                        {boardName}
+                    </div>
+                </div>
             </div>
             <div className="notes-container">
                 <div className="notes">
@@ -78,13 +92,15 @@ export const Notes = (props) => {
                             name,
                             description,
                             comments,
-                            time
+                            time,
+                            id
                         } = each;
                         const relativeTime = getRelativeTime(time);
 
                         return (
                             <div
                                 className="note-box"
+                                onClick={() => goToNote(id)}
                                 key={time}
                             >
                                 <div className="note-details">

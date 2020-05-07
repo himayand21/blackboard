@@ -7,6 +7,7 @@ query board ($id: ID!) {
     id,
     color,
     time,
+	user,
     notes {
       id,
       name,

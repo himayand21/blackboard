@@ -123,7 +123,7 @@ const BoardsComponent = (props) => {
             <div className="boards-wrapper home-wrapper">
                 <div className="boards-container">
                     <div className="boards-header-section">
-                        <div className="board-header">Your Boards</div>
+                        <div className="board-header">Boards</div>
                     </div>
                     <div className="boards">
                         {boards.map((board, index) => {

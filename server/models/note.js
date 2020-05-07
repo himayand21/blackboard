@@ -6,8 +6,8 @@ const NoteSchema = new Schema({
     name: {type: String},
     description: {type: String},
     board: {type: String},
-    editor: {type: String},
-    content: {type: String},
+    editor: {type: Object},
+    owner: {type: String},
     time: {type: String}
 });
 

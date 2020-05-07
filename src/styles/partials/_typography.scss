@@ -1,6 +1,6 @@
 $font: Rubik;
 
-@import url('https://fonts.googleapis.com/css?family=#{$font}:300,400&display=swap');
+@import url('https://fonts.googleapis.com/css?family=#{$font}:200,300,400&display=swap');
 $font-family: $font, sans-serif;
 
 @mixin typography-body {
