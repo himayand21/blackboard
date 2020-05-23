@@ -1,9 +1,9 @@
 .notes-section {
-  @include animate-fade-in(0.3s);
   &.notes-wrapper {
     margin: 0;
     max-height: calc(100vh - 70px);
     overflow-y: auto;
+    @include styled-scroll();
     .notes-message-section {
       height: calc(100vh - 244px);
       display: flex;
@@ -76,6 +76,7 @@
           margin-top: -20px;
           margin-left: -20px;
           width: calc(100% + 40px);
+          font-weight: bold;
           border-radius: 10px 10px 0 0;
           padding: 15px 20px;
           box-sizing: border-box;
@@ -88,6 +89,7 @@
         .note-description {
           @include typography-body();
           margin-bottom: 10px;
+          font-weight: bold;
           text-align: left;
           max-width: 100%;
           text-overflow: ellipsis;
@@ -108,22 +110,20 @@
           padding-right: 15px;
           box-sizing: border-box;
           border-radius: 0 0 10px 10px;
-          background: linear-gradient(
-            180deg,
-            transparent 0%,
-            $low-faded-black 100%
-          );
+          background: linear-gradient(180deg, transparent 0%, $low-faded-black 100%);
           span {
             @include typography-caption();
+            font-weight: bold;
             color: $lightgray;
           }
         }
 
         .note-comment-count {
-          @include typography-caption();
+          @include typography-body-reduced();
           margin-top: 5px;
           text-align: left;
           color: lightgray;
+          font-weight: bold;
         }
       }
     }
@@ -134,7 +134,6 @@
     justify-content: flex-end;
     position: relative;
     z-index: 3;
-    @include animate-fade-in(0.5s);
     &.multi-options {
       justify-content: space-between;
       .notes-left-header {
@@ -151,6 +150,10 @@
           @include typography-label-reduced();
           font-weight: normal;
         }
+        .note-message {
+          @include typography-label-reduced();
+          margin-right: 15px;
+        }
         color: $white;
         .standard-button {
           margin-right: 10px;
@@ -165,6 +168,7 @@
       padding-left: 150px;
       padding-bottom: 15px;
       @include typography-intro-super();
+      font-weight: bold;
       @media only screen and (max-width: 1068px) {
         padding-left: 100px;
       }
@@ -174,20 +178,25 @@
     }
     .standard-button {
       margin-right: 20px;
+      &.switch-button {
+        margin-right: 10px;
+      }
     }
   }
   .note-wrapper {
     margin: 15px 10px 0;
-    height: calc(100vh - 140px);
+    min-height: calc(100vh - 142px);
+    max-height: calc(100vh - 142px);
     background: $faded-black;
     max-width: calc(100vw - 20px);
-    padding: 25px;
+    @include styled-scroll();
+    padding: 25px 25px 0px;
     border-radius: 15px 15px 0 0;
     box-sizing: border-box;
     color: $white;
-    @include animate-fade-in(0.3s);
+    overflow: auto;
     @media only screen and (max-width: 1068px) {
-      padding: 15px;
+      padding: 15px 15px 0;
     }
     div:focus {
       outline: none;
@@ -221,49 +230,16 @@
       position: absolute;
       @include typography-caption();
       color: $box-grey;
+      font-weight: bold;
       right: 5px;
     }
     .note-story {
       @include typography-body();
       font-weight: lighter;
-      height: calc(100vh - 278px);
-      .DraftEditor-editorContainer {
-        height: calc(100vh - 278px);
-      }
+      height: auto;
       .public-DraftEditor-content {
         height: 100%;
       }
-      @media only screen and (max-height: 500px) {
-        height: 222px;
-        .DraftEditor-editorContainer {
-          height: 222px;
-        }
-      }
-      @media only screen and (max-width: 1068px) {
-        height: calc(100vh - 260px);
-        .DraftEditor-editorContainer {
-          height: calc(100vh - 260px);
-        }
-        @media only screen and (max-height: 500px) {
-          height: 240px;
-          .DraftEditor-editorContainer {
-            height: 240px;
-          }
-        }
-      }
-      @media only screen and (max-width: 735px) {
-        height: calc(100vh - 252px);
-        .DraftEditor-editorContainer {
-          height: calc(100vh - 252px);
-        }
-        @media only screen and (max-height: 500px) {
-          height: 248px;
-          .DraftEditor-editorContainer {
-            height: 248px;
-          }
-        }
-      }
-      overflow: auto;
       position: relative;
       .public-DraftEditorPlaceholder-root {
         position: absolute;
@@ -281,10 +257,7 @@
       .public-DraftStyleDefault-ol,
       .public-DraftStyleDefault-pre,
       h2 {
-        background-color: transparentize(
-          $color: $low-faded-black,
-          $amount: 0.4
-        );
+        background-color: transparentize($color: $low-faded-black, $amount: 0.4);
         margin: 10px 0;
         padding: 20px 10px;
         padding-left: 60px;
@@ -300,7 +273,8 @@
           @include center();
           background-color: $low-faded-black;
           border-radius: 15px 0 0 15px;
-          font: normal normal normal 16px/1 FontAwesome;
+          font-family: 'Font Awesome 5 Free';
+          font-weight: 900;
         }
       }
       h2 {
@@ -312,18 +286,24 @@
       .editor-blockquote {
         &:before {
           content: "\f10d";
+          font-family: 'Font Awesome 5 Free';
+          font-weight: 900;
         }
       }
       .public-DraftStyleDefault-ul {
         padding-left: 75px;
         &:before {
           content: "\f0ca";
+          font-family: 'Font Awesome 5 Free';
+          font-weight: 900;
         }
       }
       .public-DraftStyleDefault-ol {
         padding-left: 75px;
         &:before {
           content: "\f0cb";
+          font-family: 'Font Awesome 5 Free';
+          font-weight: 900;
         }
       }
       .public-DraftStyleDefault-pre {
@@ -331,12 +311,14 @@
         padding-right: 10px;
         padding-bottom: 20px;
         max-width: 100%;
-        overflow: scroll;
+        overflow: auto;
         pre {
           margin: 2px 0;
         }
         &:before {
           content: "\f121";
+          font-family: 'Font Awesome 5 Free';
+          font-weight: 900;
         }
       }
     }
@@ -380,7 +362,7 @@
       $boxColor: $box-pink;
     }
     @if $item == cyan {
-      $color: #38aaa4;
+      $color: $box-cyan;
       $boxColor: $box-cyan;
     }
     @if $item == green {
@@ -392,17 +374,23 @@
       background-color: #1c1c1c;
     }
     .note-header-name {
-      box-shadow: 10px 3px 6px -4px $boxColor;
-      color: $color;
+      box-shadow: 10px 3px 6px -5px $boxColor;
+      color: $white;
     }
 
-    .standard-button:not(.footer-button) {
+    .standard-button {
       background-color: $color !important;
       &:hover {
         background-color: lighten($color, 5) !important;
       }
     }
     .standard-badge {
+      background-color: $color;
+    }
+    .block-link, .standard-interactive {
+      color: $color;
+    }
+    .standard-interactive-badge {
       background-color: $color;
     }
     .editor-blockquote,

@@ -14,8 +14,17 @@
     .loading-text {
       @include typography-intro();
       color: white;
-      width: 115px;
+      width: 120px;
       font-weight: bold;
+      @media only screen and (max-width: 1068px) {
+        width: 105px;
+      }
+      @media only screen and (max-width: 735px) {
+        width: 90px;
+      }
+      @media only screen and (max-width: 360px) {
+        width: 80px;
+      }
     }
     .loading-user-details {
       @include animate-fade-in(0.2s);

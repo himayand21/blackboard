@@ -2,7 +2,7 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import {useHistory} from 'react-router-dom';
-import {graphql} from 'react-apollo';
+import {useQuery} from '@apollo/react-hooks';
 
 import {Modal} from '../../components/modal';
 
@@ -22,7 +22,7 @@ import {DeleteBoard} from './DeleteBoard';
 import {EditBoard} from './EditBoard';
 import {CreateBoard} from './CreateBoard';
 
-const BoardsComponent = (props) => {
+export const Boards = (props) => {
     const [show, setShow] = useState(false);
     const [editMode, setEditMode] = useState(false);
     const [deleteMode, setDeleteMode] = useState(false);
@@ -31,8 +31,12 @@ const BoardsComponent = (props) => {
 
     const history = useHistory();
 
-    const {data, id} = props;
-    const {error, loading, boards} = data;
+    const {id} = props;
+    const {error, loading, data} = useQuery(query, {
+        variables: {
+            user: id
+        }
+    });
 
     if (error) {
         history.push(ERROR);
@@ -49,6 +53,8 @@ const BoardsComponent = (props) => {
             </div>
         );
     }
+
+    const {boards} = data;
 
     const showCreateBoardModal = () => {
         setShow(true);
@@ -149,19 +155,19 @@ const BoardsComponent = (props) => {
                                     <div className="board-details">
                                         <div className="board-name">{name}</div>
                                         <div className="board-notes">
-                                            {selectedNotes.map(({name: noteName}) => (
-                                                <div className="board-note" key={noteName}>
+                                            {selectedNotes.map(({name: noteName, id: noteId}) => (
+                                                <div className="board-note" key={noteId}>
                                                     <div className="board-note-icon">
-                                                        <i className="fa fa-chevron-right" />
+                                                        <i className="fas fa-chevron-right" />
                                                     </div>
                                                     <div className="board-note-name">
-                                                        {noteName}
+                                                        {noteName ? noteName : 'Untitled'}
                                                     </div>
                                                 </div>
                                             ))}
                                         </div>
                                         <div className="board-note-count">
-                                            {noOfNotes ? `${positiveLeftOut ? '+ ' + leftOut : noOfNotes} note${getPlural(positiveLeftOut ? leftOut : noOfNotes)}.` : 'No notes yet.'}
+                                            {noOfNotes ? `${positiveLeftOut ? '+ ' + leftOut : noOfNotes} note${getPlural(positiveLeftOut ? leftOut : noOfNotes)}` : 'No notes yet'}
                                         </div>
                                     </div>
                                     <div className="board-time">
@@ -196,18 +202,18 @@ const BoardsComponent = (props) => {
                         className="standard-button"
                         onClick={toggleShowOptions}
                     >
-                        <i className="fa fa-chevron-left" />
+                        <i className="fas fa-chevron-left" />
                     </button>
                     {showOptions ?
                         <div className="options-wrapper">
                             <button onClick={showCreateBoardModal}>
-                                <i className="fa fa-plus" />
+                                <i className="fas fa-plus" />
                             </button>
                             <button onClick={showEditBox}>
-                                <i className="fa fa-pencil" />
+                                <i className="fas fa-pen-fancy" />
                             </button>
                             <button onClick={showDeleteBox}>
-                                <i className="fa fa-ban" />
+                                <i className="fas fa-trash" />
                             </button>
                         </div> :
                         null
@@ -234,21 +240,13 @@ const BoardsComponent = (props) => {
                         <CreateBoard
                             hideModal={hideModal}
                             id={id}
-                        />}
+                        />
+                }
             </Modal>
         </>
     );
 };
 
-BoardsComponent.propTypes = {
-    id: PropTypes.string,
-    data: PropTypes.object
+Boards.propTypes = {
+    id: PropTypes.string
 };
-
-export const Boards = graphql(query, {
-    options: (props) => ({
-        variables: {
-            user: props.id
-        }
-    })
-})(BoardsComponent);

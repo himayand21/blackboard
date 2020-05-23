@@ -7,7 +7,7 @@ const manifestJson = require('./public/manifest.json');
 
 const VENDOR_LIBS = ['react', 'react-dom', 'redux', 'redux-thunk', 'react-redux'];
 const config = function(env) {
-  	const isProduction = env === 'production';
+    const isProduction = env === 'production';
     return {
         mode: isProduction ? 'production' : 'development',
         devtool: isProduction ? 'none' : 'cheap-module-eval-source-map',
@@ -78,7 +78,7 @@ const config = function(env) {
                     }],
                 },
                 {
-                    test: /.(jpg|png|ogg|mp3)$/,
+                    test: /.(jpg|png|ogg|mp3|svg|eot|woff|woff2|ttf)$/,
                     use: {
                         loader: 'file-loader',
                         options: {

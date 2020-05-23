@@ -41,13 +41,13 @@ export const Welcome = (props) => {
                             className="standard-button"
                             onClick={showLogin}
                         >
-                        Sign In
+                            Sign In
                         </button> :
                         <button
                             className="standard-button"
                             onClick={showHome}
                         >
-                        Back
+                            <i className="fas fa-arrow-left" />
                         </button>}
                 </NavBar>
                 <WelcomeHome

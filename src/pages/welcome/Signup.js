@@ -68,6 +68,6 @@ export const Signup = (props) => {
 
 Signup.propTypes = {
     withAuthProps: PropTypes.object,
-    showLogin: PropTypes.bool,
+    showLogin: PropTypes.func,
     signupActive: PropTypes.bool
 };

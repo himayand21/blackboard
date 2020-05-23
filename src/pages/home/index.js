@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {ApolloProvider} from 'react-apollo';
-import {ApolloClient} from 'apollo-client';
+import {ApolloProvider} from '@apollo/react-hooks';
+import {ApolloClient} from 'apollo-boost';
 import {createHttpLink} from 'apollo-link-http';
 import {setContext} from 'apollo-link-context';
 import {InMemoryCache} from 'apollo-cache-inmemory';
@@ -41,6 +41,7 @@ const Home = (props) => {
                 <div className="absolute">
                     {user ?
                         <Main
+                            email={user.email}
                             id={user.id}
                             logout={logout}
                         /> : null}

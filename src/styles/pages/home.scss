@@ -7,7 +7,7 @@
 	@include typography-label-reduced();
 	display: flex;
 	align-items: center;
-	span {
+	.user-first-name, .profile-icon {
 		margin-right: 10px;
 	}
 }

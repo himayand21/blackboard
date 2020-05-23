@@ -36,7 +36,7 @@
   }
   .loading-section {
     width: 700px;
-	margin-bottom: 70px;
+    margin-bottom: 70px;
     text-align: center;
     max-width: 90%;
     .loading-board-details {
@@ -49,6 +49,7 @@
     max-height: calc(100vh - 70px);
     overflow-y: auto;
     @include animate-fade-in(0.5s);
+    @include styled-scroll();
     width: 100vw;
     box-sizing: border-box;
     text-align: center;
@@ -89,7 +90,7 @@
         grid-template-columns: repeat(2, calc(50% - 4px));
         grid-gap: 8px;
       }
-	  @media only screen and (max-width: 400px) {
+      @media only screen and (max-width: 400px) {
         grid-template-columns: repeat(1, 100%);
       }
       .board-box {
@@ -151,6 +152,7 @@
           max-width: 100%;
           @include typography-body-reduced();
           text-align: left;
+          font-weight: bold;
           color: $lightgray;
           display: flex;
           justify-content: flex-start;
@@ -170,6 +172,7 @@
         text-overflow: ellipsis;
         overflow: hidden;
         white-space: nowrap;
+        font-weight: bold;
       }
       .board-time {
         height: 110px;
@@ -184,11 +187,7 @@
         padding-right: 15px;
         box-sizing: border-box;
         border-radius: 0 0 10px 10px;
-        background: linear-gradient(
-          180deg,
-          transparent 0%,
-          $low-faded-black 100%
-        );
+        background: linear-gradient(180deg, transparent 0%, $low-faded-black 100%);
         @media only screen and (max-width: 1068px) {
           width: calc(100% + 30px);
           margin-left: -15px;
@@ -198,13 +197,15 @@
         }
         span {
           @include typography-caption();
+          font-weight: bold;
         }
       }
 
       .board-note-count {
-        @include typography-caption();
+        @include typography-body-reduced();
         margin-top: 5px;
         text-align: left;
+        font-weight: bold;
       }
       .action-box-absolute {
         position: absolute;
@@ -217,6 +218,7 @@
         overflow: hidden;
         box-sizing: border-box;
         @include typography-intro-reduced();
+        font-weight: bold;
         &.action-box-animate {
           @include animate-slide-left(0.3s);
         }

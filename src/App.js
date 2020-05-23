@@ -8,6 +8,7 @@ import {
     currentUserAPI
 } from './api';
 
+import '@fortawesome/fontawesome-free/css/all.css';
 import './styles/App.scss';
 
 const initialErrors = {

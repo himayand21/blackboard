@@ -1,35 +1,49 @@
+// descoped
+
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import {useHistory} from 'react-router-dom';
-import {graphql} from 'react-apollo';
+import {useMutation} from '@apollo/react-hooks';
 import {convertToRaw} from 'draft-js';
 
 import {Loader} from '../../components/loader';
+import {Modal} from '../../components/modal';
+
 import {
-    REDIRECT_TOKEN
+    REDIRECT_TOKEN,
+    BOARDS,
+    NOTES,
+    NEW
 } from '../../constants';
 
 import mutation from '../../mutations/addNote';
 import query from '../../queries/boardDetails';
 
+import {SwitchBoard} from './components/SwitchBoard';
 import {NoteEditor} from './NoteEditor';
 
-const AddNoteComponent = (props) => {
+export const AddNote = (props) => {
     const [editorState, onChange] = useState(null);
+    const [show, setShow] = useState(null);
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [adding, setAdding] = useState(false);
+
+    const [mutate, {loading: adding}] = useMutation(mutation, {
+        awaitRefetchQueries: true
+    });
 
     const history = useHistory();
-    const {backURL, color, mutate, boardId, owner} = props;
+    const {backURL, color, boardId, owner} = props;
 
     const goBack = () => {
         sessionStorage.setItem(REDIRECT_TOKEN, backURL);
         history.push(backURL);
     };
 
+    const hideModal = () => setShow(false);
+    const showModal = () => setShow(true);
+
     const saveNote = async () => {
-        setAdding(true);
         await mutate({
             variables: {
                 board: boardId,
@@ -43,7 +57,6 @@ const AddNoteComponent = (props) => {
                 variables: {id: boardId}
             }]
         });
-        setAdding(false);
         goBack();
     };
 
@@ -61,6 +74,13 @@ const AddNoteComponent = (props) => {
         }
     };
 
+    const handleConfirm = async (selectedBoard) => {
+        hideModal();
+        const newRoute = `${BOARDS}/${selectedBoard}${NOTES}${NEW}`;
+        history.push(newRoute);
+        sessionStorage.setItem(REDIRECT_TOKEN, newRoute);
+    };
+
     return (
         <div className={`notes-section ${color}-section`}>
             <div className="notes-header multi-options">
@@ -69,10 +89,16 @@ const AddNoteComponent = (props) => {
                         className="standard-button"
                         onClick={goBack}
                     >
-						Back
+                        <i className="fas fa-arrow-left" />
                     </button>
                 </div>
                 <div className="notes-right-header">
+                    <button
+                        className="standard-button switch-button"
+                        onClick={showModal}
+                    >
+                        Switch Board
+                    </button>
                     <button
                         className="standard-button"
                         disabled={!title || !description}
@@ -113,21 +139,24 @@ const AddNoteComponent = (props) => {
                     />
                 </div>
             </div>
+            <Modal
+                hideModal={hideModal}
+                show={show}
+            >
+                <SwitchBoard
+                    owner={owner}
+                    board={boardId}
+                    hideModal={hideModal}
+                    handleConfirm={handleConfirm}
+                />
+            </Modal>
         </div>
     );
 };
 
-AddNoteComponent.propTypes = {
+AddNote.propTypes = {
     backURL: PropTypes.string,
     color: PropTypes.string,
-    mutate: PropTypes.func,
     boardId: PropTypes.string,
     owner: PropTypes.string
 };
-
-export const AddNote = graphql(mutation, {
-    options: {
-        awaitRefetchQueries: true,
-        ignoreResults: true
-    }
-})(AddNoteComponent);

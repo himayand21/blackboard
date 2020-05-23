@@ -19,7 +19,7 @@ const noteMutation = {
             description: {type: GraphQLString},
             board: {type: GraphQLID},
             editor: {type: GraphQLString},
-            owner: {type: GraphQLString}
+            owner: {type: GraphQLID}
         },
         resolve(parentValue, args) {
             return (new Note({
@@ -48,6 +48,23 @@ const noteMutation = {
                     description,
                     editor,
                     time: Date.now()
+                }
+            }, {'new': true});
+        }
+    },
+    moveNote: {
+        type: NoteType,
+        args: {
+            board: {type: GraphQLString},
+            id: {type: GraphQLString}
+        },
+        resolve(parentValue, {
+            id,
+            board
+        }) {
+            return Note.findByIdAndUpdate(id, {
+                $set: {
+                    board
                 }
             }, {'new': true});
         }

@@ -1,10 +1,17 @@
 import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import {Editor, EditorState, RichUtils} from 'draft-js';
+import {EditorState, RichUtils} from 'draft-js';
+import Editor from 'draft-js-plugins-editor';
+
+import LinkPlugin from './components/Link';
 
 import {Options} from './components/Options';
 import {getBlockStyle} from './util/getBlockStyle';
 import {keyBindingFunction} from './util/keyBindingFunction';
+import {getEntities} from './util/getEntities';
+import {checkLink} from './util/checkLink';
+
+import {LINK} from './constants';
 
 export const NoteEditor = (props) => {
     const [showOptions, setShowOptions] = useState(false);
@@ -20,6 +27,33 @@ export const NoteEditor = (props) => {
             onChange(EditorState.createEmpty());
         }
     }, []);
+
+    const onToggleLink = (hasLink, linkKey) => {
+        const selection = editorState.getSelection();
+        const contentState = editorState.getCurrentContent();
+        let defaultURL = '';
+        if (hasLink) {
+            const linkInstance = contentState.getEntity(linkKey);
+            defaultURL = linkInstance.getData().url;
+        }
+        const link = window.prompt('Paste the link -', defaultURL);
+        if (!link) {
+            onChange(RichUtils.toggleLink(editorState, selection, null));
+            return 'handled';
+        }
+        const content = editorState.getCurrentContent();
+        const contentWithEntity = content.createEntity(LINK, 'MUTABLE', {
+            url: link
+        });
+        const newEditorState = EditorState.push(
+            editorState,
+            contentWithEntity,
+            'create-entity'
+        );
+        const entityKey = contentWithEntity.getLastCreatedEntityKey();
+        onChange(RichUtils.toggleLink(newEditorState, selection, entityKey));
+        return 'handled';
+    };
 
     const handleKeyCommand = (command, editorStateParam) => {
         const newState = RichUtils.handleKeyCommand(editorStateParam, command);
@@ -48,11 +82,25 @@ export const NoteEditor = (props) => {
 
     if (editorState) {
         const selection = editorState.getSelection();
-        const blockType = editorState
+        const anchorKey = selection.getAnchorKey();
+        const currentBlock = editorState
             .getCurrentContent()
-            .getBlockForKey(selection.getStartKey())
-            .getType();
+            .getBlockForKey(anchorKey);
+        const blockType = currentBlock.getType();
         const inlineType = editorState.getCurrentInlineStyle();
+        const entities = getEntities(editorState, LINK, currentBlock);
+        const [showLinkOption, hasLink, linkKey] = checkLink({entities, selection, block: currentBlock});
+
+        const toggleInsertType = (insertType) => {
+            if (insertType === LINK) onToggleLink(hasLink, linkKey);
+        };
+
+        const insertConfig = {
+            LINK: {
+                show: showLinkOption,
+                active: hasLink
+            }
+        };
 
         return (
             <>
@@ -70,30 +118,38 @@ export const NoteEditor = (props) => {
                         placeholder={optionButton || (blockType !== 'unstyled') ? '' : '...'}
                         keyBindingFn={keyBindingFunction}
                         readOnly={readOnly}
+                        plugins={[LinkPlugin]}
                     />
                 </div>
-                <div
-                    className={`${showOptions ? 'with-options' : ''} editor-button-wrapper`}
-                >
-                    <button
-                        className="standard-button"
-                        onClick={toggleShowOptions}
+                {readOnly ? null : (
+                    <div
+                        className={`${showOptions ? 'with-options' : ''} editor-button-wrapper`}
                     >
-                        <i className="fa fa-chevron-up" />
-                    </button>
-                    {showOptions ?
-                        <div className="options-wrapper">
-                            <Options
-                                toggleBlockType={toggleBlockType}
-                                editorState={editorState}
-                                toggleInlineType={toggleInlineType}
-                                blockType={blockType}
-                                inlineType={inlineType}
-                            />
-                        </div> :
-                        null
-                    }
-                </div>
+                        <button
+                            className="standard-button"
+                            onMouseDown={(event) => {
+                                event.preventDefault();
+                                toggleShowOptions();
+                            }}
+                        >
+                            <i className="fas fa-chevron-up" />
+                        </button>
+                        {showOptions ?
+                            <div className="options-wrapper">
+                                <Options
+                                    toggleBlockType={toggleBlockType}
+                                    editorState={editorState}
+                                    toggleInlineType={toggleInlineType}
+                                    blockType={blockType}
+                                    inlineType={inlineType}
+                                    insertConfig={insertConfig}
+                                    toggleInsertType={toggleInsertType}
+                                />
+                            </div> :
+                            null
+                        }
+                    </div>
+                )}
             </>
         );
     }

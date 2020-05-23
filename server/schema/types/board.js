@@ -9,6 +9,7 @@ const {
 } = graphql;
 
 const Note = mongoose.model('note');
+const UserDetail = mongoose.model('userdetail');
 
 const BoardType = new GraphQLObjectType({
     name: 'BoardType',
@@ -24,6 +25,12 @@ const BoardType = new GraphQLObjectType({
                 return Note.find({
                     board: parentValue.id
                 });
+            }
+        },
+        userDetails: {
+            type: require('./userDetail'),
+            resolve(parentValue) {
+                return UserDetail.findById(parentValue.user);
             }
         }
     })

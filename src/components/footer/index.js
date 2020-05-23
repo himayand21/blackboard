@@ -3,7 +3,7 @@ import React from 'react';
 export const Footer = () => {
     return (
         <footer className="app-footer">
-            <div className="footer-name">Made with<i className="fa fa-heart" />by Himayan © 2020</div>
+            <div className="footer-name">Made with<i className="fas fa-heart" />by Himayan © 2020</div>
             <div className="footer-social">
                 <a
                     className="animate-1"
@@ -11,7 +11,7 @@ export const Footer = () => {
                     rel="noopener noreferrer"
                     href="https://github.com/himayand21"
                 >
-                    <i className="fa fa-github" />
+                    <i className="fab fa-github" />
                 </a>
                 <a
                     className="animate-2"
@@ -19,7 +19,7 @@ export const Footer = () => {
                     rel="noopener noreferrer"
                     href="https://twitter.com/Himayan7"
                 >
-                    <i className="fa fa-twitter" />
+                    <i className="fab fa-twitter" />
                 </a>
                 <a
                     className="animate-3"
@@ -27,7 +27,7 @@ export const Footer = () => {
                     rel="noopener noreferrer"
                     href="https://www.linkedin.com/in/himayan-debnath"
                 >
-                    <i className="fa fa-linkedin" />
+                    <i className="fab fa-linkedin-in" />
                 </a>
             </div>
         </footer>

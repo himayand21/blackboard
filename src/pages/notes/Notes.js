@@ -1,20 +1,37 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {useHistory, useRouteMatch} from 'react-router-dom';
+import {useMutation} from '@apollo/react-hooks';
 
 import {getRelativeTime} from '../../util/getRelativeTime';
 import {getPlural} from '../../util/getPlural';
 
+import mutation from '../../mutations/addNote';
+import query from '../../queries/boardDetails';
+
+import {Loader} from '../../components/loader';
+
 import {
     BOARDS,
-    NEW,
     REDIRECT_TOKEN
 } from '../../constants';
 
 export const Notes = (props) => {
     const history = useHistory();
     const match = useRouteMatch();
-    const {color, notes, boardName} = props;
+
+    const {color, notes, boardName, boardId, owner} = props;
+
+    const [mutate, received] = useMutation(mutation, {
+        refetchQueries: [{
+            query,
+            variables: {
+                id: boardId
+            }
+        }]
+    });
+
+    const {loading, data} = received;
 
     const goBack = () => {
         sessionStorage.removeItem(REDIRECT_TOKEN);
@@ -27,11 +44,26 @@ export const Notes = (props) => {
         sessionStorage.setItem(REDIRECT_TOKEN, noteURL);
     };
 
-    const goToCreateNote = () => {
-        const newNote = `${match.url}${NEW}`;
-        history.push(newNote);
-        sessionStorage.setItem(REDIRECT_TOKEN, newNote);
+    const goToCreateNote = async () => {
+        mutate({
+            variables: {
+                board: boardId,
+                owner,
+                editor: '',
+                name: '',
+                description: ''
+            }
+        });
     };
+
+    useEffect(() => {
+        if (data?.addNote?.id) {
+            const {addNote: {id}} = data;
+            const noteURL = `${match.url}/${id}/edit`;
+            history.push(noteURL);
+            sessionStorage.setItem(REDIRECT_TOKEN, noteURL);
+        }
+    }, [data]);
 
     if (!notes.length) {
         return (
@@ -42,7 +74,7 @@ export const Notes = (props) => {
                             onClick={goBack}
                             className="standard-button"
                         >
-							Back
+                            <i className="fas fa-arrow-left" />
                         </button>
                     </div>
                     <div className="notes-right-header">
@@ -76,7 +108,7 @@ export const Notes = (props) => {
                         onClick={goBack}
                         className="standard-button"
                     >
-						Back
+                        <i className="fas fa-arrow-left" />
                     </button>
                 </div>
                 <div className="notes-right-header">
@@ -105,13 +137,13 @@ export const Notes = (props) => {
                             >
                                 <div className="note-details">
                                     <div className="note-name">
-                                        {name}
+                                        {name ? name : 'Untitled'}
                                     </div>
                                     <div className="note-description">
                                         {description}
                                     </div>
                                     <div className="note-comment-count">
-                                        {comments.length ? `${comments.length} comment${getPlural(comments.length)}.` : 'No comments yet.'}
+                                        {comments.length ? `${comments.length} comment${getPlural(comments.length)}` : 'No comments yet'}
                                     </div>
                                 </div>
                                 <div className="note-time">
@@ -129,7 +161,7 @@ export const Notes = (props) => {
                     className="standard-button"
                     onClick={goToCreateNote}
                 >
-                    <i className="fa fa-plus" />
+                    {loading ? <Loader /> : <i className="fas fa-plus" />}
                 </button>
             </div>
         </div>
@@ -139,5 +171,7 @@ export const Notes = (props) => {
 Notes.propTypes = {
     color: PropTypes.string,
     notes: PropTypes.array,
-    boardName: PropTypes.string
+    boardName: PropTypes.string,
+    boardId: PropTypes.string,
+    owner: PropTypes.string
 };

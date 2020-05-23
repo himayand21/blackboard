@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import {gql} from 'apollo-boost';
 
 export default gql`
 query getNote($id: ID!){
@@ -9,9 +9,14 @@ query getNote($id: ID!){
     board,
     editor,
     time,
-	owner,
+    owner,
     comments {
-      sender
+      id,
+      content,
+      time,
+      senderDetails {
+        name
+      }
     }
   }
 }

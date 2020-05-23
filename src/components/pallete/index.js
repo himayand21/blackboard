@@ -30,7 +30,7 @@ export const Pallete = (props) => {
                         />
                         {selected === each ?
                             <span className="check-container">
-                                <i className="fa fa-check" />
+                                <i className="fas fa-check" />
                             </span> : null}
                     </div>
                 ))}

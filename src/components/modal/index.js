@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
 export const Modal = (props) => {
@@ -11,22 +12,23 @@ export const Modal = (props) => {
         }
     };
 
-    return (
+    return ReactDOM.createPortal(
         <main className="modal-wrapper" onClick={outsideClick}>
             <div className="modal-section animate-1">
                 <header className="modal-header">
                     <button onClick={hideModal} className="close-button">
-                        <i className="fa fa-times" />
+                        <i className="fas fa-times" />
                     </button>
                 </header>
                 {children}
             </div>
-        </main>
+        </main>,
+        document.getElementById('modal-root')
     );
 };
 
 Modal.propTypes = {
-    show: PropTypes.bool,
+    show: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     hideModal: PropTypes.func,
     children: PropTypes.node,
 };

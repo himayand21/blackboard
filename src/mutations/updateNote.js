@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import {gql} from 'apollo-boost';
 
 export default gql`
 mutation updateNote($id: ID, $name: String, $description: String, $editor: String){
@@ -6,7 +6,7 @@ mutation updateNote($id: ID, $name: String, $description: String, $editor: Strin
     id,
     name,
     description,
-	editor,
+    editor,
     board
   }
 }

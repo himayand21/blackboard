@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import {gql} from 'apollo-boost';
 
 export default gql`
 query getBoards ($user: ID!) {
@@ -6,11 +6,13 @@ query getBoards ($user: ID!) {
     name,
     id,
     user,
-	color,
-	time,
+    color,
+    time,
     notes {
-      name
+        name,
+        board,
+        id
+      }
     }
   }
-}
 `;

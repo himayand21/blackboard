@@ -30,7 +30,7 @@
   outline: none;
   padding: 10px 15px;
   border-radius: 5px;
-  max-height: 37px;
+  max-height: 40px;
   font-weight: bold;
   transition: $background-hover;
   color: $black;
@@ -46,7 +46,7 @@
   @include standard-button();
   @include typography-label();
   padding: 15px 30px;
-  max-height: 55px;
+  max-height: 60px;
   border-radius: 7px;
   @media only screen and (max-width: 1068px) {
     padding: 15px;
@@ -179,5 +179,23 @@
   @for $iterator from 1 through $elementCount {
     $duration: 0.5s;
     @include animate-slide-right($duration, $iterator, $direction);
+  }
+}
+
+@mixin styled-scroll() {
+  &::-webkit-scrollbar-track {
+    box-shadow: none;
+    border-radius: 5px;
+    background-color: transparent;
+  }
+  &::-webkit-scrollbar {
+    width: 9px;
+    margin-left: 3px;
+    background-color: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    box-shadow: none;
+    background-color: lighten($darkgray, 20);
   }
 }

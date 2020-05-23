@@ -1,24 +1,24 @@
-import React, {useState} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import {graphql} from 'react-apollo';
+import {useMutation} from '@apollo/react-hooks';
 
 import {Loader} from '../../components/loader';
 
 import query from '../../queries/boards';
 import mutation from '../../mutations/deleteBoard';
 
-const DeleteBoardComponent = (props) => {
-    const [deleting, setDeleting] = useState(false);
-
+export const DeleteBoard = (props) => {
     const {
         hideModal,
         id,
-        selectedBoard,
-        mutate
+        selectedBoard
     } = props;
 
+    const [mutate, {loading: deleting}] = useMutation(mutation, {
+        awaitRefetchQueries: true
+    });
+
     const deleteBoard = async () => {
-        setDeleting(true);
         await mutate({
             variables: {
                 id: selectedBoard.id
@@ -28,7 +28,6 @@ const DeleteBoardComponent = (props) => {
                 variables: {user: id}
             }]
         });
-        setDeleting(false);
         hideModal();
     };
 
@@ -58,17 +57,9 @@ const DeleteBoardComponent = (props) => {
     );
 };
 
-DeleteBoardComponent.propTypes = {
-    mutate: PropTypes.func,
+DeleteBoard.propTypes = {
     id: PropTypes.string,
     hideModal: PropTypes.func,
     selectedBoard: PropTypes.object,
     setSelectedBoard: PropTypes.func
 };
-
-export const DeleteBoard = graphql(mutation, {
-    options: {
-        awaitRefetchQueries: true,
-        ignoreResults: true
-    }
-})(DeleteBoardComponent);

@@ -78,7 +78,7 @@
   $direction: normal,
   $type: "drop"
 ) {
-  $transform-init: translateY(-80%);
+  $transform-init: translateY(-10%);
   $transform-final: translateY(0);
   @include animate-move(
     $type,
@@ -96,7 +96,7 @@
   $direction: normal,
   $type: "rise"
 ) {
-  $transform-init: translateY(80%);
+  $transform-init: translateY(10%);
   $transform-final: translateY(0);
   @include animate-move(
     $type,

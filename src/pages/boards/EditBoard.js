@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import {graphql} from 'react-apollo';
+import {useMutation} from '@apollo/react-hooks';
 
 import {Loader} from '../../components/loader';
 import {Pallete} from '../../components/pallete';
@@ -8,19 +8,19 @@ import {Pallete} from '../../components/pallete';
 import query from '../../queries/boards';
 import mutation from '../../mutations/updateBoard';
 
-const EditBoardComponent = (props) => {
-    const [updating, setUpdating] = useState(false);
-
+export const EditBoard = (props) => {
     const {
-        mutate,
         id,
         hideModal,
         selectedBoard,
         setSelectedBoard
     } = props;
 
+    const [mutate, {loading: updating}] = useMutation(mutation, {
+        awaitRefetchQueries: true
+    });
+
     const updateBoard = async () => {
-        setUpdating(true);
         await mutate({
             variables: {
                 id: selectedBoard.id,
@@ -32,7 +32,6 @@ const EditBoardComponent = (props) => {
                 variables: {user: id}
             }]
         });
-        setUpdating(false);
         hideModal();
     };
 
@@ -99,17 +98,9 @@ const EditBoardComponent = (props) => {
     );
 };
 
-EditBoardComponent.propTypes = {
-    mutate: PropTypes.func,
+EditBoard.propTypes = {
     id: PropTypes.string,
     hideModal: PropTypes.func,
     selectedBoard: PropTypes.object,
     setSelectedBoard: PropTypes.func
 };
-
-export const EditBoard = graphql(mutation, {
-    options: {
-        awaitRefetchQueries: true,
-        ignoreResults: true
-    }
-})(EditBoardComponent);

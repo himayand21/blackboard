@@ -32,5 +32,6 @@ export const WelcomeHome = (props) => {
 
 WelcomeHome.propTypes = {
     withAuthProps: PropTypes.object,
-    showSignup: PropTypes.bool
+    showSignup: PropTypes.func,
+    homeScreenActive: PropTypes.bool
 };

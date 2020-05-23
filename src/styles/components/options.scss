@@ -133,7 +133,8 @@
           right: 50px;
           transition: transform 0.2s ease-out;
           color: $gray;
-          font: normal normal normal 11px/1 FontAwesome;
+          font-family: 'Font Awesome 5 Free';
+          font-weight: 900;
         }
       }
       &.open-type {
@@ -198,7 +199,9 @@
                 color: $gray;
                 position: absolute;
                 top: 38px;
-                font: normal normal normal 6px/1 FontAwesome;
+                font-family: 'Font Awesome 5 Free';
+                font-weight: 900;
+                font-size: 6px;
             }
           }
         }

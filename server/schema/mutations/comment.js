@@ -15,10 +15,14 @@ const commentMutation = {
         args: {
             content: {type: GraphQLString},
             sender: {type: GraphQLID},
-            note: {type: GraphQLID}
+            note: {type: GraphQLID},
+            time: {type: GraphQLString}
         },
         resolve(parentValue, args) {
-            return (new Comment(args)).save();
+            return (new Comment({
+                ...args,
+                time: Date.now()
+            })).save();
         }
     }
 };

@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {useHistory} from 'react-router-dom';
-import {graphql} from 'react-apollo';
+import {useMutation} from '@apollo/react-hooks';
 
 import {Loader} from '../../components/loader';
 
@@ -10,16 +10,17 @@ import mutation from '../../mutations/deleteNote';
 
 import {REDIRECT_TOKEN} from '../../constants';
 
-const DeleteNoteComponent = (props) => {
-    const [deleting, setDeleting] = useState(false);
+export const DeleteNote = (props) => {
+    const [mutate, {loading: deleting}] = useMutation(mutation, {
+        awaitRefetchQueries: true
+    });
 
-    const {note, hideModal, mutate, backURL} = props;
+    const {note, hideModal, backURL} = props;
     const {id, board} = note;
 
     const history = useHistory();
 
     const deleteNote = async () => {
-        setDeleting(true);
         await mutate({
             variables: {
                 id
@@ -31,10 +32,9 @@ const DeleteNoteComponent = (props) => {
                 }
             }]
         });
-        setDeleting(false);
         sessionStorage.setItem(REDIRECT_TOKEN, backURL);
-        history.push(backURL);
         hideModal();
+        history.push(backURL);
     };
 
     return (
@@ -43,7 +43,7 @@ const DeleteNoteComponent = (props) => {
 				Are you sure?
             </div>
             <div className="create-board-intro delete-board">
-				This process is irreversible and would remove all data associated with<span>{note.name}</span>.
+				This process is irreversible and would remove all data associated with<span>{note.name ? note.name : 'Untitled'}</span>.
             </div>
             <footer className="create-board-footer">
                 <button
@@ -63,16 +63,8 @@ const DeleteNoteComponent = (props) => {
     );
 };
 
-DeleteNoteComponent.propTypes = {
-    mutate: PropTypes.func,
+DeleteNote.propTypes = {
     hideModal: PropTypes.func,
     note: PropTypes.object,
     backURL: PropTypes.string
 };
-
-export const DeleteNote = graphql(mutation, {
-    options: {
-        awaitRefetchQueries: true,
-        ignoreResults: true
-    }
-})(DeleteNoteComponent);

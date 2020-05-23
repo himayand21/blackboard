@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
-import {graphql} from 'react-apollo';
+import {useMutation} from '@apollo/react-hooks';
 
 import {Loader} from '../../components/loader';
 import {Pallete} from '../../components/pallete';
@@ -8,19 +8,20 @@ import {Pallete} from '../../components/pallete';
 import query from '../../queries/boards';
 import mutation from '../../mutations/addBoard';
 
-export const CreateBoardComponent = (props) => {
+export const CreateBoard = (props) => {
     const [boardColor, setBoardColor] = useState('grey');
     const [boardName, setBoardName] = useState('');
-    const [adding, setAdding] = useState(false);
 
     const {
-        mutate,
         id,
         hideModal
     } = props;
 
+    const [mutate, {loading: adding}] = useMutation(mutation, {
+        awaitRefetchQueries: true
+    });
+
     const addBoard = async () => {
-        setAdding(true);
         await mutate({
             variables: {
                 user: id,
@@ -32,7 +33,6 @@ export const CreateBoardComponent = (props) => {
                 variables: {user: id}
             }]
         });
-        setAdding(false);
         hideModal();
     };
 
@@ -95,15 +95,7 @@ export const CreateBoardComponent = (props) => {
     );
 };
 
-CreateBoardComponent.propTypes = {
-    mutate: PropTypes.func,
+CreateBoard.propTypes = {
     id: PropTypes.string,
     hideModal: PropTypes.func
 };
-
-export const CreateBoard = graphql(mutation, {
-    options: {
-        awaitRefetchQueries: true,
-        ignoreResults: true
-    }
-})(CreateBoardComponent);

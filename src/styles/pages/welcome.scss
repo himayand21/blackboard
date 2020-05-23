@@ -58,6 +58,9 @@
         margin-top: 20px;
         @include typography-intro-reduced();
         color: $lightgray;
+        span {
+          @include block-link();
+        }
       }
       .login-form {
         margin-top: 50px;

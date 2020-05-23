@@ -1,18 +1,17 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 
 import {Loader} from '../../components/loader';
 
 export const NameForm = (props) => {
     const [name, setName] = useState('');
-    const [loading, setLoading] = useState(false);
 
-    const addUser = () => {
-        setLoading(true);
-        props.addUser(name);
+    const {addUser, adding} = props;
+
+    const updateName = (e) => {
+        const newName = e.target.value;
+        if (newName.length <= 20) setName(newName);
     };
-
-    useEffect(() => () => setLoading(false), []);
 
     return (
         <section
@@ -23,14 +22,15 @@ export const NameForm = (props) => {
             >
                 <div className="login-modal">
                     <div className="login-header">Tell us who you are !</div>
-                    <div className="login-subheader">Email ids are too mouthful</div>
+                    <div className="login-subheader">{'Can\'t keep calling you '}<span>{props.email}</span>, can I?</div>
                     <div className="login-form">
                         <div className="form-row">
                             <div className="form-label">NAME</div>
                             <input
                                 autoFocus
                                 value={name}
-                                onChange={(e) => setName(e.target.value)}
+                                placeholder="Maximum 20 characters"
+                                onChange={updateName}
                             />
                         </div>
                         <div className="form-error-row" />
@@ -39,10 +39,10 @@ export const NameForm = (props) => {
                         <span />
                         <button
                             className="standard-button"
-                            onClick={addUser}
+                            onClick={() => addUser(name)}
                             disabled={!name}
                         >
-                            {loading ? <Loader /> : 'Confirm'}
+                            {adding ? <Loader /> : 'Confirm'}
                         </button>
                     </footer>
                 </div>
@@ -52,5 +52,7 @@ export const NameForm = (props) => {
 };
 
 NameForm.propTypes = {
-    addUser: PropTypes.func
+    addUser: PropTypes.func,
+    email: PropTypes.string,
+    adding: PropTypes.bool
 };

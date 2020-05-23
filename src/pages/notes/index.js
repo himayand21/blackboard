@@ -1,21 +1,31 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import {useRouteMatch, Switch, Route, withRouter} from 'react-router-dom';
-import {graphql} from 'react-apollo';
+import {useRouteMatch, Switch, Route, useHistory} from 'react-router-dom';
+import {useQuery} from '@apollo/react-hooks';
 
 import query from '../../queries/boardDetails';
 
-import {Notes} from './Notes';
-import {AddNote} from './AddNote';
-import {Note} from './Note';
+import {ERROR} from '../../constants';
 
-const BoardComponent = (props) => {
+import {Notes} from './Notes';
+import {Note} from './Note';
+import {EditNote} from './EditNote';
+
+export const Board = () => {
+    const history = useHistory();
     const match = useRouteMatch();
+
     const backURL = match.url;
     const {boardId} = match.params;
 
-    const {data} = props;
-    const {loading, board} = data;
+    const {loading, data, error} = useQuery(query, {
+        variables: {
+            id: boardId
+        }
+    });
+
+    if (error) {
+        history.push(ERROR);
+    }
 
     if (loading) {
         return (
@@ -29,15 +39,15 @@ const BoardComponent = (props) => {
         );
     }
 
+    const {board} = data;
     const {notes, color, name, user} = board;
 
     return (
         <Switch>
-            <Route path={`${match.path}/new`}>
-                <AddNote
-                    backURL={backURL}
+            <Route path={`${match.path}/:noteId/edit`}>
+                <EditNote
                     color={color}
-                    boardId={boardId}
+                    backURL={backURL}
                     owner={user}
                 />
             </Route>
@@ -53,20 +63,10 @@ const BoardComponent = (props) => {
                     color={color}
                     notes={notes}
                     boardName={name}
+                    boardId={boardId}
+                    owner={user}
                 />
             </Route>
         </Switch>
     );
 };
-
-BoardComponent.propTypes = {
-    data: PropTypes.object
-};
-
-export const Board = withRouter(graphql(query, {
-    options: (props) => ({
-        variables: {
-            id: props.match.params.boardId
-        }
-    })
-})(BoardComponent));
