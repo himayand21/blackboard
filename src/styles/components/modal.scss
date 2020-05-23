@@ -1,0 +1,48 @@
+.modal-wrapper {
+  width: 100vw;
+  height: 100vh;
+  min-height: 100%;
+  background-color: $low-faded-black;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99;
+  overflow-y: auto;
+  @include center();
+  @include animate-rise(0.2s);
+
+  .modal-section {
+    @include modal-section();
+    margin: 40px 0;
+    max-height: calc(100vh - 80px);
+
+    .modal-header {
+      display: flex;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 20px;
+      justify-content: flex-end;
+      align-items: center;
+
+      .modal-header-label {
+        font-weight: 600;
+        font-size: 18px;
+      }
+      .close-button {
+        cursor: pointer;
+        color: $green;
+        background-color: transparent;
+        border: none;
+        outline: none;
+        font-family: inherit;
+        padding: 5px;
+        font-size: 14px;
+        font-weight: bold;
+        transition: color 0.3s ease-in-out;
+        &:hover {
+          color: lighten($green, 5);
+        }
+      }
+    }
+  }
+}

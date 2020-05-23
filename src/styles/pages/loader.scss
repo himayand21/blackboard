@@ -1,0 +1,46 @@
+.screen-loader {
+  max-height: 100vh;
+  max-width: 100vw;
+  overflow: hidden;
+  .loading-section {
+    z-index: 3;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    .loading-text {
+      @include typography-intro();
+      color: white;
+      width: 120px;
+      font-weight: bold;
+      @media only screen and (max-width: 1068px) {
+        width: 105px;
+      }
+      @media only screen and (max-width: 735px) {
+        width: 90px;
+      }
+      @media only screen and (max-width: 360px) {
+        width: 80px;
+      }
+    }
+    .loading-user-details {
+      @include animate-fade-in(0.2s);
+      @include typography-intro();
+      color: white;
+      font-weight: bold;
+      div {
+        text-align: center;
+      }
+      .button-wrapper {
+        text-align: center;
+        margin-top: 15px;
+        .standard-button {
+          @include big-button();
+        }
+      }
+    }
+  }
+}

@@ -1,34 +1,34 @@
-import {connect} from 'react-redux';
-import {ModalComponent} from './ModalComponent';
-import './modal.scss';
-import {
-    hideModal,
-    handleFormChange,
-    addCard,
-    updateCard,
-    addList,
-    updateList,
-    updateBoard,
-    addBoard
-} from '../../actions';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 
-const mapStateToProps = (state) => {
-	const {modal} = state;
-	return ({
-        ...modal
-    });
-}
+export const Modal = (props) => {
+    const {show, hideModal, children} = props;
+    if (!show) return null;
 
-export const Modal = connect(
-    mapStateToProps,
-    {
-        hideModal,
-        handleFormChange,
-        addCard,
-        updateCard,
-        addList,
-        updateList,
-        updateBoard,
-        addBoard
-    }
-)(ModalComponent);
+    const outsideClick = (event) => {
+        if (event.target === event.currentTarget) {
+            hideModal();
+        }
+    };
+
+    return ReactDOM.createPortal(
+        <main className="modal-wrapper" onClick={outsideClick}>
+            <div className="modal-section animate-1">
+                <header className="modal-header">
+                    <button onClick={hideModal} className="close-button">
+                        <i className="fas fa-times" />
+                    </button>
+                </header>
+                {children}
+            </div>
+        </main>,
+        document.getElementById('modal-root')
+    );
+};
+
+Modal.propTypes = {
+    show: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    hideModal: PropTypes.func,
+    children: PropTypes.node,
+};

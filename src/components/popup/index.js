@@ -1,17 +1,31 @@
-import React, { useState } from "react";
-import './popup.scss';
-import { PopupModal } from './PopupModal';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 
 export const Popup = (props) => {
-    const [show, setShow] = useState(false);
+    const {show, hidePopup, position, children} = props;
 
-    return (
-        <div className="popup-wrapper">
-            <i className="fa fa-ellipsis-v" onClick={() => setShow(true)} />
-            {show ?
-                <PopupModal setShow={setShow}>
-                    {props.children}
-                </PopupModal> : null}
-        </div>
-    )
-}
+    if (!show) return null;
+
+    const outsideClick = (event) => {
+        if (event.target === event.currentTarget) {
+            hidePopup();
+        }
+    };
+
+    return ReactDOM.createPortal(
+        <div className="popup-wrapper" onClick={outsideClick}>
+            <div className="popup-modal" style={{...position}}>
+                {children}
+            </div>
+        </div>,
+        document.getElementById('popup-root')
+    );
+};
+
+Popup.propTypes = {
+    children: PropTypes.node,
+    show: PropTypes.bool,
+    hidePopup: PropTypes.func,
+    position: PropTypes.object
+};

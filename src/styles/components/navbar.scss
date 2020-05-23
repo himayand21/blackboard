@@ -1,0 +1,15 @@
+@import "../partials/mixins";
+
+.navbar-container {
+	height: 70px;
+	width: 100vw;
+	display: flex;
+	align-items: center;
+	position: relative;
+	z-index: 3;
+	border-bottom: 1px solid $darkgray;
+	box-sizing: border-box;
+}
+.navbar {
+	@include nav-bar();
+}

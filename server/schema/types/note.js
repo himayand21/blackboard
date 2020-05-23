@@ -1,0 +1,48 @@
+const mongoose = require('mongoose');
+const graphql = require('graphql');
+
+const {
+    GraphQLObjectType,
+    GraphQLID,
+    GraphQLString,
+    GraphQLList
+} = graphql;
+
+const Comment = mongoose.model('comment');
+const UserDetail = mongoose.model('userdetail');
+const Board = mongoose.model('board');
+
+const NoteType = new GraphQLObjectType({
+    name: 'NoteType',
+    fields: () => ({
+        id: {type: GraphQLID},
+        name: {type: GraphQLString},
+        description: {type: GraphQLString},
+        board: {type: GraphQLID},
+        editor: {type: GraphQLString},
+        time: {type: GraphQLString},
+        owner: {type: GraphQLID},
+        comments: {
+            type: new GraphQLList(require('./comment')),
+            resolve(parentValue) {
+                return Comment.find({
+                    note: parentValue.id
+                }).sort('-time');
+            }
+        },
+        ownerDetails: {
+            type: require('./userDetail'),
+            resolve(parentValue) {
+                return UserDetail.findById(parentValue.owner);
+            }
+        },
+        boardDetails: {
+            type: require('./board'),
+            resolve(parentValue) {
+                return Board.findById(parentValue.board);
+            }
+        }
+    })
+});
+
+module.exports = NoteType;

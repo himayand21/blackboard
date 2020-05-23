@@ -1,0 +1,50 @@
+.popup-wrapper {
+	width: 100vw;
+	height: 100vh;
+	min-height: 100%;
+	background-color: transparent;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 9;
+	overflow-y: auto;
+    .popup-modal {
+		@include animate-fade-in(0.2s);
+        min-width: 170px;
+		width: 5%;
+        border-radius: 5px;
+		background-color: $black;
+        overflow: hidden;
+        position: fixed;
+		z-index: 10;
+		border: 1px solid $gray;
+		ul {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+			width: 100%;
+			li {
+				width: 100%;
+				padding: 10px 15px;
+				box-sizing: border-box;
+				@include typography-intro-reduced();
+				color: $white;
+				font-weight: bold;
+				transition: background-color 0.5s ease-out;
+				&:hover {
+					background-color: lighten($black, 5);
+					cursor: pointer;
+				}
+				.loader {
+					margin-left: 10px;
+				}
+			}
+		}
+	}
+}
+.popup-trigger {
+	&:hover {
+		cursor: pointer;
+	}
+}

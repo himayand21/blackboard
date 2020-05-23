@@ -1,0 +1,11 @@
+.profile-icon {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    color: $black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    @include typography-intro-reduced();
+    font-weight: bold;
+}

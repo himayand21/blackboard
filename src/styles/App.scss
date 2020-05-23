@@ -1,0 +1,54 @@
+@import "./partials/mixins";
+@import "./components/pallete";
+@import "./components/modal";
+@import "./components/footer";
+@import "./components/navbar";
+@import "./components/loader";
+@import "./components/popup";
+@import "./components/createboard";
+@import "./components/options";
+@import "./components/background";
+@import "./components/badge";
+@import "./components/comments";
+@import "./components/icon";
+@import "./components/interactive";
+@import "./pages/boards";
+@import "./pages/welcome";
+@import "./pages/loader";
+@import "./pages/home";
+@import "./pages/notes";
+
+body {
+    margin: 0px;
+	background-color: $black;
+}
+
+.standard-button {
+	@include standard-button();
+}
+
+input,
+textarea,
+button,
+select,
+a,
+div {
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
+button {
+  user-select: none;
+}
+button::-moz-focus-inner {
+  border: 0;
+}
+
+body {
+  @include styled-scroll();
+  * {
+    &::-moz-selection {
+      color: $white;
+      background: $gray;
+    }
+  }
+}

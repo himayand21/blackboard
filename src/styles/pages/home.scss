@@ -1,0 +1,13 @@
+.home-screen {
+  $home-screen-height: 500px;
+  @include screen-container($home-screen-height);
+}
+
+.user-name {
+	@include typography-label-reduced();
+	display: flex;
+	align-items: center;
+	.user-first-name, .profile-icon {
+		margin-right: 10px;
+	}
+}

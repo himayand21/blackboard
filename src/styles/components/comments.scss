@@ -1,0 +1,51 @@
+.comments-section {
+    margin-top: 15px;
+    color: $white;
+    .comment-section {
+        min-height: 50px;
+        max-height: 40vh;
+        overflow: auto;
+        @include styled-scroll();
+        .comment-wrapper {
+            display: flex;
+            margin: 10px 0px;
+            .comment-sender-icon {
+                margin-right: 10px;
+                margin-top: 5px;
+            }
+            .comment-details {
+                flex: 1;
+                .comment-time {
+                    @include typography-body-reduced();
+                    margin-left: 10px;
+                }
+                .comment-sender-name {
+                    @include typography-body();
+                    font-weight: bold;
+                }
+                .comment-message {
+                    @include typography-body();
+                }
+            }
+        }
+    }
+    .action-row {
+        margin-top: 5px;
+        display: flex;
+        margin-bottom: 20px;
+        align-items: flex-end;
+    }
+    .type-comment {
+        flex: 1;
+        input {
+            @include form-input();
+            padding-bottom: 10px;
+        }
+    }
+    .send-comment {
+        margin-left: 10px;
+        .standard-button {
+            margin-right: 0px !important;
+        }
+    }
+}

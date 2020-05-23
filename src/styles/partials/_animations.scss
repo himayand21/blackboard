@@ -1,0 +1,177 @@
+@mixin animate-move(
+  $type,
+  $transform-final,
+  $transform-init,
+  $iterator,
+  $duration,
+  $direction
+) {
+  $delay: $iterator - 1;
+  $transform: $transform-init;
+  $opacity: 0;
+  @if ($direction == reverse) {
+    $opacity: 1;
+    $transform: $transform-final;
+  }
+  @keyframes #{$type}-#{$iterator} {
+    0% {
+      transform: $transform-init;
+      opacity: 0;
+    }
+    100% {
+      transform: $transform-final;
+      opacity: 1;
+    }
+  }
+  .animate-#{$iterator} {
+    will-change: transform, opacity;
+    opacity: $opacity;
+    transform: $transform;
+    animation: {
+      name: #{$type}-#{$iterator};
+      duration: $duration;
+      timing-function: ease-out;
+      delay: $duration * $delay + ($delay / 3);
+      iteration-count: 1;
+      fill-mode: forwards;
+    }
+  }
+}
+
+@mixin animate-fade($duration, $direction: normal) {
+  $delay: 0.5;
+  $opacity: 0;
+  $height: initial;
+  @if ($direction == reverse) {
+    $opacity: 1;
+    $height: 0;
+  }
+  @keyframes fade-#{$direction} {
+    0% {
+      opacity: 0;
+      height: $height;
+    }
+    1% {
+      opacity: 0;
+      height: initial;
+    }
+    100% {
+      opacity: 1;
+      height: initial;
+    }
+  }
+  opacity: $opacity;
+  animation: {
+    direction: $direction;
+    name: fade-#{$direction};
+    duration: $duration;
+    timing-function: ease-out;
+    delay: $duration * $delay;
+    iteration-count: 1;
+    fill-mode: forwards;
+  }
+}
+
+@mixin animate-drop(
+  $duration,
+  $iterator: 1,
+  $direction: normal,
+  $type: "drop"
+) {
+  $transform-init: translateY(-10%);
+  $transform-final: translateY(0);
+  @include animate-move(
+    $type,
+    $transform-final,
+    $transform-init,
+    $iterator,
+    $duration,
+    $direction
+  );
+}
+
+@mixin animate-rise(
+  $duration,
+  $iterator: 1,
+  $direction: normal,
+  $type: "rise"
+) {
+  $transform-init: translateY(10%);
+  $transform-final: translateY(0);
+  @include animate-move(
+    $type,
+    $transform-final,
+    $transform-init,
+    $iterator,
+    $duration,
+    $direction
+  );
+}
+
+@mixin animate-slide-left(
+  $duration,
+  $iterator: 1,
+  $direction: normal,
+  $type: "left"
+) {
+  $transform-init: translateX(80%);
+  $transform-final: translateX(0);
+  @include animate-move(
+    $type,
+    $transform-final,
+    $transform-init,
+    $iterator,
+    $duration,
+    $direction
+  );
+}
+
+@mixin animate-slide-right(
+  $duration,
+  $iterator: 1,
+  $direction: normal,
+  $type: "right"
+) {
+  $transform-init: translateX(-80%);
+  $transform-final: translateX(0);
+  @include animate-move(
+    $type,
+    $transform-final,
+    $transform-init,
+    $iterator,
+    $duration,
+    $direction
+  );
+}
+
+@mixin animate-fade-in($duration) {
+  @include animate-fade($duration);
+}
+
+@mixin animate-fade-out($duration) {
+  @include animate-fade($duration, $direction: reverse);
+}
+
+@mixin animate-hover($duration) {
+	animation: {
+		duration: $duration;
+		name: side-to-side;
+	}
+  @keyframes side-to-side {
+    0% {
+      transform: translate(0px);
+    }
+    40% {
+      transform: translate(15px, 0px);
+      opacity: 0;
+    }
+    50% {
+      transform: translate(-15px, 0px);
+      opacity: 0;
+    }
+    100% {
+      transform: translate(0px);
+      opacity: 1;
+    }
+  }
+}
