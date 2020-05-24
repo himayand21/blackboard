@@ -8,6 +8,7 @@ import {convertToRaw} from 'draft-js';
 
 import {Loader} from '../../components/loader';
 import {Modal} from '../../components/modal';
+import {Toast} from '../../components/toast/Toast';
 
 import {
     REDIRECT_TOKEN,
@@ -28,7 +29,7 @@ export const AddNote = (props) => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
 
-    const [mutate, {loading: adding}] = useMutation(mutation, {
+    const [mutate, {loading: adding, error: mutationError}] = useMutation(mutation, {
         awaitRefetchQueries: true
     });
 
@@ -83,6 +84,12 @@ export const AddNote = (props) => {
 
     return (
         <div className={`notes-section ${color}-section`}>
+            {mutationError ? (
+                <Toast content={{
+                    message: 'Uh oh! Note creation failed.',
+                    type: 'error'
+                }} />
+            ) : null}
             <div className="notes-header multi-options">
                 <div className="notes-left-header">
                     <button

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {useQuery, useMutation} from '@apollo/react-hooks';
 import {useHistory, Route, useRouteMatch, Switch} from 'react-router-dom';
@@ -6,6 +6,7 @@ import {useHistory, Route, useRouteMatch, Switch} from 'react-router-dom';
 import {NavBar} from '../../components/navBar';
 import {Boards} from '../boards';
 import {Board} from '../notes';
+import {Toast} from '../../components/toast/Toast';
 
 import query from '../../queries/userDetails';
 import mutation from '../../mutations/addUser';
@@ -43,12 +44,18 @@ export const Main = (props) => {
         }
     });
 
-    const [mutate, {loading: adding}] = useMutation(mutation, {
+    const [mutate, {loading: adding, error: mutationError}] = useMutation(mutation, {
         awaitRefetchQueries: true
     });
 
+    useEffect(() => {
+        if (error) {
+            history.push(ERROR);
+        }
+    }, [error]);
+
     if (error) {
-        history.push(ERROR);
+        return null;
     }
 
     if (loading) {
@@ -88,12 +95,20 @@ export const Main = (props) => {
 
     if (!userDetail) {
         return (
-            <NameForm
-                data={data}
-                addUser={addUser}
-                email={email}
-                adding={adding}
-            />
+            <>
+                {mutationError ? (
+                    <Toast content={{
+                        message: 'Uh Oh! Failed to create your profile.',
+                        type: 'error'
+                    }} />
+                ) : null}
+                <NameForm
+                    data={data}
+                    addUser={addUser}
+                    email={email}
+                    adding={adding}
+                />
+            </>
         );
     }
 

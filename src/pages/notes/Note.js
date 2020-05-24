@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import {useHistory, useRouteMatch} from 'react-router-dom';
 import {useQuery} from '@apollo/react-hooks';
@@ -16,6 +16,7 @@ import {Options} from './Options';
 
 export const Note = (props) => {
     const {color, backURL} = props;
+    const [editorState, onChange] = useState(null);
 
     const history = useHistory();
     const match = useRouteMatch();
@@ -28,8 +29,25 @@ export const Note = (props) => {
         }
     });
 
+    useEffect(() => {
+        if (data?.note) {
+            const {note} = data;
+            if (note.editor) {
+                const rawEditorState = convertFromRaw(JSON.parse(note.editor));
+                const newEditorState = EditorState.createWithContent(rawEditorState);
+                onChange(newEditorState);
+            }
+        }
+    }, [data]);
+
+    useEffect(() => {
+        if (error) {
+            history.push(ERROR);
+        }
+    }, [error]);
+
     if (error) {
-        history.push(ERROR);
+        return null;
     }
 
     if (loading) {
@@ -58,12 +76,7 @@ export const Note = (props) => {
     };
 
     if (note) {
-        const {name, description, editor} = note;
-        let editorState = null;
-        if (editor) {
-            const rawEditorState = convertFromRaw(JSON.parse(editor));
-            editorState = EditorState.createWithContent(rawEditorState);
-        }
+        const {name, description} = note;
 
         return (
             <div className={`notes-section ${color}-section`}>
@@ -84,9 +97,7 @@ export const Note = (props) => {
                         />
                     </div>
                 </div>
-                <div
-                    className="note-wrapper"
-                >
+                <div className="note-wrapper">
                     <div className="note-title">
                         <input
                             value={name}
@@ -105,7 +116,7 @@ export const Note = (props) => {
                     <div className="note-story">
                         <NoteEditor
                             editorState={editorState}
-                            onChange={() => {}}
+                            onChange={onChange}
                             readOnly
                         />
                     </div>

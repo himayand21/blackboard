@@ -12,6 +12,7 @@ import {
 import query from '../../queries/noteDetails';
 import mutation from '../../mutations/updateNote';
 
+import {Toast} from '../../components/toast/Toast';
 import {Loader} from '../../components/loader';
 import {NoteEditor} from './NoteEditor';
 
@@ -32,7 +33,7 @@ export const EditNote = (props) => {
         }
     });
 
-    const [mutate, {loading: updating}] = useMutation(mutation, {
+    const [mutate, {loading: updating, error: mutationError}] = useMutation(mutation, {
         awaitRefetchQueries: true
     });
 
@@ -59,8 +60,14 @@ export const EditNote = (props) => {
         }
     }, [editorState]);
 
+    useEffect(() => {
+        if (error) {
+            history.push(ERROR);
+        }
+    }, [error]);
+
     if (error) {
-        history.push(ERROR);
+        return null;
     }
 
     if (loading) {
@@ -120,6 +127,12 @@ export const EditNote = (props) => {
 
     return (
         <div className={`notes-section ${color}-section`}>
+            {mutationError ? (
+                <Toast content={{
+                    message: 'Uh oh! Failed to update your note.',
+                    type: 'error'
+                }} />
+            ) : null}
             <div className="notes-header multi-options">
                 <div className="notes-left-header">
                     <button

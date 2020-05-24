@@ -4,6 +4,7 @@ import {useMutation} from '@apollo/react-hooks';
 
 import {Loader} from '../../components/loader';
 import {Pallete} from '../../components/pallete';
+import {Toast} from '../../components/toast/Toast';
 
 import query from '../../queries/boards';
 import mutation from '../../mutations/addBoard';
@@ -17,7 +18,7 @@ export const CreateBoard = (props) => {
         hideModal
     } = props;
 
-    const [mutate, {loading: adding}] = useMutation(mutation, {
+    const [mutate, {loading: adding, error: mutationError}] = useMutation(mutation, {
         awaitRefetchQueries: true
     });
 
@@ -52,6 +53,12 @@ export const CreateBoard = (props) => {
 
     return (
         <div className="create-board">
+            {mutationError ? (
+                <Toast content={{
+                    message: 'Uh oh! Board creation failed.',
+                    type: 'error'
+                }} />
+            ) : null}
             <header className="create-board-header">Create a Board</header>
             <div className="create-board-intro">
 				A board is like a collection. For example, if you are planning for a Goa trip - the board title could be

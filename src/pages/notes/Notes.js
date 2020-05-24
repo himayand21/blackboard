@@ -10,6 +10,7 @@ import mutation from '../../mutations/addNote';
 import query from '../../queries/boardDetails';
 
 import {Loader} from '../../components/loader';
+import {Toast} from '../../components/toast/Toast';
 
 import {
     BOARDS,
@@ -22,7 +23,7 @@ export const Notes = (props) => {
 
     const {color, notes, boardName, boardId, owner} = props;
 
-    const [mutate, received] = useMutation(mutation, {
+    const [mutate, {loading, data, error: mutationError}] = useMutation(mutation, {
         refetchQueries: [{
             query,
             variables: {
@@ -30,8 +31,6 @@ export const Notes = (props) => {
             }
         }]
     });
-
-    const {loading, data} = received;
 
     const goBack = () => {
         sessionStorage.removeItem(REDIRECT_TOKEN);
@@ -102,6 +101,12 @@ export const Notes = (props) => {
 
     return (
         <div className={`notes-section notes-wrapper ${color}-section`}>
+            {mutationError ? (
+                <Toast content={{
+                    message: 'Uh oh! Note creation failed.',
+                    type: 'error'
+                }} />
+            ) : null}
             <div className="notes-header multi-options">
                 <div className="notes-left-header">
                     <button

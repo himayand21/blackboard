@@ -4,6 +4,7 @@ import {useMutation} from '@apollo/react-hooks';
 
 import {Loader} from '../../components/loader';
 import {Icon} from '../../components/icon';
+import {Toast} from '../../components/toast/Toast';
 
 import query from '../../queries/noteDetails';
 import mutation from '../../mutations/addComment';
@@ -15,7 +16,7 @@ export const Comments = (props) => {
 
     const [text, setText] = useState('');
 
-    const [mutate, {loading: updating}] = useMutation(mutation, {
+    const [mutate, {loading: updating, error: mutationError}] = useMutation(mutation, {
         awaitRefetchQueries: true
     });
 
@@ -36,6 +37,12 @@ export const Comments = (props) => {
 
     return (
         <div className="create-board">
+            {mutationError ? (
+                <Toast content={{
+                    message: 'Uh oh! Failed to post your comment',
+                    type: 'error'
+                }} />
+            ) : null}
             <div className="create-board-header">
                 Comments
             </div>

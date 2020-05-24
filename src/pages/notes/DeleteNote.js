@@ -4,6 +4,7 @@ import {useHistory} from 'react-router-dom';
 import {useMutation} from '@apollo/react-hooks';
 
 import {Loader} from '../../components/loader';
+import {Toast} from '../../components/toast/Toast';
 
 import query from '../../queries/boardDetails';
 import mutation from '../../mutations/deleteNote';
@@ -11,7 +12,7 @@ import mutation from '../../mutations/deleteNote';
 import {REDIRECT_TOKEN} from '../../constants';
 
 export const DeleteNote = (props) => {
-    const [mutate, {loading: deleting}] = useMutation(mutation, {
+    const [mutate, {loading: deleting, error: mutationError}] = useMutation(mutation, {
         awaitRefetchQueries: true
     });
 
@@ -39,6 +40,12 @@ export const DeleteNote = (props) => {
 
     return (
         <div className="create-board">
+            {mutationError ? (
+                <Toast content={{
+                    message: 'Uh oh! Note deletion failed.',
+                    type: 'error'
+                }} />
+            ) : null}
             <div className="create-board-header">
 				Are you sure?
             </div>

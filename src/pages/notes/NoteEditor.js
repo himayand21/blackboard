@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {EditorState, RichUtils} from 'draft-js';
 import Editor from 'draft-js-plugins-editor';
 
+import {Modal} from '../../components/modal';
 import LinkPlugin from './components/Link';
 
 import {Options} from './components/Options';
@@ -16,6 +17,9 @@ import {LINK} from './constants';
 export const NoteEditor = (props) => {
     const [showOptions, setShowOptions] = useState(false);
     const [optionButton, setOptionButton] = useState(false);
+    const [show, setShow] = useState(false);
+    const [link, setLink] = useState('');
+
     const {editorState, onChange, readOnly} = props;
 
     const toggleShowOptions = () => setShowOptions(!showOptions);
@@ -29,14 +33,22 @@ export const NoteEditor = (props) => {
     }, []);
 
     const onToggleLink = (hasLink, linkKey) => {
-        const selection = editorState.getSelection();
         const contentState = editorState.getCurrentContent();
         let defaultURL = '';
         if (hasLink) {
             const linkInstance = contentState.getEntity(linkKey);
             defaultURL = linkInstance.getData().url;
+            setLink(defaultURL);
         }
-        const link = window.prompt('Paste the link -', defaultURL);
+        setShow(true);
+        return 'handled';
+    };
+
+    const hideModal = () => setShow(false);
+
+    const onConfirm = () => {
+        hideModal();
+        const selection = editorState.getSelection();
         if (!link) {
             onChange(RichUtils.toggleLink(editorState, selection, null));
             return 'handled';
@@ -52,7 +64,7 @@ export const NoteEditor = (props) => {
         );
         const entityKey = contentWithEntity.getLastCreatedEntityKey();
         onChange(RichUtils.toggleLink(newEditorState, selection, entityKey));
-        return 'handled';
+        setLink('');
     };
 
     const handleKeyCommand = (command, editorStateParam) => {
@@ -134,6 +146,41 @@ export const NoteEditor = (props) => {
                         >
                             <i className="fas fa-chevron-up" />
                         </button>
+                        {show ?
+                            <Modal
+                                show={show}
+                                hideModal={hideModal}
+                            >
+                                <div className="create-board">
+                                    <header className="create-board-header">Add Link here</header>
+                                    <div className="create-board-form">
+                                        <div className="form-label">
+                                            LINK
+                                        </div>
+                                        <input
+                                            value={link}
+                                            placeholder="Maximum 20 characters"
+                                            onChange={(event) => setLink(event.target.value)}
+                                        />
+                                        <div className="form-error-row" />
+                                    </div>
+                                    <footer className="create-board-footer">
+                                        <button
+                                            className="standard-button"
+                                            onClick={onConfirm}
+                                        >
+                                            Confirm
+                                        </button>
+                                        <button
+                                            className="standard-button"
+                                            onClick={hideModal}
+                                        >
+                                            Cancel
+                                        </button>
+                                    </footer>
+                                </div>
+                            </Modal>
+                            : null}
                         {showOptions ?
                             <div className="options-wrapper">
                                 <Options
