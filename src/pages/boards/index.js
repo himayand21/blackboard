@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {useHistory} from 'react-router-dom';
 import {useQuery} from '@apollo/react-hooks';
@@ -38,8 +38,14 @@ export const Boards = (props) => {
         }
     });
 
+    useEffect(() => {
+        if (error) {
+            history.push(ERROR);
+        }
+    }, [error]);
+
     if (error) {
-        history.push(ERROR);
+        return null;
     }
 
     if (loading) {
@@ -105,7 +111,7 @@ export const Boards = (props) => {
                 <div className="boards-wrapper">
                     <div className="boards-header-section">
                         <div className="board-header">{'Looks like, you don\'t have any boards here.'}</div>
-                        <div className="board-subheader">If you are new here, go ahead and <span>take a tour.</span></div>
+                        <div className="board-subheader">If you are new, go ahead and <span>take a tour.</span></div>
                     </div>
                     <div className="boards-button-row">
                         <button onClick={showCreateBoardModal}>Create a Board</button>

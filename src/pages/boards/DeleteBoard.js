@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {useMutation} from '@apollo/react-hooks';
 
 import {Loader} from '../../components/loader';
+import {Toast} from '../../components/toast/Toast';
 
 import query from '../../queries/boards';
 import mutation from '../../mutations/deleteBoard';
@@ -14,7 +15,7 @@ export const DeleteBoard = (props) => {
         selectedBoard
     } = props;
 
-    const [mutate, {loading: deleting}] = useMutation(mutation, {
+    const [mutate, {loading: deleting, error: mutationError}] = useMutation(mutation, {
         awaitRefetchQueries: true
     });
 
@@ -33,6 +34,12 @@ export const DeleteBoard = (props) => {
 
     return (
         <div className="create-board">
+            {mutationError ? (
+                <Toast content={{
+                    message: 'Uh oh! Failed to delete board',
+                    type: 'error'
+                }} />
+            ) : null}
             <div className="create-board-header">
 				Are you sure?
             </div>

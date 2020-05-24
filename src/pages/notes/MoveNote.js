@@ -12,13 +12,14 @@ import {
 import query from '../../queries/boards';
 import mutation from '../../mutations/moveNote';
 
+import {Toast} from '../../components/toast/Toast';
 import {SwitchBoard} from './components/SwitchBoard';
 
 export const MoveNote = (props) => {
     const {note, hideModal} = props;
 
     const history = useHistory();
-    const [mutate, {loading: moving}] = useMutation(mutation, {
+    const [mutate, {loading: moving, error: mutationError}] = useMutation(mutation, {
         awaitRefetchQueries: true
     });
 
@@ -40,13 +41,21 @@ export const MoveNote = (props) => {
     };
 
     return (
-        <SwitchBoard
-            owner={note.owner}
-            board={note.board}
-            switching={moving}
-            hideModal={hideModal}
-            handleConfirm={handleConfirm}
-        />
+        <>
+            {mutationError ? (
+                <Toast content = {{
+                    message: 'Uh oh! Failed to move your note.',
+                    type: 'error'
+                }} />
+            ) : null}
+            <SwitchBoard
+                owner={note.owner}
+                board={note.board}
+                switching={moving}
+                hideModal={hideModal}
+                handleConfirm={handleConfirm}
+            />
+        </>
     );
 };
 

@@ -4,6 +4,7 @@ import {useMutation} from '@apollo/react-hooks';
 
 import {Loader} from '../../components/loader';
 import {Pallete} from '../../components/pallete';
+import {Toast} from '../../components/toast/Toast';
 
 import query from '../../queries/boards';
 import mutation from '../../mutations/updateBoard';
@@ -16,7 +17,7 @@ export const EditBoard = (props) => {
         setSelectedBoard
     } = props;
 
-    const [mutate, {loading: updating}] = useMutation(mutation, {
+    const [mutate, {loading: updating, error: mutationError}] = useMutation(mutation, {
         awaitRefetchQueries: true
     });
 
@@ -59,6 +60,12 @@ export const EditBoard = (props) => {
 
     return (
         <div className="create-board">
+            {mutationError ? (
+                <Toast content={{
+                    message: 'Uh oh! Failed to update your board.',
+                    type: 'error'
+                }} />
+            ) : null}
             <header className="create-board-header">Edit Board</header>
             <div className="create-board-form">
                 <div className="form-label">

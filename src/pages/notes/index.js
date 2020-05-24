@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useRouteMatch, Switch, Route, useHistory} from 'react-router-dom';
 import {useQuery} from '@apollo/react-hooks';
 
@@ -23,8 +23,14 @@ export const Board = () => {
         }
     });
 
+    useEffect(() => {
+        if (error) {
+            history.push(ERROR);
+        }
+    }, [error]);
+
     if (error) {
-        history.push(ERROR);
+        return null;
     }
 
     if (loading) {

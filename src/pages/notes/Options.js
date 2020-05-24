@@ -38,9 +38,9 @@ export const Options = (props) => {
                     hideModal={hideModal}
                 />
             );
-            case SHARE: return (
-                <div>SHARE</div>
-            );
+            case SHARE: {
+                return null;
+            }
             case COMMENT: return (
                 <Comments
                     note={note}

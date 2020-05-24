@@ -4,6 +4,7 @@ import {useLocation} from 'react-router-dom';
 import {useMutation} from '@apollo/react-hooks';
 
 import {Loader} from '../../components/loader';
+import {Toast} from '../../components/toast/Toast';
 
 import getUserDetails from '../../queries/userDetails';
 import getNoteDetails from '../../queries/noteDetails';
@@ -14,7 +15,7 @@ export const UpdateNameForm = (props) => {
     const {pathname} = useLocation();
     const noteId = pathname.split('notes/')[1];
 
-    const [mutate, {loading}] = useMutation(mutation, {
+    const [mutate, {loading, error: mutationError}] = useMutation(mutation, {
         awaitRefetchQueries: true
     });
 
@@ -48,6 +49,12 @@ export const UpdateNameForm = (props) => {
 
     return (
         <div className="create-board">
+            {mutationError ? (
+                <Toast content={{
+                    message: 'Uh oh! Failed to update your profile.',
+                    type: 'error'
+                }} />
+            ) : null}
             <header className="create-board-header">Edit Profile</header>
             <div className="create-board-intro">
 				You can edit your basic profile details here.
