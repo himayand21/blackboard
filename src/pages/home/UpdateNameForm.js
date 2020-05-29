@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {useLocation} from 'react-router-dom';
 import {useMutation} from '@apollo/react-hooks';
@@ -15,11 +15,9 @@ export const UpdateNameForm = (props) => {
     const {pathname} = useLocation();
     const noteId = pathname.split('notes/')[1];
 
-    const [mutate, {loading, error: mutationError}] = useMutation(mutation, {
-        awaitRefetchQueries: true
-    });
+    const [mutate, {loading, error: mutationError}] = useMutation(mutation);
 
-    const {hideModal, id} = props;
+    const {hideModal, id, placeholder} = props;
 
     const updateUser = async () => {
         const refetchQueries = [{
@@ -37,10 +35,17 @@ export const UpdateNameForm = (props) => {
                 id,
                 name
             },
-            refetchQueries
+            refetchQueries,
+            awaitRefetchQueries: true
         });
         hideModal();
     };
+
+    useEffect(() => {
+        if (placeholder) {
+            setName(placeholder);
+        }
+    }, [placeholder]);
 
     const updateName = (e) => {
         const newName = e.target.value;
@@ -74,7 +79,7 @@ export const UpdateNameForm = (props) => {
                 <button
                     className="standard-button"
                     onClick={updateUser}
-                    disabled={!name}
+                    disabled={!name || loading}
                 >
                     {loading ? <Loader /> : 'Confirm'}
                 </button>
@@ -91,5 +96,6 @@ export const UpdateNameForm = (props) => {
 
 UpdateNameForm.propTypes = {
     hideModal: PropTypes.func,
-    id: PropTypes.string
+    id: PropTypes.string,
+    placeholder: PropTypes.string
 };

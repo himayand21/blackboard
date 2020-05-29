@@ -155,8 +155,9 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      color: $green;
-      @include typography-caption();
+      color: $red;
+      @include typography-body-reduced();
+      font-weight: bold;
     }
     input {
       @include form-input();

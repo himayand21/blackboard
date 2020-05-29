@@ -11,7 +11,7 @@ import mutation from '../../mutations/addComment';
 import {getRelativeTime} from '../../util/getRelativeTime';
 
 export const Comments = (props) => {
-    const {note} = props;
+    const {note, user} = props;
     const {comments} = note;
 
     const [text, setText] = useState('');
@@ -20,11 +20,11 @@ export const Comments = (props) => {
         awaitRefetchQueries: true
     });
 
-    const sendNote = async () => {
+    const sendComment = async () => {
         await mutate({
             variables: {
                 content: text,
-                sender: note.owner,
+                sender: user,
                 note: note.id
             },
             refetchQueries: [{
@@ -92,7 +92,7 @@ export const Comments = (props) => {
                     <div className="send-comment">
                         <button
                             className="standard-button footer-button"
-                            onClick={sendNote}
+                            onClick={sendComment}
                         >
                             {updating ? <Loader /> : 'Send'}
                         </button>
@@ -105,5 +105,6 @@ export const Comments = (props) => {
 
 Comments.propTypes = {
     data: PropTypes.object,
-    note: PropTypes.object
+    note: PropTypes.object,
+    user: PropTypes.string
 };

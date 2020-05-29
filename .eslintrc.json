@@ -32,7 +32,7 @@
     "eqeqeq": "error",
     "curly": ["error", "multi-line"],
     "quotes": ["error", "single", { "allowTemplateLiterals": true }],
-    "complexity": ["error", 15],
+    "complexity": ["error", 20],
     "max-depth": ["error", 4],
     "max-statements": ["error", 50],
     "no-shadow": [

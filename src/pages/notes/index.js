@@ -1,4 +1,5 @@
 import React, {useEffect} from 'react';
+import PropTypes from 'prop-types';
 import {useRouteMatch, Switch, Route, useHistory} from 'react-router-dom';
 import {useQuery} from '@apollo/react-hooks';
 
@@ -7,10 +8,10 @@ import query from '../../queries/boardDetails';
 import {ERROR} from '../../constants';
 
 import {Notes} from './Notes';
-import {Note} from './Note';
-import {EditNote} from './EditNote';
+import {ViewNote} from './common/ViewNote';
+import {EditNote} from './admin/EditNote';
 
-export const Board = () => {
+export const Board = (props) => {
     const history = useHistory();
     const match = useRouteMatch();
 
@@ -46,7 +47,8 @@ export const Board = () => {
     }
 
     const {board} = data;
-    const {notes, color, name, user} = board;
+    const {notes, color, name} = board;
+    const {user} = props;
 
     return (
         <Switch>
@@ -58,10 +60,10 @@ export const Board = () => {
                 />
             </Route>
             <Route path={`${match.path}/:noteId`}>
-                <Note
+                <ViewNote
                     color={color}
                     backURL={backURL}
-                    owner={user}
+                    user={user}
                 />
             </Route>
             <Route path={match.path}>
@@ -75,4 +77,8 @@ export const Board = () => {
             </Route>
         </Switch>
     );
+};
+
+Board.propTypes = {
+    user: PropTypes.string
 };

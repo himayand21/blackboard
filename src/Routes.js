@@ -6,10 +6,11 @@ import {Welcome} from './pages/welcome';
 import Home from './pages/home';
 import Loader from './pages/loader';
 import Error from './pages/error';
+import ToastProvider from './components/toast';
 
 import {
     WELCOME,
-    BOARDS,
+    DASHBOARD,
     ERROR,
     AUTH_TOKEN,
     REDIRECT_TOKEN
@@ -52,7 +53,7 @@ const Routes = (props) => {
             if (redirectPath) {
                 history.push(redirectPath);
             } else {
-                history.push(BOARDS);
+                history.push(DASHBOARD);
             }
         } else {
             history.push(WELCOME);
@@ -66,17 +67,19 @@ const Routes = (props) => {
     }
 
     return (
-        <Switch>
-            <Route path={WELCOME} >
-                <Welcome withAuthProps={props} />
-            </Route>
-            <Route path={BOARDS}>
-                <Home withAuthProps={props} />
-            </Route>
-            <Route path={ERROR}>
-                <Error />
-            </Route>
-        </Switch>
+        <ToastProvider>
+            <Switch>
+                <Route path={WELCOME} >
+                    <Welcome withAuthProps={props} />
+                </Route>
+                <Route path={DASHBOARD}>
+                    <Home withAuthProps={props} />
+                </Route>
+                <Route path={ERROR}>
+                    <Error />
+                </Route>
+            </Switch>
+        </ToastProvider>
     );
 };
 

@@ -6,6 +6,7 @@ import {useHistory, Route, useRouteMatch, Switch} from 'react-router-dom';
 import {NavBar} from '../../components/navBar';
 import {Boards} from '../boards';
 import {Board} from '../notes';
+import {ViewNote} from '../../pages/notes/common/ViewNote';
 import {Toast} from '../../components/toast/Toast';
 
 import query from '../../queries/userDetails';
@@ -23,6 +24,7 @@ import {Icon} from '../../components/icon';
 import {Loader} from '../../components/loader';
 import {NameForm} from './NameForm';
 import {UpdateNameForm} from './UpdateNameForm';
+import {ChangePassword} from './ChangePassword';
 
 export const Main = (props) => {
     const [clickPosition, setClickPosition] = useState({
@@ -31,6 +33,7 @@ export const Main = (props) => {
     });
     const [show, setShow] = useState(false);
     const [editVisible, setEditVisible] = useState(false);
+    const [changePasswordVisible, setChangePasswordVisible] = useState(false);
     const [loggingOut, setLoggingOut] = useState(false);
 
     const history = useHistory();
@@ -84,7 +87,8 @@ export const Main = (props) => {
         mutate({
             variables: {
                 id,
-                name
+                name,
+                email
             },
             refetchQueries: [{
                 query,
@@ -133,12 +137,18 @@ export const Main = (props) => {
     };
     const hideEditForm = () => setEditVisible(false);
 
+    const showChangePassword = () => {
+        setShow(false);
+        setChangePasswordVisible(true);
+    };
+    const hideChangePassword = () => setChangePasswordVisible(false);
+
     return (
         <>
             <NavBar>
                 <div className="user-name">
-                    <Icon name={data.userDetail.name} />
-                    <span className="user-first-name">{data.userDetail.name}</span>
+                    <Icon name={userDetail.name} />
+                    <span className="user-first-name">{userDetail.name}</span>
                     <Popup
                         show={show}
                         hidePopup={hidePopup}
@@ -149,6 +159,7 @@ export const Main = (props) => {
                     >
                         <ul>
                             <li onClick={showEditForm}>Edit Profile</li>
+                            <li onClick={showChangePassword}>Change Password</li>
                             <li onClick={loggingOut ? null : userLogout}>
                                 <span>Logout</span>
                                 {loggingOut ? <Loader /> : null}
@@ -166,12 +177,27 @@ export const Main = (props) => {
                     <UpdateNameForm
                         id={props.id}
                         hideModal={hideEditForm}
+                        placeholder={userDetail.name}
                     />
+                </Modal>
+            ) : null}
+            {changePasswordVisible ? (
+                <Modal
+                    show={changePasswordVisible}
+                    hideModal={hideChangePassword}
+                >
+                    <ChangePassword hideModal={hideChangePassword} />
                 </Modal>
             ) : null}
             <Switch>
                 <Route path={`${match.path}/:boardId${NOTES}`}>
-                    <Board />
+                    <Board user={props.id} />
+                </Route>
+                <Route path={`${match.path}/note/:noteId`}>
+                    <ViewNote
+                        backURL={`${match.path}`}
+                        user={props.id}
+                    />
                 </Route>
                 <Route path={match.path}>
                     <Boards id={props.id} />

@@ -4,7 +4,7 @@ export const REDIRECT_TOKEN = 'blackboard-redirect-path';
 
 // routes
 export const WELCOME = '/welcome';
-export const BOARDS = '/boards';
+export const DASHBOARD = '/dashboard';
 export const ERROR = '/error';
 export const NOTES = '/notes';
 export const NEW = '/new';

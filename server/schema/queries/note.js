@@ -28,6 +28,17 @@ const noteQuery = {
         resolve(parentValue, {board}) {
             return Note.find({board}).sort('-time');
         }
+    },
+    getSharedNotes: {
+        type: new GraphQLList(NoteType),
+        args: {
+            id: {type: new GraphQLNonNull(GraphQLID)}
+        },
+        resolve(parentValue, {id}) {
+            return Note.find({
+                sharedWith: id
+            });
+        }
     }
 };
 

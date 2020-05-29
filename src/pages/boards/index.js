@@ -1,23 +1,26 @@
 /* eslint-disable no-nested-ternary */
 import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import {useHistory} from 'react-router-dom';
+import {useHistory, useRouteMatch} from 'react-router-dom';
 import {useQuery} from '@apollo/react-hooks';
-
-import {Modal} from '../../components/modal';
 
 import {getRelativeTime} from '../../util/getRelativeTime';
 import {getSpan} from '../../util/getSpan';
+import sharedNotesQuery from '../../queries/getSharedNotes';
+import {getPlural} from '../../util/getPlural';
 
 import query from '../../queries/boards';
-import {getPlural} from '../../util/getPlural';
+
+import {Modal} from '../../components/modal';
+import {NoteBox} from '../notes/components/NoteBox';
 
 import {
     REDIRECT_TOKEN,
-    BOARDS,
+    DASHBOARD,
     NOTES,
     ERROR
 } from '../../constants';
+import {Interactive} from '../../components/interactive';
 import {DeleteBoard} from './DeleteBoard';
 import {EditBoard} from './EditBoard';
 import {CreateBoard} from './CreateBoard';
@@ -30,6 +33,7 @@ export const Boards = (props) => {
     const [selectedBoard, setSelectedBoard] = useState(null);
 
     const history = useHistory();
+    const match = useRouteMatch();
 
     const {id} = props;
     const {error, loading, data} = useQuery(query, {
@@ -37,18 +41,23 @@ export const Boards = (props) => {
             user: id
         }
     });
+    const {error: sharedNotesError, loading: loadingSharedNotes, data: sharedNotesData} = useQuery(sharedNotesQuery, {
+        variables: {
+            id
+        }
+    });
 
     useEffect(() => {
         if (error) {
             history.push(ERROR);
         }
-    }, [error]);
+    }, [error, sharedNotesError]);
 
-    if (error) {
+    if (error || sharedNotesError) {
         return null;
     }
 
-    if (loading) {
+    if (loading || loadingSharedNotes) {
         return (
             <div className="boards-wrapper">
                 <div className="loading-section">
@@ -61,6 +70,7 @@ export const Boards = (props) => {
     }
 
     const {boards} = data;
+    const {getSharedNotes: sharedNotes} = sharedNotesData;
 
     const showCreateBoardModal = () => {
         setShow(true);
@@ -99,13 +109,19 @@ export const Boards = (props) => {
 
     const handleBoardClick = (boardId) => {
         if (!editMode && !deleteMode) {
-            const nextRoute = `${BOARDS}/${boardId}${NOTES}`;
+            const nextRoute = `${DASHBOARD}/${boardId}${NOTES}`;
             sessionStorage.setItem(REDIRECT_TOKEN, nextRoute);
             history.push(nextRoute);
         }
     };
 
-    if (!boards.length) {
+    const goToViewNote = (noteId) => {
+        const noteRoute = `${match.path}/note/${noteId}`;
+        sessionStorage.setItem(REDIRECT_TOKEN, noteRoute);
+        history.push(noteRoute);
+    };
+
+    if (!boards.length && !sharedNotes) {
         return (
             <>
                 <div className="boards-wrapper">
@@ -134,96 +150,118 @@ export const Boards = (props) => {
         <>
             <div className="boards-wrapper home-wrapper">
                 <div className="boards-container">
-                    <div className="boards-header-section">
-                        <div className="board-header">Boards</div>
-                    </div>
-                    <div className="boards">
-                        {boards.map((board, index) => {
-                            const {
-                                id: boardId,
-                                name,
-                                color,
-                                time,
-                                notes
-                            } = board;
-                            const relativeTime = getRelativeTime(time);
-                            const noOfNotes = notes.length;
-                            const {span, toBeDisplayed} = getSpan(noOfNotes);
-                            const selectedNotes = notes.slice(0, toBeDisplayed);
-                            const leftOut = noOfNotes - toBeDisplayed;
-                            const positiveLeftOut = leftOut > 0;
-                            return (
-                                <div
-                                    className={`board-box board-box-${color} animate-${index + 1} ${editMode || deleteMode ? 'action-box' : ''} grid-${span}`}
-                                    onClick={() => handleBoardClick(boardId)}
-                                    key={boardId}
-                                >
-                                    <div className="board-details">
-                                        <div className="board-name">{name}</div>
-                                        <div className="board-notes">
-                                            {selectedNotes.map(({name: noteName, id: noteId}) => (
-                                                <div className="board-note" key={noteId}>
-                                                    <div className="board-note-icon">
-                                                        <i className="fas fa-chevron-right" />
-                                                    </div>
-                                                    <div className="board-note-name">
-                                                        {noteName ? noteName : 'Untitled'}
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        </div>
-                                        <div className="board-note-count">
-                                            {noOfNotes ? `${positiveLeftOut ? '+ ' + leftOut : noOfNotes} note${getPlural(positiveLeftOut ? leftOut : noOfNotes)}` : 'No notes yet'}
-                                        </div>
+                    {boards.length ? (
+                        <div className="section-container">
+                            <div className="boards-title-section">
+                                <div className="board-title-header">BOARDS</div>
+                                <div className={`${showOptions ? 'with-options' : ''} board-options-wrapper`}>
+                                    <Interactive
+                                        className={'fas fa-chevron-left'}
+                                        onClick={toggleShowOptions}
+                                        title={showOptions ? 'Hide Options' : 'Show Options'}
+                                    />
+                                    <div className="standard-interactive-group">
+                                        <Interactive
+                                            className={'fas fa-plus'}
+                                            title={'Add'}
+                                            onClick={showCreateBoardModal}
+                                        />
+                                        <Interactive
+                                            className={'fas fa-pen-fancy'}
+                                            title={'Edit'}
+                                            onClick={showEditBox}
+                                        />
+                                        <Interactive
+                                            className={'fas fa-trash'}
+                                            title={'Delete'}
+                                            onClick={showDeleteBox}
+                                        />
                                     </div>
-                                    <div className="board-time">
-                                        <span>{relativeTime}</span>
-                                    </div>
-                                    {editMode || deleteMode ?
-                                        <div
-                                            className={`action-box-absolute ${editMode || deleteMode ? 'action-box-animate' : ''}`}
-                                            onClick={() => showActionModal(board)}
-                                        >
-                                            <div className="animate-1 action-box-container">
-                                                {editMode ? <span>edit</span> : null}
-                                                {deleteMode ? <span>delete</span> : null}
-                                            </div>
-                                        </div> : null}
                                 </div>
-                            );
-                        })}
-                        <div className="board-box add-board-box" onClick={showCreateBoardModal}>
-                            <div className="board-details">
-                                <div className="add-board-icon">+</div>
-                                <div className="add-board-text">Add Board</div>
                             </div>
-                            <div className="board-time" />
+                            <div className="boards">
+                                <div className="board-box add-board-box" onClick={showCreateBoardModal}>
+                                    <div className="board-details">
+                                        <div className="add-board-icon">+</div>
+                                        <div className="add-board-text">Add Board</div>
+                                    </div>
+                                    <div className="board-time" />
+                                </div>
+                                {boards.map((board, index) => {
+                                    const {
+                                        id: boardId,
+                                        name,
+                                        color,
+                                        time,
+                                        notes
+                                    } = board;
+                                    const relativeTime = getRelativeTime(time);
+                                    const noOfNotes = notes.length;
+                                    const {span, toBeDisplayed} = getSpan(noOfNotes);
+                                    const selectedNotes = notes.slice(0, toBeDisplayed);
+                                    const leftOut = noOfNotes - toBeDisplayed;
+                                    const positiveLeftOut = leftOut > 0;
+                                    return (
+                                        <div
+                                            className={`board-box board-box-${color} animate-${index + 1} ${editMode || deleteMode ? 'action-box' : ''} grid-${span}`}
+                                            onClick={() => handleBoardClick(boardId)}
+                                            key={boardId}
+                                        >
+                                            <div className="board-details">
+                                                <div className="board-name">{name}</div>
+                                                <div className="board-notes">
+                                                    {selectedNotes.map(({name: noteName, id: noteId}) => (
+                                                        <div className="board-note" key={noteId}>
+                                                            <div className="board-note-icon">
+                                                                <i className="fas fa-chevron-right" />
+                                                            </div>
+                                                            <div className="board-note-name">
+                                                                {noteName ? noteName : 'Untitled'}
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                                <div className="board-note-count">
+                                                    {noOfNotes ? `${positiveLeftOut ? '+ ' + leftOut : noOfNotes} note${getPlural(positiveLeftOut ? leftOut : noOfNotes)}` : 'No notes yet'}
+                                                </div>
+                                            </div>
+                                            <div className="board-time">
+                                                <span>{relativeTime}</span>
+                                            </div>
+                                            {editMode || deleteMode ?
+                                                <div
+                                                    className={`action-box-absolute ${editMode || deleteMode ? 'action-box-animate' : ''}`}
+                                                    onClick={() => showActionModal(board)}
+                                                >
+                                                    <div className="animate-1 action-box-container">
+                                                        {editMode ? <span>edit</span> : null}
+                                                        {deleteMode ? <span>delete</span> : null}
+                                                    </div>
+                                                </div> : null}
+                                        </div>
+                                    );
+                                })}
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div
-                    className={`${showOptions ? 'with-options' : ''} absolute-button-wrapper`}
-                >
-                    <button
-                        className="standard-button"
-                        onClick={toggleShowOptions}
-                    >
-                        <i className="fas fa-chevron-left" />
-                    </button>
-                    {showOptions ?
-                        <div className="options-wrapper">
-                            <button onClick={showCreateBoardModal}>
-                                <i className="fas fa-plus" />
-                            </button>
-                            <button onClick={showEditBox}>
-                                <i className="fas fa-pen-fancy" />
-                            </button>
-                            <button onClick={showDeleteBox}>
-                                <i className="fas fa-trash" />
-                            </button>
-                        </div> :
-                        null
-                    }
+                    ) : null}
+                    {sharedNotes.length ? (
+                        <div className="section-container">
+                            <div className="boards-title-section">
+                                <div className="board-title-header">SHARED WITH ME</div>
+                            </div>
+                            <div className="boards">
+                                {sharedNotes.map((note) => (
+                                    <NoteBox
+                                        key={note.id}
+                                        note={note}
+                                        color={note.boardDetails.color}
+                                        goToNote={() => goToViewNote(note.id)}
+                                        shared
+                                    />
+                                ))}
+                            </div>
+                        </div>
+                    ) : null}
                 </div>
             </div>
             <Modal

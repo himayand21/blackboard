@@ -1,0 +1,172 @@
+.note-box {
+    height: 100%;
+    width: 100%;
+    padding: 15px;
+    border-radius: 10px;
+    box-sizing: border-box;
+    min-height: 180px;
+    background-color: $faded-black;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    box-shadow: 1px 1px 3px 1px $faded-black;
+    transition: box-shadow 0.3s ease-out;
+    &:hover {
+        box-shadow: none;
+        cursor: pointer;
+    }
+    .note-details {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex: 1;
+    }
+    .note-name {
+        @include typography-intro-reduced();
+        margin-bottom: 20px;
+        margin-top: -15px;
+        margin-left: -15px;
+        width: calc(100% + 30px);
+        font-weight: bold;
+        border-radius: 10px 10px 0 0;
+        padding: 15px;
+        box-sizing: border-box;
+        text-align: left;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        color: $white;
+    }
+    .note-description {
+        @include typography-body-reduced();
+        margin-bottom: 10px;
+        font-weight: bold;
+        text-align: left;
+        max-width: 100%;
+        color: lightgray;
+    }
+    .note-owned-by {
+        @include typography-body-reduced();
+        margin-top: 15px;
+        display: flex;
+        align-items: center;
+        .profile-icon {
+            margin-right: 10px;
+        }
+        .note-owned-by-name {
+            font-weight: bold;
+        }
+    }
+    .note-time {
+        height: 110px;
+        margin-top: -80px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-end;
+        width: calc(100% + 30px);
+        margin-left: -15px;
+        margin-bottom: -15px;
+        padding-bottom: 15px;
+        padding-right: 15px;
+        box-sizing: border-box;
+        border-radius: 0 0 10px 10px;
+        background: linear-gradient(180deg, transparent 0%, $low-faded-black 100%);
+        span {
+            @include typography-caption();
+            font-weight: bold;
+            color: $lightgray;
+        }
+    }
+
+    .note-comment-count {
+        @include typography-body-reduced();
+        margin-top: 5px;
+        display: flex;
+        color: lightgray;
+        font-weight: bold;
+        span {
+            @include typography-body-reduced();
+            font-weight: bold;
+            padding: 10px;
+            min-width: 40px;
+            min-height: 40px;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 20px;
+            transition: 0.3s background-color ease-out;
+            &:first-child {
+                margin-right: 10px;
+            }
+            i {
+                margin-right: 7px;
+            }
+            &:hover {
+                cursor: pointer;
+            }
+        }
+    }
+}
+
+@each $item in $colors {
+    $color: #bfbfbf;
+    $boxColor: $box-grey;
+    .#{$item}-note-box {
+        @if $item == red {
+            $color: $box-red;
+            $boxColor: $box-red;
+        }
+        @if $item == blue {
+            $color: #6aa6e6;
+            $boxColor: $box-blue;
+        }
+        @if $item == orange {
+            $color: $box-orange;
+            $boxColor: $box-orange;
+        }
+        @if $item == yellow {
+            $color: $box-yellow;
+            $boxColor: $box-yellow;
+        }
+        @if $item == grey {
+            $color: #bfbfbf;
+            $boxColor: $box-grey;
+        }
+        @if $item == violet {
+            $color: #d18fbf;
+            $boxColor: $box-violet;
+        }
+        @if $item == brown {
+            $color: #c38765;
+            $boxColor: $box-brown;
+        }
+        @if $item == pink {
+            $color: $box-pink;
+            $boxColor: $box-pink;
+        }
+        @if $item == cyan {
+            $color: $box-cyan;
+            $boxColor: $box-cyan;
+        }
+        @if $item == green {
+            $color: $green;
+            $boxColor: $box-green;
+        }
+        .note-name {
+            box-shadow: 0px 3px 3px -3px $boxColor;
+            background: linear-gradient(45deg, $black 60%, transparentize($boxColor, 0.7));
+        }
+        .note-comment-count {
+            color: $color !important;
+            span {
+                background-color: transparentize($color: $color, $amount: 0.8);
+                &:hover {
+                    background-color: transparentize($color: $color, $amount: 0.9);
+                }
+            }
+        }
+    }
+}

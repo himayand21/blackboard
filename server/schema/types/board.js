@@ -24,7 +24,7 @@ const BoardType = new GraphQLObjectType({
             resolve(parentValue) {
                 return Note.find({
                     board: parentValue.id
-                });
+                }).sort('-time');
             }
         },
         userDetails: {

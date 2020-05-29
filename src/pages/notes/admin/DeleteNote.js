@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import {useHistory} from 'react-router-dom';
 import {useMutation} from '@apollo/react-hooks';
 
-import {Loader} from '../../components/loader';
-import {Toast} from '../../components/toast/Toast';
+import {Loader} from '../../../components/loader';
+import {Toast} from '../../../components/toast/Toast';
 
-import query from '../../queries/boardDetails';
-import mutation from '../../mutations/deleteNote';
+import query from '../../../queries/boardDetails';
+import mutation from '../../../mutations/deleteNote';
 
-import {REDIRECT_TOKEN} from '../../constants';
+import {REDIRECT_TOKEN} from '../../../constants';
 
 export const DeleteNote = (props) => {
     const [mutate, {loading: deleting, error: mutationError}] = useMutation(mutation, {

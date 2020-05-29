@@ -12,8 +12,8 @@ export const checkLink = ({
     if (selectStart === selectEnd || selectStartKey !== selectEndKey || isCollapsed || !hasFocus) return [false];
     if (!entities.length) return [true, false];
     const selectedLinkEntity = entities.find(({start, end}) => ((start === selectStart) && (end === selectEnd)));
-    if (selectedLinkEntity) {
-        return [true, true, block.getEntityAt(selectedLinkEntity.start)];
-    }
-    return [false];
+    if (selectedLinkEntity) return [true, true, block.getEntityAt(selectedLinkEntity.start)];
+    const containsExistingEntity = entities.find(({start, end}) => ((selectStart > start) && (selectStart < end)) || ((selectEnd > start) && (selectEnd < end)));
+    if (containsExistingEntity) return [false];
+    return [true];
 };

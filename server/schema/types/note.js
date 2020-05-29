@@ -22,6 +22,17 @@ const NoteType = new GraphQLObjectType({
         editor: {type: GraphQLString},
         time: {type: GraphQLString},
         owner: {type: GraphQLID},
+        sharedWith: {type: new GraphQLList(GraphQLString)},
+        sharedWithDetails: {
+            type: new GraphQLList(require('./userDetail')),
+            resolve(parentValue) {
+                return UserDetail.find({
+                    _id: {
+                        $in: parentValue.sharedWith
+                    }
+                });
+            }
+        },
         comments: {
             type: new GraphQLList(require('./comment')),
             resolve(parentValue) {

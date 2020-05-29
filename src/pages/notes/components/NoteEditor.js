@@ -3,16 +3,16 @@ import PropTypes from 'prop-types';
 import {EditorState, RichUtils} from 'draft-js';
 import Editor from 'draft-js-plugins-editor';
 
-import {Modal} from '../../components/modal';
-import LinkPlugin from './components/Link';
+import {Modal} from '../../../components/modal';
 
-import {Options} from './components/Options';
-import {getBlockStyle} from './util/getBlockStyle';
-import {keyBindingFunction} from './util/keyBindingFunction';
-import {getEntities} from './util/getEntities';
-import {checkLink} from './util/checkLink';
+import {Options} from '../components/Options';
+import {getBlockStyle} from '../util/getBlockStyle';
+import {keyBindingFunction} from '../util/keyBindingFunction';
+import {getEntities} from '../util/getEntities';
+import {checkLink} from '../util/checkLink';
 
-import {LINK} from './constants';
+import {LINK} from '../constants';
+import LinkPlugin from './Link';
 
 export const NoteEditor = (props) => {
     const [showOptions, setShowOptions] = useState(false);

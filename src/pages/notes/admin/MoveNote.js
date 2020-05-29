@@ -5,15 +5,15 @@ import {useHistory} from 'react-router-dom';
 
 import {
     REDIRECT_TOKEN,
-    BOARDS,
+    DASHBOARD,
     NOTES
-} from '../../constants';
+} from '../../../constants';
 
-import query from '../../queries/boards';
-import mutation from '../../mutations/moveNote';
+import query from '../../../queries/boards';
+import mutation from '../../../mutations/moveNote';
 
-import {Toast} from '../../components/toast/Toast';
-import {SwitchBoard} from './components/SwitchBoard';
+import {Toast} from '../../../components/toast/Toast';
+import {SwitchBoard} from '../components/SwitchBoard';
 
 export const MoveNote = (props) => {
     const {note, hideModal} = props;
@@ -34,7 +34,7 @@ export const MoveNote = (props) => {
                 variables: {user: note.owner}
             }]
         });
-        const newRoute = `${BOARDS}/${selectedBoard}${NOTES}/${note.id}`;
+        const newRoute = `${DASHBOARD}/${selectedBoard}${NOTES}/${note.id}`;
         hideModal();
         history.push(newRoute);
         sessionStorage.setItem(REDIRECT_TOKEN, newRoute);

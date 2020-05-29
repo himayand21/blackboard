@@ -30,103 +30,6 @@
       margin: 15px 15px;
       max-width: calc(100vw - 30px);
     }
-    .notes {
-      @include animate-fade-in(0.3s);
-      display: grid;
-      grid-template-columns: repeat(3, calc(33.1% - 4px));
-      grid-template-rows: repeat(auto, 1fr);
-      grid-gap: 10px;
-      width: 100%;
-      @media only screen and (max-width: 1068px) {
-        grid-template-columns: repeat(2, calc(50% - 4px));
-        grid-gap: 8px;
-      }
-      @media only screen and (max-width: 735px) {
-        grid-template-columns: repeat(1, 100%);
-        grid-gap: 8px;
-      }
-      .note-box {
-        height: 100%;
-        width: 100%;
-        padding: 20px;
-        border-radius: 10px;
-        box-sizing: border-box;
-        min-height: 180px;
-        background-color: $faded-black;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        position: relative;
-        box-shadow: 1px 1px 3px 1px $faded-black;
-        transition: box-shadow 0.3s ease-out;
-        &:hover {
-          box-shadow: none;
-          cursor: pointer;
-        }
-        .note-details {
-          display: flex;
-          flex-direction: column;
-          justify-content: flex-start;
-          align-items: flex-start;
-          flex: 1;
-        }
-        .note-name {
-          @include typography-intro-reduced();
-          margin-bottom: 20px;
-          margin-top: -20px;
-          margin-left: -20px;
-          width: calc(100% + 40px);
-          font-weight: bold;
-          border-radius: 10px 10px 0 0;
-          padding: 15px 20px;
-          box-sizing: border-box;
-          text-align: left;
-          text-overflow: ellipsis;
-          overflow: hidden;
-          white-space: nowrap;
-          color: $white;
-        }
-        .note-description {
-          @include typography-body();
-          margin-bottom: 10px;
-          font-weight: bold;
-          text-align: left;
-          max-width: 100%;
-          text-overflow: ellipsis;
-          overflow: hidden;
-          white-space: nowrap;
-          color: lightgray;
-        }
-        .note-time {
-          height: 110px;
-          margin-top: -80px;
-          display: flex;
-          justify-content: flex-end;
-          align-items: flex-end;
-          width: calc(100% + 40px);
-          margin-left: -20px;
-          margin-bottom: -20px;
-          padding-bottom: 15px;
-          padding-right: 15px;
-          box-sizing: border-box;
-          border-radius: 0 0 10px 10px;
-          background: linear-gradient(180deg, transparent 0%, $low-faded-black 100%);
-          span {
-            @include typography-caption();
-            font-weight: bold;
-            color: $lightgray;
-          }
-        }
-
-        .note-comment-count {
-          @include typography-body-reduced();
-          margin-top: 5px;
-          text-align: left;
-          color: lightgray;
-          font-weight: bold;
-        }
-      }
-    }
   }
   .notes-header {
     margin-top: 15px;
@@ -228,10 +131,11 @@
     }
     .note-length {
       position: absolute;
-      @include typography-caption();
+      @include typography-superstring();
       color: $box-grey;
       font-weight: bold;
       right: 5px;
+      top: -10px;
     }
     .note-story {
       @include typography-body();
@@ -248,10 +152,6 @@
         user-select: none;
       }
 
-      a {
-        @include block-link();
-        text-decoration: none;
-      }
       .editor-blockquote,
       .public-DraftStyleDefault-ul,
       .public-DraftStyleDefault-ol,
@@ -369,15 +269,13 @@
       $color: $green;
       $boxColor: $box-green;
     }
-    .note-box .note-name {
-      box-shadow: 0px 3px 3px -3px $boxColor;
-      background-color: #1c1c1c;
-    }
     .note-header-name {
       box-shadow: 10px 3px 6px -5px $boxColor;
       color: $white;
+      margin-top: -20px;
+      padding-top: 20px;
+      background: linear-gradient(135deg, transparent 60%, transparentize($boxColor, 0.7));
     }
-
     .standard-button {
       background-color: $color !important;
       &:hover {
@@ -390,8 +288,14 @@
     .block-link, .standard-interactive {
       color: $color;
     }
+    .standard-interactive {
+      background-color: transparentize($color: $color, $amount: 0.8);
+      &:hover {
+        background-color: transparentize($color: $color, $amount: 0.9);
+      }
+    }
     .standard-interactive-badge {
-      background-color: $color;
+      color: $color;
     }
     .editor-blockquote,
     .public-DraftStyleDefault-ul,
@@ -402,5 +306,88 @@
         color: $color;
       }
     }
+    .block-link {
+      color: $color;
+      @include typography-body-reduced();
+      padding: 2px 10px;
+      font-weight: bold;
+      text-decoration: none;
+      border-radius: 4px;
+      background-color: transparentize($color: $color, $amount: 0.7);
+      margin: 0 2px;
+      &:before {
+       content: "\f0c1";
+       font-family: 'Font Awesome 5 Free';
+       font-weight: 900;
+       margin-right: 8px;
+      }
+    }
   }
+}
+
+.shared-with-section {
+  min-height: 50px;
+  max-height: 25vh;
+  overflow: auto;
+  @include styled-scroll();
+}
+
+.share-header {
+  @include typography-body-reduced();
+  color: $lightgray;
+  font-weight: bold;
+  margin-top: 15px;
+}
+
+.share-section {
+  margin-top: 15px;
+  color: $white;
+}
+
+.share-wrapper {
+    display: flex;
+    margin: 15px 0px;
+    .share-icon {
+        margin-right: 10px;
+        margin-top: 5px;
+    }
+    .share-details {
+        flex: 1;
+        color: $white;
+        max-width: calc(100% - 115px);
+        .share-name {
+            @include typography-body-reduced();
+            font-weight: bold;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            max-width: 100%;
+        }
+        .share-email {
+            @include typography-body-reduced();
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            max-width: 100%;
+        }
+    }
+}
+.action-row {
+    margin-top: 5px;
+    display: flex;
+    margin-bottom: 20px;
+    align-items: flex-end;
+}
+.type-comment {
+    flex: 1;
+    input {
+        @include form-input();
+        padding-bottom: 10px;
+    }
+}
+.send-comment {
+    margin-left: 10px;
+    .standard-button {
+        margin-right: 0px !important;
+    }
 }
