@@ -5,7 +5,9 @@ import {
     loginAPI,
     logoutAPI,
     signupAPI,
-    currentUserAPI
+    currentUserAPI,
+    verifyOtpAPI,
+    forgotPasswordAPI
 } from './api';
 
 import '@fortawesome/fontawesome-free/css/all.css';
@@ -21,6 +23,7 @@ const initialState = {
     user: null,
     token: null,
     loading: false,
+    otpScreenVisible: false,
     ...initialErrors
 };
 
@@ -43,6 +46,53 @@ const App = () => {
                 ...state,
                 ...initialErrors,
                 signupError: error
+            });
+        }
+    };
+
+    const hideOTPScreen = () => setState({
+        ...state,
+        otpScreenVisible: false
+    });
+
+    const forgotPassword = async (body) => {
+        try {
+            setState({
+                ...state,
+                loading: true
+            });
+            await forgotPasswordAPI(body);
+            setState({
+                ...state,
+                loading: false,
+                otpScreenVisible: true
+            });
+        } catch (error) {
+            setState({
+                ...state,
+                ...initialErrors,
+                loginError: error
+            });
+        }
+    };
+
+    const verifyOtp = async (body) => {
+        try {
+            setState({
+                ...state,
+                loading: true
+            });
+            const {user, token} = await verifyOtpAPI(body);
+            setState({
+                ...initialState,
+                user,
+                token
+            });
+        } catch (error) {
+            setState({
+                ...state,
+                ...initialErrors,
+                loginError: error
             });
         }
     };
@@ -113,6 +163,9 @@ const App = () => {
             logout={logout}
             login={login}
             signup={signup}
+            forgotPassword={forgotPassword}
+            verifyOtp={verifyOtp}
+            hideOTPScreen={hideOTPScreen}
         />
     );
 };

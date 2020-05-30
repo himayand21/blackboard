@@ -76,7 +76,7 @@ const Routes = (props) => {
                     <Home withAuthProps={props} />
                 </Route>
                 <Route path={ERROR}>
-                    <Error />
+                    <Error currentError={currentError} />
                 </Route>
             </Switch>
         </ToastProvider>

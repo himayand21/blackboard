@@ -121,7 +121,7 @@ export const Boards = (props) => {
         history.push(noteRoute);
     };
 
-    if (!boards.length && !sharedNotes) {
+    if (!boards.length && !sharedNotes.length) {
         return (
             <>
                 <div className="boards-wrapper">

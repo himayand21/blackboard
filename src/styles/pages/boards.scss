@@ -19,17 +19,14 @@
 }
 
 .boards-wrapper {
-  $height: 500px;
   max-width: 100vw;
   color: $white;
-  @include main-article($height);
+  @include main-article();
+  max-height: unset;
   &.home-wrapper {
     justify-content: flex-start;
   }
   min-height: calc(100vh - 70px);
-  @media only screen and (max-height: $height) {
-    min-height: $height - 70px;
-  }
   .boards-header-section {
     @include animate-fade-in(0.5s);
     width: 700px;
@@ -93,10 +90,6 @@
     .boards-header-section {
       margin: auto;
       margin-bottom: 40px;
-    }
-
-    @media only screen and (max-height: $height) {
-      max-height: $height - 70px;
     }
 
     @media only screen and (max-width: 1068px) {

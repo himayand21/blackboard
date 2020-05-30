@@ -68,11 +68,11 @@ export const SwitchBoard = (props) => {
                 <div className="select-board-wrapper">
                     {boards.map((each) => (
                         <div
-                            className={`board-box board-box-${each.color}`}
+                            className={`board-box board-tile board-box-${each.color}`}
                             onClick={() => updateSelectedBoard(each.id)}
                             key={each.id}
                         >
-                            <span className="board-name">{each.name}</span>
+                            <span className="board-title">{each.name}</span>
                             {(selectedBoard === each.id) ? (
                                 <div className="absolute-board">
                                     <i className="fas fa-check" />

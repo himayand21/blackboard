@@ -13,23 +13,25 @@ export const Welcome = (props) => {
     const [loginActive, setLoginActive] = useState(false);
 
     const homeScreenActive = !(signupActive || loginActive);
+    const {withAuthProps} = props;
 
     const showSignup = () => {
         setLoginActive(false);
         setSignupActive(true);
+        withAuthProps.hideOTPScreen();
     };
 
     const showLogin = () => {
         setLoginActive(true);
         setSignupActive(false);
+        withAuthProps.hideOTPScreen();
     };
 
     const showHome = () => {
         setLoginActive(false);
         setSignupActive(false);
+        withAuthProps.hideOTPScreen();
     };
-
-    const {withAuthProps} = props;
 
     return (
         <div className="welcome-screen">

@@ -55,8 +55,13 @@ export const EditNote = (props) => {
 
     useEffect(() => {
         if (note) {
+            const wasNoteEmpty = note.editor === '';
+            const isNoteEmpty = !editorState?.getCurrentContent().hasText();
+
             const rawState = editorState ? JSON.stringify(convertToRaw(editorState.getCurrentContent())) : null;
-            if ((rawState ? (rawState === note.editor) : true) && (newTitle === note.name) && (newDescription === note.description)) setMessage(null);
+            const isNoteUnedited = (wasNoteEmpty && isNoteEmpty) || (rawState === note.editor);
+
+            if (isNoteUnedited && (newTitle === note.name) && (newDescription === note.description)) setMessage(null);
             else setMessage('You have unsaved changes ...');
         }
     }, [editorState, newTitle, newDescription]);

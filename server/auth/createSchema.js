@@ -19,7 +19,10 @@ function createUserSchema(db) {
                     type: String
                 }
             }
-        ]
+        ],
+        otp: {
+            type: String
+        }
     });
 
     UserSchema.pre('save', function save(next) {
