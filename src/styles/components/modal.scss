@@ -10,11 +10,10 @@
   overflow-y: auto;
   @include center();
   @include animate-rise(0.2s);
+  @include styled-scroll();
 
   .modal-section {
     @include modal-section();
-    margin: 40px 0;
-    max-height: calc(100vh - 80px);
 
     .modal-header {
       display: flex;

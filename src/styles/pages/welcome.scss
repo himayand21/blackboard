@@ -1,8 +1,7 @@
 @import "../partials/mixins";
 
 .welcome-screen {
-  $height: 500px;
-  @include screen-container($height);
+  @include screen-container();
 
   .welcome-main {
     color: $white;
@@ -11,7 +10,7 @@
       width: 100vw;
 
       .welcome-article {
-        @include main-article($height);
+        @include main-article();
         @include animate-rise-block(3);
 
         .welcome-header-section {
@@ -40,11 +39,10 @@
 }
 
 .login-content {
-  $height: 500px;
   width: 100vw;
 
   .login-article {
-    @include main-article($height);
+    @include main-article();
     @include animate-fade-in(0.5s);
 
     .login-modal {
@@ -69,6 +67,18 @@
           margin-top: 45px;
           color: $lightgray;
         }
+        .form-forgot-password {
+          text-align: right;
+          margin-top: 5px;
+          .standard-block-link {
+            color: $green;
+            background: transparent;
+            border: none;
+            @include typography-body-reduced();
+            font-weight: bold;
+            cursor: pointer;
+          }
+        }
         .form-error-row {
           text-align: center;
           min-height: 40px;
@@ -86,10 +96,10 @@
         input:-webkit-autofill,
         input:-webkit-autofill:hover,
         input:-webkit-autofill:focus,
-		input:-webkit-autofill:active  {
-			@include form-input();
-          	-webkit-box-shadow: 0 0 0 30px $black inset !important;
-			-webkit-text-fill-color: $white !important;
+        input:-webkit-autofill:active {
+          @include form-input();
+          -webkit-box-shadow: 0 0 0 30px $black inset !important;
+          -webkit-text-fill-color: $white !important;
         }
       }
       .login-footer {

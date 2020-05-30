@@ -9,6 +9,9 @@
     flex-direction: column;
     justify-content: space-between;
     position: relative;
+    &.board-tile {
+        min-height: 60px;
+    }
     &.action-box {
         div:not(.action-box-absolute) {
             opacity: 0.6;
@@ -72,6 +75,15 @@
         @include typography-intro();
         margin-bottom: 5px;
         text-align: left;
+        max-width: 100%;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        font-weight: bold;
+    }
+    .board-title {
+        @include typography-intro-reduced();
+        text-align: center;
         max-width: 100%;
         text-overflow: ellipsis;
         overflow: hidden;

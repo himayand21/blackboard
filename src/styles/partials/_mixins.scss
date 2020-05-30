@@ -35,10 +35,6 @@
   transition: $background-hover;
   color: $black;
 
-  @media only screen and (max-width: 735px) {
-		padding: 7px 10px;
-	}
-
   &:disabled {
 	  opacity: 0.6;
 	  background-color: darken($color: $green, $amount: 10);
@@ -68,7 +64,7 @@
   }
 }
 
-@mixin screen-container($height) {
+@mixin screen-container() {
   height: 100vh;
   overflow-y: hidden;
   overflow-x: hidden;
@@ -81,20 +77,29 @@
   .navbar {
     @include animate-fade-in(0.5s);
   }
-  @media only screen and (max-height: $height) {
-    min-height: $height;
-  }
 }
 
-@mixin main-article($height, $justify-content: center) {
+@mixin main-article() {
   width: 100%;
   min-height: calc(100vh - 140px);
+  max-height: calc(100vh - 140px);
+  overflow-y: auto;
   display: flex;
-  justify-content: $justify-content;
+  justify-content: center;
   flex-direction: column;
   align-items: center;
-  @media only screen and (max-height: $height) {
-    min-height: $height - 140px;
+  @include styled-scroll();
+  @media only screen and (max-height: 500px) {
+    .welcome-header-section {
+      margin-top: 150px;
+      margin-bottom: 10px;
+    }
+  }
+  @media only screen and (max-height: 675px) {
+    .login-modal {
+      margin-top: calc(675px - 80vh) !important;
+      margin-bottom: 10px !important;
+    }
   }
 }
 

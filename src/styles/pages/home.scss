@@ -1,6 +1,5 @@
 .home-screen {
-  $home-screen-height: 500px;
-  @include screen-container($home-screen-height);
+  @include screen-container();
 }
 
 .user-name {

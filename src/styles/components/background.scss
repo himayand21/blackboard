@@ -2,9 +2,6 @@
   width: 100vw;
   height: 105vh;
   filter: brightness(100%) contrast(90%);
-  @media only screen and (max-height: 500px) {
-    min-height: 510px;
-  }
 }
 
 .background-wrapper {
@@ -19,9 +16,6 @@
   position: absolute;
   top: 0;
   z-index: 2;
-  @media only screen and (max-height: 500px) {
-    min-height: 510px;
-  }
 }
 
 @media only screen and (max-width: 1000px) {
