@@ -10,6 +10,15 @@ query getNote($id: ID!){
     editor,
     time,
     owner,
+    sharedWith,
+    boardDetails {
+      color
+    }
+    sharedWithDetails {
+      name,
+      id,
+      email
+    }
     comments {
       id,
       content,

@@ -3,7 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const expressGraphQL = require('express-graphql');
 const mongoose = require('mongoose');
-const server = require('node-react-auth/server');
+const server = require('./server/auth');
 
 const schema = require('./server/schema');
 

@@ -7,15 +7,15 @@ import {convertFromRaw, EditorState} from 'draft-js';
 import {
     REDIRECT_TOKEN,
     ERROR
-} from '../../constants';
+} from '../../../constants';
 
-import query from '../../queries/noteDetails';
+import query from '../../../queries/noteDetails';
 
-import {NoteEditor} from './NoteEditor';
+import {NoteEditor} from '../components/NoteEditor';
 import {Options} from './Options';
 
-export const Note = (props) => {
-    const {color, backURL} = props;
+export const ViewNote = (props) => {
+    const {backURL, user} = props;
     const [editorState, onChange] = useState(null);
 
     const history = useHistory();
@@ -76,10 +76,10 @@ export const Note = (props) => {
     };
 
     if (note) {
-        const {name, description} = note;
+        const {name, description, boardDetails} = note;
 
         return (
-            <div className={`notes-section ${color}-section`}>
+            <div className={`notes-section ${boardDetails.color}-section`}>
                 <div className="notes-header multi-options">
                     <div className="notes-left-header">
                         <button
@@ -92,6 +92,7 @@ export const Note = (props) => {
                     <div className="notes-right-header option-wrapper">
                         <Options
                             note={note}
+                            user={user}
                             backURL={backURL}
                             switchToEdit={switchToEdit}
                         />
@@ -126,7 +127,8 @@ export const Note = (props) => {
     }
 };
 
-Note.propTypes = {
+ViewNote.propTypes = {
     color: PropTypes.string,
-    backURL: PropTypes.string
+    backURL: PropTypes.string,
+    user: PropTypes.string
 };

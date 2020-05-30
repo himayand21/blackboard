@@ -3,9 +3,6 @@ import PropTypes from 'prop-types';
 import {useHistory, useRouteMatch} from 'react-router-dom';
 import {useMutation} from '@apollo/react-hooks';
 
-import {getRelativeTime} from '../../util/getRelativeTime';
-import {getPlural} from '../../util/getPlural';
-
 import mutation from '../../mutations/addNote';
 import query from '../../queries/boardDetails';
 
@@ -13,9 +10,10 @@ import {Loader} from '../../components/loader';
 import {Toast} from '../../components/toast/Toast';
 
 import {
-    BOARDS,
+    DASHBOARD,
     REDIRECT_TOKEN
 } from '../../constants';
+import {NoteBox} from './components/NoteBox';
 
 export const Notes = (props) => {
     const history = useHistory();
@@ -34,7 +32,7 @@ export const Notes = (props) => {
 
     const goBack = () => {
         sessionStorage.removeItem(REDIRECT_TOKEN);
-        history.push(BOARDS);
+        history.push(DASHBOARD);
     };
 
     const goToNote = (noteId) => {
@@ -123,42 +121,15 @@ export const Notes = (props) => {
                 </div>
             </div>
             <div className="notes-container">
-                <div className="notes">
-                    {notes.map((each) => {
-                        const {
-                            name,
-                            description,
-                            comments,
-                            time,
-                            id
-                        } = each;
-                        const relativeTime = getRelativeTime(time);
-
-                        return (
-                            <div
-                                className="note-box"
-                                onClick={() => goToNote(id)}
-                                key={time}
-                            >
-                                <div className="note-details">
-                                    <div className="note-name">
-                                        {name ? name : 'Untitled'}
-                                    </div>
-                                    <div className="note-description">
-                                        {description}
-                                    </div>
-                                    <div className="note-comment-count">
-                                        {comments.length ? `${comments.length} comment${getPlural(comments.length)}` : 'No comments yet'}
-                                    </div>
-                                </div>
-                                <div className="note-time">
-                                    <span>
-                                        {relativeTime}
-                                    </span>
-                                </div>
-                            </div>
-                        );
-                    })}
+                <div className="boards">
+                    {notes.map((each) => (
+                        <NoteBox
+                            key={each.id}
+                            note={each}
+                            goToNote={goToNote}
+                            color={color}
+                        />
+                    ))}
                 </div>
             </div>
             <div className="absolute-button-wrapper">

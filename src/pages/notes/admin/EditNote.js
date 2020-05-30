@@ -7,14 +7,15 @@ import {convertFromRaw, EditorState, convertToRaw} from 'draft-js';
 import {
     REDIRECT_TOKEN,
     ERROR
-} from '../../constants';
+} from '../../../constants';
 
-import query from '../../queries/noteDetails';
-import mutation from '../../mutations/updateNote';
+import query from '../../../queries/noteDetails';
+import mutation from '../../../mutations/updateNote';
+import refetchQuery from '../../../queries/boardDetails';
 
-import {Toast} from '../../components/toast/Toast';
-import {Loader} from '../../components/loader';
-import {NoteEditor} from './NoteEditor';
+import {Toast} from '../../../components/toast/Toast';
+import {Loader} from '../../../components/loader';
+import {NoteEditor} from '../components/NoteEditor';
 
 export const EditNote = (props) => {
     const {color, backURL} = props;
@@ -53,12 +54,12 @@ export const EditNote = (props) => {
     }, [data]);
 
     useEffect(() => {
-        if (editorState && note.editor) {
-            const rawState = JSON.stringify(convertToRaw(editorState.getCurrentContent()));
-            if (rawState === note.editor) setMessage(null);
+        if (note) {
+            const rawState = editorState ? JSON.stringify(convertToRaw(editorState.getCurrentContent())) : null;
+            if ((rawState ? (rawState === note.editor) : true) && (newTitle === note.name) && (newDescription === note.description)) setMessage(null);
             else setMessage('You have unsaved changes ...');
         }
-    }, [editorState]);
+    }, [editorState, newTitle, newDescription]);
 
     useEffect(() => {
         if (error) {
@@ -107,6 +108,9 @@ export const EditNote = (props) => {
             refetchQueries: [{
                 query,
                 variables: {id: board}
+            }, {
+                query: refetchQuery,
+                variables: {id: board}
             }]
         });
     };
@@ -144,8 +148,9 @@ export const EditNote = (props) => {
                     <button
                         className="standard-button"
                         onClick={switchToReadOnly}
+                        disabled={!message}
                     >
-                        Read Only Mode
+                        Discard
                     </button>
                 </div>
                 <div className="notes-right-header option-wrapper">
@@ -154,7 +159,7 @@ export const EditNote = (props) => {
                     </span>
                     <button
                         className="standard-button"
-                        disabled={(newTitle === note.name) && (newDescription === note.description) && !message}
+                        disabled={!message}
                         onClick={updateNote}
                     >
                         {updating ? <Loader /> : 'Save'}

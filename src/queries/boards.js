@@ -11,7 +11,8 @@ query getBoards ($user: ID!) {
     notes {
         name,
         board,
-        id
+        id,
+        time
       }
     }
   }

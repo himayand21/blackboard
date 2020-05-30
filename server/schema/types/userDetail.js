@@ -8,6 +8,7 @@ const {
     GraphQLList
 } = graphql;
 
+const UserDetail = mongoose.model('userdetail');
 const Board = mongoose.model('board');
 
 const UserDetailType = new GraphQLObjectType({
@@ -16,6 +17,17 @@ const UserDetailType = new GraphQLObjectType({
         id: {type: GraphQLID},
         name: {type: GraphQLString},
         email: {type: GraphQLString},
+        connections: {type: new GraphQLList(GraphQLID)},
+        connectionDetails: {
+            type: new GraphQLList(UserDetailType),
+            resolve(parentValue) {
+                return UserDetail.find({
+                    _id: {
+                        $in: parentValue.connections
+                    }
+                });
+            }
+        },
         boards: {
             type: new GraphQLList(require('./board')),
             resolve(parentValue) {

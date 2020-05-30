@@ -1,27 +1,31 @@
 import React, {Fragment, useState} from 'react';
 import PropTypes from 'prop-types';
 
-import {Interactive} from '../../components/interactive';
-import {Modal} from '../../components/modal';
+import {Interactive} from '../../../components/interactive';
+import {Modal} from '../../../components/modal';
 
 import {
     DELETE,
     SHARE,
     COMMENT,
     MOVE
-} from '../../constants';
+} from '../../../constants';
 
-import {Comments} from '../comments';
+import {Comments} from '../../comments';
 
-import {DeleteNote} from './DeleteNote';
-import {MoveNote} from './MoveNote';
+import {DeleteNote} from '../admin/DeleteNote';
+import {MoveNote} from '../admin/MoveNote';
+import {ShareNote} from '../admin/ShareNote';
+import {SharedWith} from '../readOnly/SharedWith';
 
 export const Options = (props) => {
     const [show, setShow] = useState(null);
     const hideModal = () => setShow(null);
 
-    const {note, backURL, switchToEdit} = props;
-    const {comments} = note;
+    const {note, backURL, switchToEdit, user} = props;
+    const {comments, sharedWith} = note;
+
+    const isOwner = note.owner === user;
 
     const renderModal = () => {
         switch (show) {
@@ -39,10 +43,21 @@ export const Options = (props) => {
                 />
             );
             case SHARE: {
-                return null;
+                if (isOwner) {
+                    return (
+                        <ShareNote
+                            note={note}
+                            user={user}
+                        />
+                    );
+                }
+                return (
+                    <SharedWith note={note} />
+                );
             }
             case COMMENT: return (
                 <Comments
+                    user={user}
                     note={note}
                     hideModal={hideModal}
                 />
@@ -54,23 +69,25 @@ export const Options = (props) => {
     return (
         <Fragment>
             <div className="standard-interactive-groups">
-                <div className="standard-interactive-group">
-                    <Interactive
-                        onClick={switchToEdit}
-                        className="fas fa-pen-fancy"
-                        title="Edit"
-                    />
-                    <Interactive
-                        onClick={() => setShow(MOVE)}
-                        className="fas fa-file-export"
-                        title="Switch Board"
-                    />
-                    <Interactive
-                        onClick={() => setShow(DELETE)}
-                        className="fas fa-trash"
-                        title="Delete"
-                    />
-                </div>
+                {isOwner ? (
+                    <div className="standard-interactive-group">
+                        <Interactive
+                            onClick={switchToEdit}
+                            className="fas fa-pen-fancy"
+                            title="Edit"
+                        />
+                        <Interactive
+                            onClick={() => setShow(MOVE)}
+                            className="fas fa-file-export"
+                            title="Switch Board"
+                        />
+                        <Interactive
+                            onClick={() => setShow(DELETE)}
+                            className="fas fa-trash"
+                            title="Delete"
+                        />
+                    </div>
+                ) : null}
                 <div className="standard-interactive-group">
                     <Interactive
                         onClick={() => setShow(COMMENT)}
@@ -81,7 +98,7 @@ export const Options = (props) => {
                     <Interactive
                         onClick={() => setShow(SHARE)}
                         className="fas fa-paper-plane"
-                        count={0}
+                        count={sharedWith.length}
                         title="Share"
                     />
                 </div>
@@ -99,5 +116,6 @@ export const Options = (props) => {
 Options.propTypes = {
     note: PropTypes.object,
     backURL: PropTypes.string,
-    switchToEdit: PropTypes.func
+    switchToEdit: PropTypes.func,
+    user: PropTypes.string
 };

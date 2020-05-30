@@ -8,6 +8,7 @@ const {
 
 const Note = mongoose.model('note');
 const Comment = mongoose.model('comment');
+const UserDetail = mongoose.model('userdetail');
 
 const NoteType = require('../types/note');
 
@@ -55,8 +56,8 @@ const noteMutation = {
     moveNote: {
         type: NoteType,
         args: {
-            board: {type: GraphQLString},
-            id: {type: GraphQLString}
+            board: {type: GraphQLID},
+            id: {type: GraphQLID}
         },
         resolve(parentValue, {
             id,
@@ -67,6 +68,30 @@ const noteMutation = {
                     board
                 }
             }, {'new': true});
+        }
+    },
+    shareNote: {
+        type: NoteType,
+        args: {
+            id: {type: GraphQLID},
+            sharingWith: {type: GraphQLID},
+            sharingFrom: {type: GraphQLID}
+        },
+        async resolve(parentValue, {
+            id,
+            sharingWith,
+            sharingFrom
+        }) {
+            await UserDetail.findByIdAndUpdate(sharingFrom, {
+                $push: {
+                    connections: sharingWith
+                }
+            });
+            return Note.findByIdAndUpdate(id, {
+                $push: {
+                    sharedWith: sharingWith
+                }
+            });
         }
     },
     deleteNote: {

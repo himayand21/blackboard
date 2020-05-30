@@ -8,7 +8,8 @@ const NoteSchema = new Schema({
     board: {type: String},
     editor: {type: Object},
     owner: {type: String},
-    time: {type: String}
+    time: {type: String},
+    sharedWith: {type: Array}
 });
 
 mongoose.model('note', NoteSchema);

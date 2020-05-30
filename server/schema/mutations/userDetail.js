@@ -14,15 +14,18 @@ const userDetailMutations = {
         type: UserDetailType,
         args: {
             id: {type: GraphQLID},
-            name: {type: GraphQLString}
+            name: {type: GraphQLString},
+            email: {type: GraphQLString}
         },
         resolve(parentValue, {
             id: _id,
-            name
+            name,
+            email
         }) {
             return new UserDetail({
                 _id,
-                name
+                name,
+                email
             }).save();
         }
     },
