@@ -1,7 +1,9 @@
+import {NETLIFY_PREFIX} from './constants';
+
 export const sendOtpAPI = async (
     id
 ) => {
-    const response = await fetch(`/user/send-otp`, {
+    const response = await fetch(`${NETLIFY_PREFIX}/user/send-otp`, {
         method: 'POST',
         body: JSON.stringify({
             id

@@ -1,8 +1,10 @@
+import {NETLIFY_PREFIX} from './constants';
+
 export const verifyOtpAPI = async ({
     id,
     otp
 }) => {
-    const response = await fetch(`/user/verify-otp`, {
+    const response = await fetch(`${NETLIFY_PREFIX}/user/verify-otp`, {
         method: 'POST',
         body: JSON.stringify({
             id,

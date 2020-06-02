@@ -1,8 +1,10 @@
+import {NETLIFY_PREFIX} from './constants';
+
 export const signupAPI = async ({
     email,
     password
 }) => {
-    const response = await fetch(`/user/signup`, {
+    const response = await fetch(`${NETLIFY_PREFIX}/user/signup`, {
         method: 'POST',
         body: JSON.stringify({
             email,

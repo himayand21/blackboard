@@ -2,12 +2,13 @@
   "name": "blackboard",
   "version": "1.0.0",
   "description": "An application to save structured data as notes",
+  "main": "functions/index.js",
   "scripts": {
     "start": "rm -rf build && webpack --env=development && env-cmd -f .env node index.js",
     "start:client": "webpack-dev-server",
-    "start:server": "env-cmd -f .env nodemon index.js",
-    "inspect:server": "env-cmd -f .env node --inspect index.js",
-    "build": "webpack --env=production",
+    "start:server": "env-cmd -f .env nodemon server/index.js",
+    "inspect:server": "env-cmd -f .env node --inspect server/index.js",
+    "build": "rm -rf lib && babel server --out-dir lib && netlify-lambda build lib && webpack --env=production",
     "lint": "eslint ."
   },
   "browserslist": {
@@ -23,6 +24,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/cli": "^7.10.1",
     "@babel/core": "^7.7.7",
     "@babel/plugin-proposal-class-properties": "^7.7.4",
     "@babel/polyfill": "^7.7.0",
@@ -40,6 +42,7 @@
     "file-loader": "^5.0.2",
     "html-webpack-plugin": "^3.2.0",
     "mini-css-extract-plugin": "^0.8.2",
+    "netlify-lambda": "^1.6.3",
     "node-sass": "^4.13.0",
     "nodemon": "^2.0.3",
     "sass-loader": "^8.0.0",
@@ -70,6 +73,7 @@
     "react-router-dom": "^5.1.2",
     "redux": "4.0.4",
     "redux-thunk": "2.3.0",
+    "serverless-http": "^2.5.0",
     "validator": "^13.0.0"
   }
 }

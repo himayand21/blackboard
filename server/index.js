@@ -1,11 +1,13 @@
+require('@babel/polyfill');
 const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const expressGraphQL = require('express-graphql');
 const mongoose = require('mongoose');
-const server = require('./server/auth');
+const serverless = require('serverless-http');
+const server = require('./auth');
 
-const schema = require('./server/schema');
+const schema = require('./schema');
 
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
@@ -42,8 +44,10 @@ app.use(express.static(__dirname + '/build'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
-app.use('/user', createAuth(model));
-app.use('/graphql', checkAuth(model), expressGraphQL({
+const netlifyPrefix = process.env.NETLIFY_PREFIX;
+
+app.use(`${netlifyPrefix}/user`, createAuth(model));
+app.use(`${netlifyPrefix}/graphql`, checkAuth(model), expressGraphQL({
     schema,
     graphiql: true
 }));
@@ -51,3 +55,6 @@ app.use('/graphql', checkAuth(model), expressGraphQL({
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname + '/build/index.html'));
 });
+
+module.exports = app;
+module.exports.handler = serverless(app);
