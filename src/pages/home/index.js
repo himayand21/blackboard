@@ -12,7 +12,7 @@ import {AUTH_TOKEN} from '../../constants';
 import {Main} from './main';
 
 const httpLink = createHttpLink({
-    uri: '/graphql'
+    uri: `${process.env.NETLIFY_PREFIX}/graphql`
 });
 
 const authLink = setContext((_, {headers}) => {

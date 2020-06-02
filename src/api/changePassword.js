@@ -2,7 +2,7 @@ export const changePasswordAPI = async (
     password
 ) => {
     const token = await localStorage.getItem('blackboard-token');
-    const response = await fetch(`/user/change-password`, {
+    const response = await fetch(`${process.env.NETLIFY_PREFIX}/user/change-password`, {
         method: 'POST',
         body: JSON.stringify({
             password

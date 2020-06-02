@@ -2,7 +2,7 @@ export const signupAPI = async ({
     email,
     password
 }) => {
-    const response = await fetch(`/user/signup`, {
+    const response = await fetch(`${process.env.NETLIFY_PREFIX}/user/signup`, {
         method: 'POST',
         body: JSON.stringify({
             email,

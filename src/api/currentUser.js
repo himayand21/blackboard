@@ -1,5 +1,5 @@
 export const currentUserAPI = async (token) => {
-    const response = await fetch(`/user/current`, {
+    const response = await fetch(`${process.env.NETLIFY_PREFIX}/user/current`, {
         method: 'GET',
         headers: {
             'content-type': 'application/json',

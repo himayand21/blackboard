@@ -8,7 +8,7 @@
     "start:client": "webpack-dev-server",
     "start:server": "env-cmd -f .env nodemon server/index.js",
     "inspect:server": "env-cmd -f .env node --inspect server/index.js",
-    "build": "netlify-lambda build server && webpack --env=production",
+    "build": "rm -rf lib && babel server --out-dir lib && netlify-lambda build lib && webpack --env=production",
     "lint": "eslint ."
   },
   "browserslist": {
@@ -24,6 +24,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/cli": "^7.10.1",
     "@babel/core": "^7.7.7",
     "@babel/plugin-proposal-class-properties": "^7.7.4",
     "@babel/polyfill": "^7.7.0",

@@ -2,7 +2,7 @@ export const logoutAPI = async (
     token,
     allDeviceFlag
 ) => {
-    const response = await fetch(`/user/logout`, {
+    const response = await fetch(`${process.env.NETLIFY_PREFIX}/user/logout`, {
         method: 'POST',
         body: JSON.stringify({
             allDevices: allDeviceFlag
