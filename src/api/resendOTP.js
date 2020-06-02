@@ -1,8 +1,10 @@
+import {NETLIFY_PREFIX} from './constants';
+
 export const resendOtpAPI = async ({
     id,
     email
 }) => {
-    const response = await fetch(`${process.env.NETLIFY_PREFIX}/user/resend-otp`, {
+    const response = await fetch(`${NETLIFY_PREFIX}/user/resend-otp`, {
         method: 'POST',
         body: JSON.stringify({
             id,

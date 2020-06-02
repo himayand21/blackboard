@@ -1,5 +1,7 @@
+import {NETLIFY_PREFIX} from './constants';
+
 export const currentUserAPI = async (token) => {
-    const response = await fetch(`${process.env.NETLIFY_PREFIX}/user/current`, {
+    const response = await fetch(`${NETLIFY_PREFIX}/user/current`, {
         method: 'GET',
         headers: {
             'content-type': 'application/json',

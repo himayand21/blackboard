@@ -1,7 +1,9 @@
+import {NETLIFY_PREFIX} from './constants';
+
 export const forgotPasswordAPI = async (
     email
 ) => {
-    const response = await fetch(`${process.env.NETLIFY_PREFIX}/user/forgot-password`, {
+    const response = await fetch(`${NETLIFY_PREFIX}/user/forgot-password`, {
         method: 'POST',
         body: JSON.stringify({
             email
