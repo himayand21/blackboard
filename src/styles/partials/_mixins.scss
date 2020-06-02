@@ -112,6 +112,9 @@
   padding: 40px;
   box-sizing: border-box;
   box-shadow: 1px 1px 10px 2px $faded-black;
+  @media only screen and (max-width: 1068px) {
+    padding: 40px 30px;
+  }
 }
 
 @mixin modal-section {

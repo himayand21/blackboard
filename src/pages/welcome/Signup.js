@@ -46,7 +46,7 @@ export const Signup = (props) => {
                         </div>
                         <footer className="login-footer">
                             <div className="login-footer-link-wrapper">
-                                <span>Already have an account?</span>
+                                <span>Have an account?</span>
                                 <span
                                     className="login-footer-link"
                                     onClick={showLogin}

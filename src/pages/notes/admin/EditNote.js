@@ -159,9 +159,6 @@ export const EditNote = (props) => {
                     </button>
                 </div>
                 <div className="notes-right-header option-wrapper">
-                    <span className="note-message">
-                        {message}
-                    </span>
                     <button
                         className="standard-button"
                         disabled={!message}
