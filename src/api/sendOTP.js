@@ -1,12 +1,10 @@
-export const verifyOtpAPI = async ({
-    id,
-    otp
-}) => {
-    const response = await fetch(`/user/verify-otp`, {
+export const sendOtpAPI = async (
+    id
+) => {
+    const response = await fetch(`/user/send-otp`, {
         method: 'POST',
         body: JSON.stringify({
-            id,
-            otp
+            id
         }),
         headers: {
             'content-type': 'application/json'

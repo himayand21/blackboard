@@ -3,9 +3,13 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
+
 const manifestJson = require('./public/manifest.json');
 
-const VENDOR_LIBS = ['react', 'react-dom', 'redux', 'redux-thunk', 'react-redux'];
+const VENDOR_LIBS = ['react', 'react-dom'];
+
 const config = function(env) {
     const isProduction = env === 'production';
     return {
@@ -22,17 +26,23 @@ const config = function(env) {
             filename: isProduction ? 'js/[name].[hash:8].chunk.js' : 'js/[name].js'
         },
         plugins: [
+            new CopyPlugin({
+                patterns: [
+                    {from: './public/favicon.svg', to: './favicon.svg'}
+                ]
+            }),
             new HtmlWebpackPlugin({
                 template: './public/index.html',
-                chunks: ['bundle', 'vendor']
-                // favicon: './src/hero-image.jpg'  //add your website shortcut icon here
+                chunks: ['bundle', 'vendor'],
+                favicon: './public/favicon.svg'
             }),
             new MiniCssExtractPlugin({
                 filename: 'styles/[name].built.css'
             }),
             new ManifestPlugin({
                 generate: () => manifestJson
-            })
+            }),
+            new CompressionPlugin()
         ],
         optimization: {
             splitChunks: {

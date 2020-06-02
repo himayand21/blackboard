@@ -6,14 +6,15 @@ import {Welcome} from './pages/welcome';
 import Home from './pages/home';
 import Loader from './pages/loader';
 import Error from './pages/error';
-import ToastProvider from './components/toast';
+import VerifyOTP from './pages/welcome/VerifyOTP';
 
 import {
     WELCOME,
     DASHBOARD,
     ERROR,
     AUTH_TOKEN,
-    REDIRECT_TOKEN
+    REDIRECT_TOKEN,
+    VERIFY
 } from './constants';
 
 import './styles/App.scss';
@@ -48,12 +49,15 @@ const Routes = (props) => {
     useEffect(() => {
         if (user) {
             setAppLoading(false);
-            localStorage.setItem(AUTH_TOKEN, token);
-            const redirectPath = sessionStorage.getItem(REDIRECT_TOKEN);
-            if (redirectPath) {
-                history.push(redirectPath);
-            } else {
-                history.push(DASHBOARD);
+            if (!user.verified) history.push(VERIFY);
+            else {
+                localStorage.setItem(AUTH_TOKEN, token);
+                const redirectPath = sessionStorage.getItem(REDIRECT_TOKEN);
+                if (redirectPath) {
+                    history.push(redirectPath);
+                } else {
+                    history.push(DASHBOARD);
+                }
             }
         } else {
             history.push(WELCOME);
@@ -67,19 +71,20 @@ const Routes = (props) => {
     }
 
     return (
-        <ToastProvider>
-            <Switch>
-                <Route path={WELCOME} >
-                    <Welcome withAuthProps={props} />
-                </Route>
-                <Route path={DASHBOARD}>
-                    <Home withAuthProps={props} />
-                </Route>
-                <Route path={ERROR}>
-                    <Error currentError={currentError} />
-                </Route>
-            </Switch>
-        </ToastProvider>
+        <Switch>
+            <Route path={WELCOME} >
+                <Welcome withAuthProps={props} />
+            </Route>
+            <Route path={DASHBOARD}>
+                <Home withAuthProps={props} />
+            </Route>
+            <Route path={VERIFY}>
+                <VerifyOTP withAuthProps={props} />
+            </Route>
+            <Route path={ERROR}>
+                <Error currentError={currentError} />
+            </Route>
+        </Switch>
     );
 };
 

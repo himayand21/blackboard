@@ -8,6 +8,7 @@ export const DASHBOARD = '/dashboard';
 export const ERROR = '/error';
 export const NOTES = '/notes';
 export const NEW = '/new';
+export const VERIFY = '/verify';
 
 // options
 export const DELETE = 'DELETE';

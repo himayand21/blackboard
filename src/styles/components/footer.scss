@@ -1,12 +1,14 @@
 .app-footer {
 	border-top: 1px solid $darkgray;
+	color: $white;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	height: 70px;
-	@include typography-caption();
+	@include typography-body-reduced();
 	width: 100%;
 	padding: 0 15px;
+	font-weight: bold;
 	box-sizing: border-box;
 	div {
 		text-align: center;

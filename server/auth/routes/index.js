@@ -3,8 +3,10 @@ const logout = require('./logout');
 const signup = require('./signup');
 const current = require('./current');
 const changePassword = require('./changePassword');
-const forgotPassword = require('./forgotPassword');
 const verifyOTP = require('./verifyOTP');
+const sendOTP = require('./sendOTP');
+const forgotPassword = require('./forgotPassword');
+const resendOTP = require('./resendOTP');
 
 function createAuth(model) {
     return [
@@ -12,9 +14,11 @@ function createAuth(model) {
         login(model),
         logout(model),
         signup(model),
-        forgotPassword(model),
         changePassword(model),
-        verifyOTP(model)
+        sendOTP(model),
+        forgotPassword(model),
+        verifyOTP(model),
+        resendOTP(model)
     ];
 }
 

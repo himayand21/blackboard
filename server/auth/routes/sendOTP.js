@@ -1,23 +1,23 @@
 const nodemailer = require('nodemailer');
 const router = require('express').Router();
 
-function forgotPassword(User) {
-    return router.post('/forgot-password', (req, res) => {
+function sendOTP(User) {
+    return router.post('/send-otp', (req, res) => {
         const otp = Math.floor(100000 + Math.random() * 900000);
         try {
             const {body} = req;
             const bodyKeys = Object.keys(body);
-            if (!bodyKeys.includes('email')) {
+            if (!bodyKeys.includes('id')) {
                 res.status(400).send({
                     error: {
                         status: 400,
-                        message: 'Missing user email in request.',
-                        key: 'missing_email_key'
+                        message: 'Missing user ID in request.',
+                        key: 'missing_id_key'
                     }
                 });
             } else {
-                const {email} = body;
-                User.findOne({email}, 'email verified', (err, user) => {
+                const {id} = body;
+                User.findById(id, 'email verified', (err, user) => {
                     if (!user) {
                         res.status(401).send({
                             error: {
@@ -27,7 +27,7 @@ function forgotPassword(User) {
                             }
                         });
                     } else {
-                        User.findOneAndUpdate({email}, {otp, verified: false}, {'new': true}, async (err, updatedUser) => {
+                        User.findByIdAndUpdate(id, {otp, verified: false}, {'new': true}, async (err, updatedUser) => {
                             if (err) {
                                 res.status(500).send({
                                     error: {
@@ -47,10 +47,10 @@ function forgotPassword(User) {
                                 transporter.sendMail({
                                     from: `"Blackboard Solutions" <${process.env.BLACKBOARD_EMAIL}>`,
                                     to: updatedUser.email,
-                                    subject: 'Forgot your Password?',
-                                    text: 'Forgot your Password?',
+                                    subject: 'Verify your Email Address',
+                                    text: 'Verify your Email Address',
                                     html: `<div>
-                                    <h3>Well, it happens to the best of us.</h3>
+                                    <h3>Well, you can never be too careful.</h3>
                                     <p>Enter this OTP and verify your registered email address.</p>
                                     <h2>${otp}</h2>
                                     <p>Feel free to contact us right <a href="mailto:${process.env.BLACKBOARD_EMAIL}">here</a>, if you face any further issues.</p>
@@ -92,4 +92,4 @@ function forgotPassword(User) {
     });
 }
 
-module.exports = forgotPassword;
+module.exports = sendOTP;

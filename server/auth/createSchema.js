@@ -22,6 +22,9 @@ function createUserSchema(db) {
         ],
         otp: {
             type: String
+        },
+        verified: {
+            type: Boolean
         }
     });
 

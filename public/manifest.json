@@ -1,8 +1,8 @@
 {
-  "name": "organiser",
-  "short_name": "organiser",
+  "name": "Blackboard",
+  "short_name": "Blackboard",
   "display": "standalone",
-  "start_url": "localhost:8080",
+  "start_url": "https://www.black-board.netlify.app",
   "theme_color": "#000000",
   "background_color": "#ffffff"
 }

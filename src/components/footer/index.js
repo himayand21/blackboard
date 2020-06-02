@@ -3,7 +3,7 @@ import React from 'react';
 export const Footer = () => {
     return (
         <footer className="app-footer">
-            <div className="footer-name">Made with<i className="fas fa-heart" />by Himayan © 2020</div>
+            <div className="footer-name">Made with<i className="far fa-heart" />by Himayan<i className="far fa-copyright" />2020</div>
             <div className="footer-social">
                 <a
                     className="animate-1"
