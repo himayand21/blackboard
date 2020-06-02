@@ -43,8 +43,10 @@ app.use(express.static(__dirname + '/build'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
-app.use('/user', createAuth(model));
-app.use('/graphql', checkAuth(model), expressGraphQL({
+const netlifyPrefix = '/.netlify/functions/index';
+
+app.use(`${netlifyPrefix}/user`, createAuth(model));
+app.use(`${netlifyPrefix}/graphql`, checkAuth(model), expressGraphQL({
     schema,
     graphiql: true
 }));
