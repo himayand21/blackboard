@@ -62,11 +62,7 @@ const config = function(env) {
             open: true,
             historyApiFallback: true,
             proxy: {
-                '/user': {
-                    target: 'http://0.0.0.0:5000',
-                    secure: false
-                },
-                '/graphql': {
+                '/.netlify': {
                     target: 'http://0.0.0.0:5000',
                     secure: false
                 }
