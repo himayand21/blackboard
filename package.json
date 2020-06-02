@@ -2,12 +2,13 @@
   "name": "blackboard",
   "version": "1.0.0",
   "description": "An application to save structured data as notes",
+  "main": "functions/index.js",
   "scripts": {
     "start": "rm -rf build && webpack --env=development && env-cmd -f .env node index.js",
     "start:client": "webpack-dev-server",
-    "start:server": "env-cmd -f .env nodemon index.js",
-    "inspect:server": "env-cmd -f .env node --inspect index.js",
-    "build": "webpack --env=production",
+    "start:server": "env-cmd -f .env nodemon server/index.js",
+    "inspect:server": "env-cmd -f .env node --inspect server/index.js",
+    "build": "netlify-lambda build server && webpack --env=production",
     "lint": "eslint ."
   },
   "browserslist": {
