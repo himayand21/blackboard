@@ -7,12 +7,13 @@ import {setContext} from 'apollo-link-context';
 import {InMemoryCache} from 'apollo-cache-inmemory';
 
 import {Background} from '../../components/background';
+import {NETLIFY_PREFIX} from '../../api/constants';
 
 import {AUTH_TOKEN} from '../../constants';
 import {Main} from './main';
 
 const httpLink = createHttpLink({
-    uri: `${process.env.NETLIFY_PREFIX}/graphql`
+    uri: `${NETLIFY_PREFIX}/graphql`
 });
 
 const authLink = setContext((_, {headers}) => {
