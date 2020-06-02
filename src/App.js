@@ -7,92 +7,99 @@ import {
     signupAPI,
     currentUserAPI,
     verifyOtpAPI,
+    sendOtpAPI,
     forgotPasswordAPI
 } from './api';
+import {useToast} from './components/toast';
 
 import '@fortawesome/fontawesome-free/css/all.css';
 import './styles/App.scss';
 
-const initialErrors = {
-    currentError: null,
-    loginError: null,
-    signupError: null,
-    logoutError: null
-};
 const initialState = {
     user: null,
     token: null,
-    loading: false,
-    otpScreenVisible: false,
-    ...initialErrors
+    loading: false
 };
 
 const App = () => {
     const [state, setState] = useState(initialState);
+    const [enterOTPVisible, setEnterOTPVisible] = useState(false);
+
+    const {addToast} = useToast();
+
+    const clearState = () => setState(initialState);
+
     const signup = async (body) => {
         try {
             setState({
                 ...state,
                 loading: true
             });
-            const {user, token} = await signupAPI(body);
+            const {user} = await signupAPI(body);
             setState({
-                ...initialState,
+                ...state,
                 user,
-                token
+                loading: false
             });
         } catch (error) {
             setState({
                 ...state,
-                ...initialErrors,
-                signupError: error
+                user: null,
+                loading: false
+            });
+            addToast({
+                type: 'error',
+                message: error.message
             });
         }
     };
 
-    const hideOTPScreen = () => setState({
-        ...state,
-        otpScreenVisible: false
-    });
-
-    const forgotPassword = async (body) => {
+    const sendOTP = async (body) => {
         try {
             setState({
                 ...state,
                 loading: true
             });
-            await forgotPasswordAPI(body);
+            const {user} = await sendOtpAPI(body);
             setState({
                 ...state,
                 loading: false,
-                otpScreenVisible: true
+                user
             });
+            setEnterOTPVisible(true);
         } catch (error) {
             setState({
                 ...state,
-                ...initialErrors,
-                loginError: error
+                loading: false
+            });
+            addToast({
+                type: 'error',
+                message: error.message
             });
         }
     };
 
-    const verifyOtp = async (body) => {
+    const verifyOTP = async (body) => {
         try {
             setState({
                 ...state,
-                loading: true
+                laoding: true
             });
             const {user, token} = await verifyOtpAPI(body);
             setState({
-                ...initialState,
                 user,
-                token
+                token,
+                loading: false
             });
+            setEnterOTPVisible(true);
         } catch (error) {
             setState({
                 ...state,
-                ...initialErrors,
-                loginError: error
+                loading: false
+            });
+            addToast({
+                type: 'error',
+                message: error.message
             });
         }
     };
@@ -112,8 +119,11 @@ const App = () => {
         } catch (error) {
             setState({
                 ...state,
-                ...initialErrors,
-                loginError: error
+                loading: false
+            });
+            addToast({
+                type: 'error',
+                message: error.message
             });
         }
     };
@@ -129,8 +139,11 @@ const App = () => {
         } catch (error) {
             setState({
                 ...state,
-                ...initialErrors,
-                logoutError: error
+                loading: false
+            });
+            addToast({
+                type: 'error',
+                message: error.message
             });
         }
     };
@@ -150,8 +163,36 @@ const App = () => {
         } catch (error) {
             setState({
                 ...state,
-                ...initialErrors,
-                currentError: error
+                loading: false
+            });
+            addToast({
+                type: 'error',
+                message: error.message
+            });
+        }
+    };
+
+    const forgotPassword = async (body) => {
+        try {
+            setState({
+                ...state,
+                loading: true
+            });
+            const {user} = await forgotPasswordAPI(body);
+            setState({
+                ...state,
+                loading: false,
+                user
+            });
+            setEnterOTPVisible(true);
+        } catch (error) {
+            setState({
+                ...state,
+                loading: false
+            });
+            addToast({
+                type: 'error',
+                message: error.message
             });
         }
     };
@@ -163,9 +204,12 @@ const App = () => {
             logout={logout}
             login={login}
             signup={signup}
+            sendOTP={sendOTP}
+            verifyOTP={verifyOTP}
             forgotPassword={forgotPassword}
-            verifyOtp={verifyOtp}
-            hideOTPScreen={hideOTPScreen}
+            enterOTPVisible={enterOTPVisible}
+            setEnterOTPVisible={setEnterOTPVisible}
+            clearState={clearState}
         />
     );
 };

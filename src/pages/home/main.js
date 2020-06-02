@@ -18,7 +18,8 @@ import {
     AUTH_TOKEN,
     REDIRECT_TOKEN,
     ERROR,
-    NOTES
+    NOTES,
+    DASHBOARD
 } from '../../constants';
 import {Icon} from '../../components/icon';
 import {Loader} from '../../components/loader';
@@ -142,10 +143,14 @@ export const Main = (props) => {
         setChangePasswordVisible(true);
     };
     const hideChangePassword = () => setChangePasswordVisible(false);
+    const onTitleClick = () => {
+        sessionStorage.removeItem(REDIRECT_TOKEN);
+        history.push(DASHBOARD);
+    };
 
     return (
         <>
-            <NavBar>
+            <NavBar onTitleClick={onTitleClick}>
                 <div className="user-name">
                     <Icon name={userDetail.name} />
                     <span className="user-first-name">{userDetail.name}</span>

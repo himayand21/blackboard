@@ -1,3 +1,4 @@
+const nodemailer = require('nodemailer');
 const router = require('express').Router();
 
 function signup(User) {
@@ -37,15 +38,44 @@ function signup(User) {
                                 }
                             });
                         } else {
-                            const token = await user.generateAuthToken();
+                            // const token = await user.generateAuthToken();
+                            user.verified = false;
                             await user.save();
-                            res.status(200).send({
-                                user: {
-                                    email: user.email,
-                                    // eslint-disable-next-line no-underscore-dangle
-                                    id: user._id
-                                },
-                                token
+                            const transporter = nodemailer.createTransport({
+                                service: 'gmail',
+                                auth: {
+                                    user: process.env.BLACKBOARD_EMAIL,
+                                    pass: process.env.BLACKBOARD_PASS
+                                }
+                            });
+                            transporter.sendMail({
+                                from: `"Blackboard Solutions" <${process.env.BLACKBOARD_EMAIL}>`,
+                                to: email,
+                                subject: 'Welcome to Blackboard !',
+                                text: 'Welcome to Blackboard',
+                                html: `<div>
+                                <h3>Welcome Aboard.</h3>
+                                <p>Feel free to contact us right <a href="mailto:${process.env.BLACKBOARD_EMAIL}">here</a>, if you face any further issues.</p>
+                                <p>See you around.</p>
+                                <p><b>Team Blackboard</b></p>
+                                </div>`,
+                            }, (err) => {
+                                if (err) {
+                                    res.status(400).send({
+                                        key: 'email_invalid',
+                                        message: 'Failed to send OTP to email address.',
+                                        status: 400
+                                    });
+                                } else {
+                                    res.status(200).send({
+                                        user: {
+                                            email: user.email,
+                                            // eslint-disable-next-line no-underscore-dangle
+                                            id: user._id,
+                                            verified: user.verified
+                                        }
+                                    });
+                                }
                             });
                         }
                     });

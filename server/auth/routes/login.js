@@ -27,7 +27,7 @@ function login(User) {
                         }
                     });
                 } else {
-                    User.findOne({email}, 'email password tokens', (err, validUser) => {
+                    User.findOne({email}, 'email password tokens verified', (err, validUser) => {
                         if (!validUser) {
                             res.status(401).send({
                                 error: {
@@ -46,7 +46,7 @@ function login(User) {
                                             key: 'password_mismatch'
                                         }
                                     });
-                                } else {
+                                } else if (validUser.verified) {
                                     const token = await validUser.generateAuthToken();
                                     await validUser.save();
                                     res.status(200).send({
@@ -54,8 +54,19 @@ function login(User) {
                                             email: validUser.email,
                                             // eslint-disable-next-line no-underscore-dangle
                                             id: validUser._id,
+                                            verified: validUser.verified
                                         },
                                         token
+                                    });
+                                } else {
+                                    await validUser.save();
+                                    res.status(200).send({
+                                        user: {
+                                            email: validUser.email,
+                                            // eslint-disable-next-line no-underscore-dangle
+                                            id: validUser._id,
+                                            verified: validUser.verified
+                                        }
                                     });
                                 }
                             });

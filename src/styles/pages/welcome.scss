@@ -45,6 +45,11 @@
     @include main-article();
     @include animate-fade-in(0.5s);
 
+    &.verify-article {
+      min-height: 100vh;
+      max-height: unset;
+    }
+
     .login-modal {
       @include screen-modal();
 

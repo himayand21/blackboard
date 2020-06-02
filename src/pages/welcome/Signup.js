@@ -8,7 +8,7 @@ export const Signup = (props) => {
     const [password, setPassword] = useState('');
 
     const {withAuthProps, showLogin, signupActive} = props;
-    const {signup, signupError: error, loading} = withAuthProps;
+    const {signup, loading} = withAuthProps;
 
     const handleSignup = () => {
         signup({email, password});
@@ -42,7 +42,7 @@ export const Signup = (props) => {
                                     type="password"
                                 />
                             </div>
-                            <div className="form-error-row">{!loading && error ? error.message : null}</div>
+                            <div className="form-error-row" />
                         </div>
                         <footer className="login-footer">
                             <div className="login-footer-link-wrapper">
@@ -51,7 +51,7 @@ export const Signup = (props) => {
                                     className="login-footer-link"
                                     onClick={showLogin}
                                 >
-                                    Log In
+                                    Sign In
                                 </span>
                             </div>
                             <button className="standard-button" onClick={handleSignup}>

@@ -2,10 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export const NavBar = (props) => {
+    const {onTitleClick} = props;
     return (
         <nav className="navbar-container">
             <div className="navbar">
-                <header className="header">Blackboard</header>
+                <header
+                    className={`header ${onTitleClick ? 'hoverable' : ''}`}
+                    onClick={onTitleClick ? onTitleClick : () => {}}
+                >
+                    Blackboard
+                </header>
                 <div className="navbar-children">{props.children}</div>
             </div>
         </nav>
@@ -13,5 +19,6 @@ export const NavBar = (props) => {
 };
 
 NavBar.propTypes = {
-    children: PropTypes.node
+    children: PropTypes.node,
+    onTitleClick: PropTypes.func
 };

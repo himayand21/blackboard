@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {NavBar} from '../../components/navBar';
 import {Background} from '../../components/background';
@@ -15,22 +15,23 @@ export const Welcome = (props) => {
     const homeScreenActive = !(signupActive || loginActive);
     const {withAuthProps} = props;
 
+    useEffect(() => {
+        if (homeScreenActive) withAuthProps.clearState();
+    }, [homeScreenActive]);
+
     const showSignup = () => {
         setLoginActive(false);
         setSignupActive(true);
-        withAuthProps.hideOTPScreen();
     };
 
     const showLogin = () => {
         setLoginActive(true);
         setSignupActive(false);
-        withAuthProps.hideOTPScreen();
     };
 
     const showHome = () => {
         setLoginActive(false);
         setSignupActive(false);
-        withAuthProps.hideOTPScreen();
     };
 
     return (

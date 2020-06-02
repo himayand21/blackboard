@@ -25,7 +25,7 @@ function checkAuth(User) {
                             }
                         });
                     } else {
-                        User.findOne({_id: decoded._id, 'tokens.token': token}, 'email _id', (err, user) => {
+                        User.findOne({_id: decoded._id, 'tokens.token': token}, 'email _id verified', (err, user) => {
                             if (err || !user) {
                                 res.status(401).send({
                                     error: {
@@ -37,7 +37,8 @@ function checkAuth(User) {
                             } else {
                                 req.user = {
                                     email: user.email,
-                                    id: user._id
+                                    id: user._id,
+                                    verified: user.verified
                                 };
                                 req.token = token;
                                 next();
