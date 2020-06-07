@@ -33,11 +33,33 @@
         border-radius: 10px 10px 0 0;
         padding: 15px;
         box-sizing: border-box;
-        text-align: left;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap;
-        color: $white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .note-name-span {
+            text-align: left;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            color: $white;
+            max-width: calc(100% - 23px);
+            flex: 1;
+        }
+        .note-name-pin {
+            min-width: 15px;
+            margin-left: 8px;
+            @include typography-intro-reduced;
+            font-weight: bold;
+            i {
+                color: $lightgray;
+                transform: rotate(45deg);
+                transition: transform 0.3s ease-out, color 0.3s ease-out;
+                &:hover {
+                    color: $white;
+                    transform: rotate(0deg);
+                }
+            }
+        }
     }
     .note-description {
         @include typography-body-reduced();
@@ -195,6 +217,13 @@
         .note-name {
             box-shadow: 0px 3px 3px -3px $boxColor;
             background: linear-gradient(45deg, $black 60%, transparentize($boxColor, 0.7));
+            .note-name-pin.note-name-pinned i {
+                color: lighten($color: $boxColor, $amount: 0.3);
+                transform: rotate(0deg);
+                &:hover {
+                    color: $white;
+                }
+            }
         }
         .note-comment-count {
             color: $color !important;

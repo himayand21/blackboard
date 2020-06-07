@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 
 const {
     GraphQLID,
-    GraphQLString
+    GraphQLString,
+    GraphQLBoolean
 } = graphql;
 
 const Note = mongoose.model('note');
@@ -20,12 +21,13 @@ const noteMutation = {
             description: {type: GraphQLString},
             board: {type: GraphQLID},
             editor: {type: GraphQLString},
-            owner: {type: GraphQLID}
+            owner: {type: GraphQLID},
         },
         resolve(parentValue, args) {
             return (new Note({
                 ...args,
-                time: Date.now()
+                time: Date.now(),
+                pinned: false
             })).save();
         }
     },
@@ -105,6 +107,20 @@ const noteMutation = {
                 Comment.deleteMany({note: note._id});
                 note.deleteOne();
             });
+        }
+    },
+    togglePinNote: {
+        type: NoteType,
+        args: {
+            pinned: {type: GraphQLBoolean},
+            id: {type: GraphQLID}
+        },
+        resolve(parentValue, {pinned, id}) {
+            return Note.findByIdAndUpdate(id, {
+                $set: {
+                    pinned
+                }
+            }, {'new': true});
         }
     }
 };

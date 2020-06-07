@@ -11,6 +11,7 @@ query getNote($id: ID!){
     time,
     owner,
     sharedWith,
+    pinned,
     boardDetails {
       color
     }

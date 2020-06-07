@@ -14,6 +14,9 @@ query board ($id: ID!) {
       description,
       sharedWith,
 	    time,
+      board,
+      owner,
+      pinned,
       comments {
         id
       }
