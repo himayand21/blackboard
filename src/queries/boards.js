@@ -13,7 +13,8 @@ query getBoards ($user: ID!) {
       board,
       owner,
       boardDetails {
-        color
+        color,
+        name
       },
       id,
       time,
