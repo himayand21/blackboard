@@ -115,10 +115,11 @@
 
     .note-preview {
         @include typography-body-reduced();
-        display: flex;
         margin-bottom: 10px;
         color: lightgray;
         font-weight: bold;
+        width: 100%;
+        text-align: left;
         span {
             @include typography-body-reduced();
             font-weight: bold;
@@ -126,11 +127,14 @@
             min-width: 40px;
             min-height: 40px;
             box-sizing: border-box;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             border-radius: 20px;
             transition: 0.3s background-color ease-out;
+            max-width: 100%;
+            display: inline-block;
+            line-height: 20px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
             i {
                 margin-right: 10px;
                 margin-top: -2px;
@@ -165,6 +169,43 @@
             }
             &:hover {
                 cursor: pointer;
+            }
+        }
+    }
+    @media only screen and (max-width: 735px) {
+        padding: 15px 10px;
+        .note-name {
+            margin-left: -10px;
+            width: calc(100% + 20px);
+        }
+        .note-comment-count {
+            margin-bottom: 7px;
+            span {
+                @include typography-caption();
+                font-weight: bold;
+                padding: 7px;
+                min-width: 35px;
+                min-height: 30px;
+                &:first-child {
+                    margin-right: 7px;
+                }
+                i {
+                    margin-right: 5px;
+                }
+            }
+        }
+        .note-preview {
+            margin-bottom: 7px;
+            span {
+                @include typography-caption();
+                font-weight: bold;
+                padding: 7px 10px;
+                min-height: 35px;
+                border-radius: 18px;
+                i {
+                    margin-right: 6px;
+                    margin-top: -2px;
+                }
             }
         }
     }
