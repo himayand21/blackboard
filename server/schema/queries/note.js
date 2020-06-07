@@ -37,7 +37,18 @@ const noteQuery = {
         resolve(parentValue, {id}) {
             return Note.find({
                 sharedWith: id
-            });
+            }).sort('-time');
+        }
+    },
+    getRecentNotes: {
+        type: new GraphQLList(NoteType),
+        args: {
+            id: {type: new GraphQLNonNull(GraphQLID)}
+        },
+        resolve(parentValue, {id}) {
+            return Note.find({
+                owner: id
+            }).sort('-time').limit(4);
         }
     }
 };

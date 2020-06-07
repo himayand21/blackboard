@@ -9,7 +9,8 @@ export const NoteBox = (props) => {
         note,
         color,
         goToNote,
-        shared
+        shared,
+        preview
     } = props;
     const {
         name,
@@ -18,9 +19,11 @@ export const NoteBox = (props) => {
         time,
         sharedWith,
         id,
-        ownerDetails
+        ownerDetails,
+        boardDetails
     } = note;
     const relativeTime = getRelativeTime(time);
+    const showcCommentBox = comments.length || sharedWith.length;
 
     return (
         <div
@@ -35,22 +38,32 @@ export const NoteBox = (props) => {
                 <div className="note-description">
                     {description}
                 </div>
-                <div className="note-comment-count">
-                    {comments.length ?
-                        <span>
-                            <i className="fas fa-comments" />
-                            {comments.length}
-                        </span> : null}
-                    {sharedWith.length ?
-                        <span>
-                            <i className="fas fa-paper-plane" />
-                            {sharedWith.length}
-                        </span> : null}
-                </div>
+                {showcCommentBox ? (
+                    <div className="note-comment-count">
+                        {comments.length ?
+                            <span>
+                                <i className="fas fa-comments" />
+                                {comments.length}
+                            </span> : null}
+                        {sharedWith.length ?
+                            <span>
+                                <i className="fas fa-paper-plane" />
+                                {sharedWith.length}
+                            </span> : null}
+                    </div>
+                ) : null}
                 {shared ? (
                     <div className="note-owned-by">
                         <Icon name={ownerDetails.name} />
                         <span className="note-owned-by-name">{ownerDetails.name}</span>
+                    </div>
+                ) : null}
+                {preview ? (
+                    <div className="note-preview">
+                        <span>
+                            <i className="fas fa-clipboard" />
+                            {boardDetails.name}
+                        </span>
                     </div>
                 ) : null}
             </div>
@@ -67,5 +80,6 @@ NoteBox.propTypes = {
     note: PropTypes.object,
     goToNote: PropTypes.func,
     color: PropTypes.string,
-    shared: PropTypes.bool
+    shared: PropTypes.bool,
+    preview: PropTypes.bool
 };

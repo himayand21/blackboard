@@ -92,6 +92,8 @@
     min-height: calc(100vh - 142px);
     max-height: calc(100vh - 142px);
     background: $faded-black;
+    border: 2px solid $darkgray;
+    border-bottom: none;
     max-width: calc(100vw - 20px);
     @include styled-scroll();
     padding: 25px 25px 0px;
@@ -313,7 +315,7 @@
       padding: 2px 10px;
       font-weight: bold;
       text-decoration: none;
-      border-radius: 4px;
+      border-radius: 8px;
       background-color: transparentize($color: $color, $amount: 0.7);
       margin: 0 2px;
       &:before {
@@ -321,6 +323,7 @@
        font-family: 'Font Awesome 5 Free';
        font-weight: 900;
        margin-right: 8px;
+       font-size: 13px;
       }
     }
   }
