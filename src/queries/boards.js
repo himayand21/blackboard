@@ -11,11 +11,13 @@ query getBoards ($user: ID!) {
     notes {
       name,
       board,
+      owner,
       boardDetails {
         color
-      }
+      },
       id,
-      time
+      time,
+      pinned
     }
   }
 }

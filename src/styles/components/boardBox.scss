@@ -30,9 +30,9 @@
                 font-weight: bold;
             }
         }
-        background-color: transparentize($color: $faded-black, $amount: 0.3);
+        background-color: transparentize($color: $black, $amount: 0.3);
         &:hover {
-            background-color: $faded-black;
+            background-color: $black;
         }
     }
     .board-details {
@@ -54,9 +54,9 @@
     }
     .board-notes {
         margin: 5px 0;
-        max-width: 100%;
+        width: 100%;
         .board-note {
-            max-width: 100%;
+            width: 100%;
             @include typography-body-reduced();
             text-align: left;
             font-weight: bold;
@@ -68,6 +68,14 @@
                 font-size: 10px;
                 margin-right: 3px;
                 margin-top: 3px;
+            }
+            .board-note-name {
+                text-align: left;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
+                color: $white;
+                max-width: calc(100% - 10px);
             }
         }
     }

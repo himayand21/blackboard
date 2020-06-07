@@ -10,6 +10,7 @@ import {getPlural} from '../../util/getPlural';
 
 import sharedNotesQuery from '../../queries/getSharedNotes';
 import recentNotesQuery from '../../queries/getRecentNotes';
+import pinnedNotesQuery from '../../queries/getPinnedNotes';
 import query from '../../queries/boards';
 
 import {Modal} from '../../components/modal';
@@ -52,18 +53,23 @@ export const Boards = (props) => {
             id
         }
     });
+    const {error: pinnedNotesError, loading: loadingPinnedNotes, data: pinnedNotesData} = useQuery(pinnedNotesQuery, {
+        variables: {
+            id
+        }
+    });
 
     useEffect(() => {
-        if (error || sharedNotesError || recentNotesError) {
+        if (error || sharedNotesError || recentNotesError || pinnedNotesError) {
             history.push(ERROR);
         }
-    }, [error, sharedNotesError, recentNotesError]);
+    }, [error, sharedNotesError, recentNotesError, pinnedNotesError]);
 
-    if (error || sharedNotesError || recentNotesError) {
+    if (error || sharedNotesError || recentNotesError || pinnedNotesError) {
         return null;
     }
 
-    if (loading || loadingSharedNotes || loadingRecentNotes) {
+    if (loading || loadingSharedNotes || loadingRecentNotes || loadingPinnedNotes) {
         return (
             <div className="boards-wrapper">
                 <div className="loading-section">
@@ -78,6 +84,7 @@ export const Boards = (props) => {
     const {boards} = data;
     const {getSharedNotes: sharedNotes} = sharedNotesData;
     const {getRecentNotes: recentNotes} = recentNotesData;
+    const {getPinnedNotes: pinnedNotes} = pinnedNotesData;
 
     const showCreateBoardModal = () => {
         setShow(true);
@@ -139,10 +146,28 @@ export const Boards = (props) => {
         <>
             <div className="boards-wrapper home-wrapper">
                 <div className="boards-container">
+                    {pinnedNotes.length ? (
+                        <div className="section-container">
+                            <div className="boards-title-section">
+                                <div className="board-title-header">PINNED NOTES</div>
+                            </div>
+                            <div className="boards">
+                                {pinnedNotes.map((note) => (
+                                    <NoteBox
+                                        key={note.id}
+                                        note={note}
+                                        color={note.boardDetails.color}
+                                        goToNote={() => goToNote(note)}
+                                        preview
+                                    />
+                                ))}
+                            </div>
+                        </div>
+                    ) : null}
                     {recentNotes.length ? (
                         <div className="section-container">
                             <div className="boards-title-section">
-                                <div className="board-title-header">RECENT NOTES</div>
+                                <div className="board-title-header">RECENTS</div>
                             </div>
                             <div className="boards">
                                 {recentNotes.map((note) => (
@@ -159,7 +184,7 @@ export const Boards = (props) => {
                     ) : null}
                     <div className="section-container">
                         <div className="boards-title-section">
-                            <div className="board-title-header">BOARDS</div>
+                            <div className="board-title-header">MY BOARDS</div>
                             {boards.length ? (
                                 <div className={`${showOptions ? 'with-options' : ''} board-options-wrapper`}>
                                     <Interactive

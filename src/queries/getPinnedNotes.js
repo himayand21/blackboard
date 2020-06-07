@@ -1,8 +1,8 @@
 import {gql} from 'apollo-boost';
 
 export default gql`
-query getRecentNotes($id: ID!){
-    getRecentNotes (id: $id) {
+query getPinnedNotes($id: ID!){
+    getPinnedNotes (id: $id) {
         id,
         name,
         description,

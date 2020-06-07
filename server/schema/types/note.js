@@ -5,7 +5,8 @@ const {
     GraphQLObjectType,
     GraphQLID,
     GraphQLString,
-    GraphQLList
+    GraphQLList,
+    GraphQLBoolean
 } = graphql;
 
 const Comment = mongoose.model('comment');
@@ -22,6 +23,7 @@ const NoteType = new GraphQLObjectType({
         editor: {type: GraphQLString},
         time: {type: GraphQLString},
         owner: {type: GraphQLID},
+        pinned: {type: GraphQLBoolean},
         sharedWith: {type: new GraphQLList(GraphQLString)},
         sharedWithDetails: {
             type: new GraphQLList(require('./userDetail')),
