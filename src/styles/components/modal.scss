@@ -9,7 +9,7 @@
   z-index: 99;
   overflow-y: auto;
   @include center();
-  @include animate-rise(0.2s);
+  @include animate-drop(0.2s);
   @include styled-scroll();
 
   .modal-section {

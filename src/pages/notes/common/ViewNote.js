@@ -76,7 +76,8 @@ export const ViewNote = (props) => {
     };
 
     if (note) {
-        const {name, description, boardDetails} = note;
+        const {name, description, boardDetails, owner} = note;
+        const isOwner = owner === user;
 
         return (
             <div className={`notes-section ${boardDetails.color}-section`}>
@@ -95,10 +96,11 @@ export const ViewNote = (props) => {
                             user={user}
                             backURL={backURL}
                             switchToEdit={switchToEdit}
+                            isOwner={isOwner}
                         />
                     </div>
                 </div>
-                <div className="note-wrapper">
+                <div className="note-wrapper" onClick={isOwner ? switchToEdit : null}>
                     <div className="note-title">
                         <input
                             value={name}

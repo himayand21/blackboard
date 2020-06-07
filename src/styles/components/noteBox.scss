@@ -49,21 +49,32 @@
     }
     .note-owned-by {
         @include typography-body-reduced();
-        margin-top: 15px;
         display: flex;
         align-items: center;
+        margin: 15px 0;
+        background-color: $darkgray;
+        padding-right: 15px;
+        box-sizing: border-box;
+        border-radius: 17px;
+        max-width: 100%;
         .profile-icon {
             margin-right: 10px;
         }
         .note-owned-by-name {
             font-weight: bold;
+            text-align: left;
+            max-width: calc(100% - 45px);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
     }
     .note-time {
         height: 110px;
         margin-top: -80px;
         display: flex;
-        justify-content: flex-end;
+        justify-content: space-between;
+        flex-direction: row-reverse;
         align-items: flex-end;
         width: calc(100% + 30px);
         margin-left: -15px;
@@ -80,9 +91,35 @@
         }
     }
 
+    .note-preview {
+        @include typography-body-reduced();
+        display: flex;
+        margin-bottom: 10px;
+        color: lightgray;
+        font-weight: bold;
+        span {
+            @include typography-body-reduced();
+            font-weight: bold;
+            padding: 10px 15px;
+            min-width: 40px;
+            min-height: 40px;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 20px;
+            transition: 0.3s background-color ease-out;
+            i {
+                margin-right: 10px;
+                margin-top: -4px;
+            }
+        }
+    }
+
     .note-comment-count {
         @include typography-body-reduced();
         margin-top: 5px;
+        margin-bottom: 10px;
         display: flex;
         color: lightgray;
         font-weight: bold;
@@ -166,6 +203,12 @@
                 &:hover {
                     background-color: transparentize($color: $color, $amount: 0.9);
                 }
+            }
+        }
+        .note-preview {
+            color: $color !important;
+            span {
+                background-color: transparentize($color: $color, $amount: 0.9) !important;
             }
         }
     }

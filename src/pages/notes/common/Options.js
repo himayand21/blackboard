@@ -22,10 +22,8 @@ export const Options = (props) => {
     const [show, setShow] = useState(null);
     const hideModal = () => setShow(null);
 
-    const {note, backURL, switchToEdit, user} = props;
+    const {note, backURL, switchToEdit, user, isOwner} = props;
     const {comments, sharedWith} = note;
-
-    const isOwner = note.owner === user;
 
     const renderModal = () => {
         switch (show) {
@@ -117,5 +115,6 @@ Options.propTypes = {
     note: PropTypes.object,
     backURL: PropTypes.string,
     switchToEdit: PropTypes.func,
-    user: PropTypes.string
+    user: PropTypes.string,
+    isOwner: PropTypes.bool
 };
