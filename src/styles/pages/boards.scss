@@ -64,6 +64,7 @@
   .boards-title-section {
     @include animate-fade-in(0.3s);
     margin-bottom: 20px;
+    margin-left: 15px;
     @include typography-intro-reduced();
     color: $lightgray;
     font-weight: bold;
@@ -95,7 +96,7 @@
     @media only screen and (max-width: 1068px) {
       padding: 20px 15px;
       .boards-title-section {
-        margin-left: 5px;
+        margin-left: 10px;
       }
       .boards-header-section {
         margin-bottom: 30px;

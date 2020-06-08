@@ -12,6 +12,7 @@ import {
 import query from '../../../queries/noteDetails';
 import mutation from '../../../mutations/updateNote';
 import refetchQuery from '../../../queries/boardDetails';
+import recentNotesQuery from '../../../queries/getRecentNotes';
 
 import {Toast} from '../../../components/toast/Toast';
 import {Loader} from '../../../components/loader';
@@ -102,7 +103,7 @@ export const EditNote = (props) => {
     };
 
     const updateNote = async () => {
-        const {id, board} = note;
+        const {id, board, owner} = note;
         await mutate({
             variables: {
                 id,
@@ -116,6 +117,9 @@ export const EditNote = (props) => {
             }, {
                 query: refetchQuery,
                 variables: {id: board}
+            }, {
+                query: recentNotesQuery,
+                variables: {id: owner}
             }]
         });
     };
@@ -174,6 +178,7 @@ export const EditNote = (props) => {
                         onChange={handleTitleChange}
                         value={newTitle}
                         placeholder={'Title'}
+                        autoFocus
                     />
                     <span className="note-length">
                         [{newTitle.length}/25]

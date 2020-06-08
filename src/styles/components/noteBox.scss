@@ -33,11 +33,33 @@
         border-radius: 10px 10px 0 0;
         padding: 15px;
         box-sizing: border-box;
-        text-align: left;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap;
-        color: $white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .note-name-span {
+            text-align: left;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            color: $white;
+            max-width: calc(100% - 23px);
+            flex: 1;
+        }
+        .note-name-pin {
+            min-width: 15px;
+            margin-left: 8px;
+            @include typography-intro-reduced;
+            font-weight: bold;
+            i {
+                color: $lightgray;
+                transform: rotate(45deg);
+                transition: transform 0.3s ease-out, color 0.3s ease-out;
+                &:hover {
+                    color: $white;
+                    transform: rotate(0deg);
+                }
+            }
+        }
     }
     .note-description {
         @include typography-body-reduced();
@@ -49,21 +71,32 @@
     }
     .note-owned-by {
         @include typography-body-reduced();
-        margin-top: 15px;
         display: flex;
         align-items: center;
+        margin: 15px 0;
+        background-color: $darkgray;
+        padding-right: 15px;
+        box-sizing: border-box;
+        border-radius: 17px;
+        max-width: 100%;
         .profile-icon {
             margin-right: 10px;
         }
         .note-owned-by-name {
             font-weight: bold;
+            text-align: left;
+            max-width: calc(100% - 45px);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
     }
     .note-time {
         height: 110px;
         margin-top: -80px;
         display: flex;
-        justify-content: flex-end;
+        justify-content: space-between;
+        flex-direction: row-reverse;
         align-items: flex-end;
         width: calc(100% + 30px);
         margin-left: -15px;
@@ -80,9 +113,39 @@
         }
     }
 
+    .note-preview {
+        @include typography-body-reduced();
+        margin-bottom: 10px;
+        color: lightgray;
+        font-weight: bold;
+        width: 100%;
+        text-align: left;
+        span {
+            @include typography-body-reduced();
+            font-weight: bold;
+            padding: 10px 15px;
+            min-width: 40px;
+            min-height: 40px;
+            box-sizing: border-box;
+            border-radius: 20px;
+            transition: 0.3s background-color ease-out;
+            max-width: 100%;
+            display: inline-block;
+            line-height: 20px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            i {
+                margin-right: 10px;
+                margin-top: -2px;
+            }
+        }
+    }
+
     .note-comment-count {
         @include typography-body-reduced();
         margin-top: 5px;
+        margin-bottom: 10px;
         display: flex;
         color: lightgray;
         font-weight: bold;
@@ -106,6 +169,43 @@
             }
             &:hover {
                 cursor: pointer;
+            }
+        }
+    }
+    @media only screen and (max-width: 735px) {
+        padding: 15px 10px;
+        .note-name {
+            margin-left: -10px;
+            width: calc(100% + 20px);
+        }
+        .note-comment-count {
+            margin-bottom: 7px;
+            span {
+                @include typography-caption();
+                font-weight: bold;
+                padding: 7px;
+                min-width: 35px;
+                min-height: 30px;
+                &:first-child {
+                    margin-right: 7px;
+                }
+                i {
+                    margin-right: 5px;
+                }
+            }
+        }
+        .note-preview {
+            margin-bottom: 7px;
+            span {
+                @include typography-caption();
+                font-weight: bold;
+                padding: 7px 10px;
+                min-height: 35px;
+                border-radius: 18px;
+                i {
+                    margin-right: 6px;
+                    margin-top: -2px;
+                }
             }
         }
     }
@@ -158,6 +258,13 @@
         .note-name {
             box-shadow: 0px 3px 3px -3px $boxColor;
             background: linear-gradient(45deg, $black 60%, transparentize($boxColor, 0.7));
+            .note-name-pin.note-name-pinned i {
+                color: lighten($color: $boxColor, $amount: 0.3);
+                transform: rotate(0deg);
+                &:hover {
+                    color: $white;
+                }
+            }
         }
         .note-comment-count {
             color: $color !important;
@@ -166,6 +273,12 @@
                 &:hover {
                     background-color: transparentize($color: $color, $amount: 0.9);
                 }
+            }
+        }
+        .note-preview {
+            color: $color !important;
+            span {
+                background-color: transparentize($color: $color, $amount: 0.9) !important;
             }
         }
     }

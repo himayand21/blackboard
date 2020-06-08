@@ -33,7 +33,6 @@ const userDetailQuery = {
             email
         }) {
             const selectedNote = await Note.findById(note);
-            console.log(selectedNote);
             return UserDetail.findOne({
                 email,
                 _id: {

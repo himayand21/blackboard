@@ -29,6 +29,18 @@ const noteQuery = {
             return Note.find({board}).sort('-time');
         }
     },
+    getPinnedNotes: {
+        type: new GraphQLList(NoteType),
+        args: {
+            id: {type: new GraphQLNonNull(GraphQLID)}
+        },
+        resolve(parentValue, {id}) {
+            return Note.find({
+                owner: id,
+                pinned: true
+            }).sort('-time');
+        }
+    },
     getSharedNotes: {
         type: new GraphQLList(NoteType),
         args: {
@@ -37,7 +49,18 @@ const noteQuery = {
         resolve(parentValue, {id}) {
             return Note.find({
                 sharedWith: id
-            });
+            }).sort('-time');
+        }
+    },
+    getRecentNotes: {
+        type: new GraphQLList(NoteType),
+        args: {
+            id: {type: new GraphQLNonNull(GraphQLID)}
+        },
+        resolve(parentValue, {id}) {
+            return Note.find({
+                owner: id
+            }).sort('-time').limit(4);
         }
     }
 };

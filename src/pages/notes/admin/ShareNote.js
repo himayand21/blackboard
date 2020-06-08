@@ -131,7 +131,7 @@ export const ShareNote = (props) => {
                     )}
                 </div>
             ) : null}
-            {userData?.userDetail?.connections?.length ? (
+            {userData?.userDetail?.connectionDetails?.length ? (
                 <div className="shared-with-section">
                     <div className="share-header">CONNECTIONS</div>
                     {userData.userDetail.connectionDetails.map((each) => (
