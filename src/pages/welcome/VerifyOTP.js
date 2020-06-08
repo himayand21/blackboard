@@ -40,7 +40,7 @@ const VerifyOTP = (props) => {
         setEnterOTPVisible
     } = withAuthProps;
 
-    const inputsRef = useRef(OTPInputIds.map(() => createRef()));
+    const inputsRef = OTPInputIds.map(() => useRef(null));
 
     useEffect(() => {
         setEnterOTPVisible(false);

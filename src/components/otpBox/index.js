@@ -35,11 +35,11 @@ export const OTPBox = (props) => {
     const isOneDigitNumber = (value) => !isNaN(value) && value.length === 1;
 
     const focusToNextBox = (index, value) => {
-        parseInt(index) < lengthOfOTP - 1 && isOneDigitNumber(value) && inputsRef.current[parseInt(index) + 1].focus();
+        parseInt(index) < lengthOfOTP - 1 && isOneDigitNumber(value) && inputsRef[parseInt(index) + 1].focus();
     };
 
     const focusToPreviousBox = (index) => {
-        parseInt(index) > 0 && inputsRef.current[parseInt(index) - 1].focus();
+        parseInt(index) > 0 && inputsRef[parseInt(index) - 1].focus();
     };
 
 
@@ -52,7 +52,7 @@ export const OTPBox = (props) => {
                 data-otpid={each}
                 data-index={index}
                 onChange={handleOTPinput}
-                ref={el => inputsRef.current[index] = el}
+                ref={el => inputsRef[index] = el}
                 key={each + index}
                 onKeyDown={checkBackSpace}
             />
