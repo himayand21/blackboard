@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import PropTypes from 'prop-types';
 import {useHistory, useRouteMatch} from 'react-router-dom';
 import {useQuery, useMutation} from '@apollo/react-hooks';
@@ -11,8 +11,7 @@ import {
 
 import query from '../../../queries/noteDetails';
 import mutation from '../../../mutations/updateNote';
-import refetchQuery from '../../../queries/boardDetails';
-import recentNotesQuery from '../../../queries/getRecentNotes';
+import refetchQuery from '../../../queries/refetchQuery';
 
 import {Toast} from '../../../components/toast/Toast';
 import {Loader} from '../../../components/loader';
@@ -25,6 +24,7 @@ export const EditNote = (props) => {
     const [newDescription, setDescription] = useState('');
     const [newTitle, setTitle] = useState('');
     const [editorState, onChange] = useState(null);
+    const editorRef = useRef(null);
 
     const match = useRouteMatch();
     const {noteId} = match.params;
@@ -103,7 +103,7 @@ export const EditNote = (props) => {
     };
 
     const updateNote = async () => {
-        const {id, board, owner} = note;
+        const {id, owner} = note;
         await mutate({
             variables: {
                 id,
@@ -113,12 +113,9 @@ export const EditNote = (props) => {
             },
             refetchQueries: [{
                 query,
-                variables: {id: board}
+                variables: {id}
             }, {
                 query: refetchQuery,
-                variables: {id: board}
-            }, {
-                query: recentNotesQuery,
                 variables: {id: owner}
             }]
         });
@@ -172,7 +169,7 @@ export const EditNote = (props) => {
                     </button>
                 </div>
             </div>
-            <div className="note-wrapper">
+            <div className="note-wrapper" ref={editorRef}>
                 <div className="note-title">
                     <input
                         onChange={handleTitleChange}
@@ -199,6 +196,7 @@ export const EditNote = (props) => {
                     <NoteEditor
                         editorState={editorState}
                         onChange={onChange}
+                        editorRef={editorRef}
                     />
                 </div>
             </div>

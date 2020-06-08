@@ -68,6 +68,34 @@
   }
 }
 
+.fullscreen-button-wrapper {
+  position: fixed;
+  bottom: 15px;
+  @include animate-fade-in(0.2s);
+  @include typography-intro-reduced();
+  @include center();
+  flex-direction: column;
+  justify-content: flex-start;
+  border-radius: 22.5px;
+  background-color: $faded-black;
+  max-height: 45px;
+  width: 45px;
+  left: 15px;
+  @media only screen and (max-width: 735px) {
+    left: 10px;
+  }
+  .standard-button {
+    @include standard-button();
+    min-height: 45px;
+    min-width: 45px;
+    padding: 0px;
+    backface-visibility: hidden;
+    @include center();
+    border-radius: 22.5px;
+    color: $black;
+  }
+}
+
 .editor-button-wrapper {
   position: fixed;
   bottom: 15px;

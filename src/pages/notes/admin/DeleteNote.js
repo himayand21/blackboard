@@ -6,7 +6,7 @@ import {useMutation} from '@apollo/react-hooks';
 import {Loader} from '../../../components/loader';
 import {Toast} from '../../../components/toast/Toast';
 
-import query from '../../../queries/boardDetails';
+import refetchQuery from '../../../queries/refetchQuery';
 import mutation from '../../../mutations/deleteNote';
 
 import {REDIRECT_TOKEN} from '../../../constants';
@@ -17,7 +17,7 @@ export const DeleteNote = (props) => {
     });
 
     const {note, hideModal, backURL} = props;
-    const {id, board} = note;
+    const {id, owner} = note;
 
     const history = useHistory();
 
@@ -27,9 +27,9 @@ export const DeleteNote = (props) => {
                 id
             },
             refetchQueries: [{
-                query,
+                query: refetchQuery,
                 variables: {
-                    id: board
+                    id: owner
                 }
             }]
         });

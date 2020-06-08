@@ -25,7 +25,7 @@
     }
     .note-name {
         @include typography-intro-reduced();
-        margin-bottom: 20px;
+        margin-bottom: 15px;
         margin-top: -15px;
         margin-left: -15px;
         width: calc(100% + 30px);
@@ -207,6 +207,21 @@
                     margin-top: -2px;
                 }
             }
+        }
+        .note-owned-by {
+            margin: 10px 0;
+            padding-right: 10px;
+            border-radius: 17px;
+            .profile-icon {
+                margin-right: 7px;
+            }
+            .note-owned-by-name {
+                max-width: calc(100% - 35px);
+            }
+        }
+        .note-time {
+            width: calc(100% + 20px);
+            margin-left: -10px;
         }
     }
 }

@@ -61,7 +61,7 @@ const Error = (props) => {
 };
 
 Error.propTypes = {
-    currentError: PropTypes.object
+    currentError: PropTypes.bool
 };
 
 export default Error;

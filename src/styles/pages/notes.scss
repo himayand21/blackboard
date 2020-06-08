@@ -395,3 +395,17 @@
         margin-right: 0px !important;
     }
 }
+
+@media only screen and (max-width: 735px) {
+  .notes-section {
+    .editor-button-wrapper, .fullscreen-button-wrapper, .absolute-button-wrapper {
+      .standard-button {
+        min-height: 40px;
+        min-width: 40px;
+      }
+    }
+    .editor-button-wrapper .options-wrapper .editor-submenu .submenu-options-wrapper {
+      margin-top: 2.5px;
+    }
+  }
+}

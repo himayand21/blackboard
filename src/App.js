@@ -24,6 +24,7 @@ const initialState = {
 const App = () => {
     const [state, setState] = useState(initialState);
     const [enterOTPVisible, setEnterOTPVisible] = useState(false);
+    const [currentError, setCurrentError] = useState(false);
 
     const {addToast} = useToast();
 
@@ -165,6 +166,7 @@ const App = () => {
                 ...state,
                 loading: false
             });
+            setCurrentError(true);
             addToast({
                 type: 'error',
                 message: error.message
@@ -210,6 +212,7 @@ const App = () => {
             enterOTPVisible={enterOTPVisible}
             setEnterOTPVisible={setEnterOTPVisible}
             clearState={clearState}
+            currentError={currentError}
         />
     );
 };
