@@ -7,7 +7,7 @@ export const NavBar = (props) => {
         <nav className="navbar-container">
             <div className="navbar">
                 <header className="header">
-                    <span onClick={onTitleClick ? onTitleClick : () => {}}>
+                    <span onClick={onTitleClick ? onTitleClick : () => {}} role="link">
                         Blackboard
                     </span>
                 </header>
