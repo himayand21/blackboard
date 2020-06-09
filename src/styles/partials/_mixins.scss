@@ -34,6 +34,9 @@
   font-weight: bold;
   transition: $background-hover;
   color: $black;
+  i {
+    font-size: 13px !important;
+  }
 
   &:disabled {
 	  opacity: 0.6;
@@ -115,6 +118,9 @@
   @media only screen and (max-width: 1068px) {
     padding: 40px 30px;
   }
+  @media only screen and (max-width: 735px) {
+    padding: 30px 20px;
+  }
 }
 
 @mixin modal-section {
@@ -141,6 +147,7 @@
   .header {
     flex: 1;
     @include typography-intro-super();
+    font-weight: bold;
   }
 }
 

@@ -21,6 +21,9 @@ $font-family: 'Poppins', sans-serif;
 	font-size: 14px;
 	font-weight: normal;
 	font-family: $font-family;
+	@media only screen and (max-width: 735px) {
+		font-size: 11px;
+	}
 }
 
 @mixin typography-headline-super {

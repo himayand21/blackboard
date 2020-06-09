@@ -6,11 +6,10 @@ export const NavBar = (props) => {
     return (
         <nav className="navbar-container">
             <div className="navbar">
-                <header
-                    className={`header ${onTitleClick ? 'hoverable' : ''}`}
-                    onClick={onTitleClick ? onTitleClick : () => {}}
-                >
-                    Blackboard
+                <header className="header">
+                    <span onClick={onTitleClick ? onTitleClick : () => {}} role="link">
+                        Blackboard
+                    </span>
                 </header>
                 <div className="navbar-children">{props.children}</div>
             </div>

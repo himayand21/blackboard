@@ -92,7 +92,7 @@ Routes.propTypes = {
     getCurrentUser: PropTypes.func,
     user: PropTypes.object,
     token: PropTypes.string,
-    currentError: PropTypes.object
+    currentError: PropTypes.bool
 };
 
 export default Routes;

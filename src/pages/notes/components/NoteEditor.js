@@ -4,6 +4,7 @@ import {EditorState, RichUtils} from 'draft-js';
 import Editor from 'draft-js-plugins-editor';
 
 import {Modal} from '../../../components/modal';
+import {useToast} from '../../../components/toast';
 
 import {Options} from '../components/Options';
 import {getBlockStyle} from '../util/getBlockStyle';
@@ -19,8 +20,10 @@ export const NoteEditor = (props) => {
     const [optionButton, setOptionButton] = useState(false);
     const [show, setShow] = useState(false);
     const [link, setLink] = useState('');
+    const [fullScreenFlag, setFullScreenFlag] = useState(false);
+    const {addToast} = useToast();
 
-    const {editorState, onChange, readOnly} = props;
+    const {editorState, onChange, readOnly, editorRef} = props;
 
     const toggleShowOptions = () => setShowOptions(!showOptions);
     const showOptionButton = () => setOptionButton(true);
@@ -31,6 +34,44 @@ export const NoteEditor = (props) => {
             onChange(EditorState.createEmpty());
         }
     }, []);
+
+    const enterFullScreen = () => {
+        setFullScreenFlag(true);
+        const element = editorRef.current;
+        if (element.requestFullscreen) element.requestFullscreen();
+        else if (element.mozRequestFullScreen) element.mozRequestFullScreen();
+        else if (element.webkitRequestFullScreen) element.webkitRequestFullScreen();
+        else if (element.msRequestFullscreen) element.msRequestFullscreen();
+        else throw new Error('Error');
+    };
+
+    const exitFullScreen = () => {
+        setFullScreenFlag(false);
+        const doc = window.document;
+        if (doc.exitFullscreen) doc.exitFullscreen();
+        else if (doc.mozCancelFullScreen) doc.mozCancelFullScreen();
+        else if (doc.webkitExitFullscreen) doc.webkitExitFullscreen();
+        else if (doc.msExitFullscreen) doc.msExitFullscreen();
+        else throw new Error('Error');
+    };
+
+    const toggleFullScreen = () => {
+        try {
+            if (editorRef) {
+                if (!fullScreenFlag) {
+                    enterFullScreen();
+                } else {
+                    exitFullScreen();
+                }
+            }
+            return null;
+        } catch (error) {
+            addToast({
+                type: 'error',
+                message: 'We are facing some trouble switching to fullscreen.'
+            });
+        }
+    };
 
     const onToggleLink = (hasLink, linkKey) => {
         const contentState = editorState.getCurrentContent();
@@ -77,6 +118,12 @@ export const NoteEditor = (props) => {
         if (command === 'shift-enter') {
             onChange(RichUtils.insertSoftNewline(editorState));
         }
+        if (command === 'split-block') {
+            setTimeout(() => {
+                editorRef.current.scrollTop = editorRef.current.scrollHeight;
+            }, 100);
+            return 'not-handled';
+        }
         if (newState) {
             onChange(newState);
             return 'handled';
@@ -118,7 +165,6 @@ export const NoteEditor = (props) => {
             <>
                 <div
                     className="note-editor"
-                    id="note-editor"
                     onFocus={showOptionButton}
                     onBlur={hideOptionButton}
                 >
@@ -133,8 +179,9 @@ export const NoteEditor = (props) => {
                         plugins={[LinkPlugin]}
                     />
                 </div>
-                {readOnly ? null : (
+                {readOnly ? null : [
                     <div
+                        key={'editor-button-wrapper'}
                         className={`${showOptions ? 'with-options' : ''} editor-button-wrapper`}
                     >
                         <button
@@ -195,8 +242,13 @@ export const NoteEditor = (props) => {
                             </div> :
                             null
                         }
+                    </div>,
+                    <div className="fullscreen-button-wrapper" key="fullscreen-button-wrapper">
+                        <button className="standard-button" onClick={toggleFullScreen}>
+                            <i className="fas fa-expand" />
+                        </button>
                     </div>
-                )}
+                ]}
             </>
         );
     }
@@ -206,5 +258,6 @@ export const NoteEditor = (props) => {
 NoteEditor.propTypes = {
     editorState: PropTypes.object,
     onChange: PropTypes.func,
-    readOnly: PropTypes.bool
+    readOnly: PropTypes.bool,
+    editorRef: PropTypes.object
 };

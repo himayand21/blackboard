@@ -12,7 +12,4 @@
 }
 .navbar {
 	@include nav-bar();
-	header.hoverable {
-		cursor: pointer;
-	}
 }

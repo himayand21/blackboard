@@ -9,7 +9,7 @@ import {
     NOTES
 } from '../../../constants';
 
-import query from '../../../queries/boards';
+import refetchQuery from '../../../queries/refetchQuery';
 import mutation from '../../../mutations/moveNote';
 
 import {Toast} from '../../../components/toast/Toast';
@@ -30,7 +30,7 @@ export const MoveNote = (props) => {
                 board: selectedBoard
             },
             refetchQueries: [{
-                query,
+                query: refetchQuery,
                 variables: {user: note.owner}
             }]
         });

@@ -8,12 +8,10 @@ import {getRelativeTime} from '../../util/getRelativeTime';
 import {getSpan} from '../../util/getSpan';
 import {getPlural} from '../../util/getPlural';
 
-import sharedNotesQuery from '../../queries/getSharedNotes';
-import recentNotesQuery from '../../queries/getRecentNotes';
-import pinnedNotesQuery from '../../queries/getPinnedNotes';
-import query from '../../queries/boards';
+import dashboardQuery from '../../queries/dashboardDetails';
 
 import {Modal} from '../../components/modal';
+import {Interactive} from '../../components/interactive';
 import {NoteBox} from '../notes/components/NoteBox';
 
 import {
@@ -22,7 +20,7 @@ import {
     NOTES,
     ERROR
 } from '../../constants';
-import {Interactive} from '../../components/interactive';
+
 import {DeleteBoard} from './DeleteBoard';
 import {EditBoard} from './EditBoard';
 import {CreateBoard} from './CreateBoard';
@@ -38,38 +36,24 @@ export const Boards = (props) => {
     const match = useRouteMatch();
 
     const {id} = props;
-    const {error, loading, data} = useQuery(query, {
-        variables: {
-            user: id
-        }
-    });
-    const {error: sharedNotesError, loading: loadingSharedNotes, data: sharedNotesData} = useQuery(sharedNotesQuery, {
-        variables: {
-            id
-        }
-    });
-    const {error: recentNotesError, loading: loadingRecentNotes, data: recentNotesData} = useQuery(recentNotesQuery, {
-        variables: {
-            id
-        }
-    });
-    const {error: pinnedNotesError, loading: loadingPinnedNotes, data: pinnedNotesData} = useQuery(pinnedNotesQuery, {
+
+    const {error, loading, data} = useQuery(dashboardQuery, {
         variables: {
             id
         }
     });
 
     useEffect(() => {
-        if (error || sharedNotesError || recentNotesError || pinnedNotesError) {
+        if (error) {
             history.push(ERROR);
         }
-    }, [error, sharedNotesError, recentNotesError, pinnedNotesError]);
+    }, [error]);
 
-    if (error || sharedNotesError || recentNotesError || pinnedNotesError) {
+    if (error) {
         return null;
     }
 
-    if (loading || loadingSharedNotes || loadingRecentNotes || loadingPinnedNotes) {
+    if (loading) {
         return (
             <div className="boards-wrapper">
                 <div className="loading-section">
@@ -81,10 +65,7 @@ export const Boards = (props) => {
         );
     }
 
-    const {boards} = data;
-    const {getSharedNotes: sharedNotes} = sharedNotesData;
-    const {getRecentNotes: recentNotes} = recentNotesData;
-    const {getPinnedNotes: pinnedNotes} = pinnedNotesData;
+    const {boards, recentNotes, pinnedNotes, sharedNotes} = data;
 
     const showCreateBoardModal = () => {
         setShow(true);
