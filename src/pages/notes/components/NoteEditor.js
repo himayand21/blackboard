@@ -197,17 +197,15 @@ export const NoteEditor = (props) => {
                         key={'editor-button-wrapper'}
                         className={`${showOptions ? 'with-options' : ''} editor-button-wrapper`}
                     >
-                        {optionsVisible ? (
-                            <button
-                                className={`standard-button ${optionsVisible ? '' : 'no-display'}`}
-                                onMouseDown={(event) => {
-                                    event.preventDefault();
-                                    toggleShowOptions();
-                                }}
-                            >
-                                <i className="fas fa-chevron-up" />
-                            </button>
-                        ) : null}
+                        <button
+                            className={`standard-button ${optionsVisible ? '' : 'no-display'}`}
+                            onMouseDown={(event) => {
+                                event.preventDefault();
+                                toggleShowOptions();
+                            }}
+                        >
+                            <i className="fas fa-chevron-up" />
+                        </button>
                         {show ?
                             <main className="modal-wrapper" onClick={outsideClick}>
                                 <div className="modal-section animate-1">
