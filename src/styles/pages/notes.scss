@@ -285,6 +285,14 @@
         background-color: lighten($color, 5) !important;
       }
     }
+    .modal-wrapper .standard-button {
+      background-color: $green !important;
+      border-radius: 5px;
+      padding: 10px 15px;
+      &:hover {
+        background-color: lighten($color: $green, $amount: 5) !important;
+      }
+    }
     .standard-badge {
       background-color: $color;
     }

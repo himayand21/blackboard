@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import {EditorState, RichUtils} from 'draft-js';
 import Editor from 'draft-js-plugins-editor';
 
-import {Modal} from '../../../components/modal';
 import {useToast} from '../../../components/toast';
 
 import {Options} from '../components/Options';
@@ -21,6 +20,8 @@ export const NoteEditor = (props) => {
     const [show, setShow] = useState(false);
     const [link, setLink] = useState('');
     const [fullScreenFlag, setFullScreenFlag] = useState(false);
+    const [optionsVisible, setOptionsVisible] = useState(false);
+
     const {addToast} = useToast();
 
     const {editorState, onChange, readOnly, editorRef} = props;
@@ -34,6 +35,12 @@ export const NoteEditor = (props) => {
             onChange(EditorState.createEmpty());
         }
     }, []);
+
+    useEffect(() => {
+        setOptionsVisible(false);
+        const timeoutId = setTimeout(() => setOptionsVisible(true), 500);
+        return (() => clearTimeout(timeoutId));
+    }, [editorState]);
 
     const enterFullScreen = () => {
         setFullScreenFlag(true);
@@ -139,6 +146,12 @@ export const NoteEditor = (props) => {
         onChange(RichUtils.toggleInlineStyle(editorState, inlineType));
     };
 
+    const outsideClick = (event) => {
+        if (event.target === event.currentTarget) {
+            hideModal();
+        }
+    };
+
     if (editorState) {
         const selection = editorState.getSelection();
         const anchorKey = selection.getAnchorKey();
@@ -185,7 +198,7 @@ export const NoteEditor = (props) => {
                         className={`${showOptions ? 'with-options' : ''} editor-button-wrapper`}
                     >
                         <button
-                            className="standard-button"
+                            className={`standard-button ${optionsVisible ? '' : 'no-display'}`}
                             onMouseDown={(event) => {
                                 event.preventDefault();
                                 toggleShowOptions();
@@ -194,42 +207,45 @@ export const NoteEditor = (props) => {
                             <i className="fas fa-chevron-up" />
                         </button>
                         {show ?
-                            <Modal
-                                show={show}
-                                hideModal={hideModal}
-                            >
-                                <div className="create-board">
-                                    <header className="create-board-header">Add Link here</header>
-                                    <div className="create-board-form">
-                                        <div className="form-label">
+                            <main className="modal-wrapper" onClick={outsideClick}>
+                                <div className="modal-section animate-1">
+                                    <header className="modal-header">
+                                        <button onClick={hideModal} className="close-button">
+                                            <i className="fas fa-times" />
+                                        </button>
+                                    </header>
+                                    <div className="create-board">
+                                        <header className="create-board-header">Add Link here</header>
+                                        <div className="create-board-form">
+                                            <div className="form-label">
                                             LINK
+                                            </div>
+                                            <input
+                                                value={link}
+                                                placeholder="Maximum 20 characters"
+                                                onChange={(event) => setLink(event.target.value)}
+                                            />
+                                            <div className="form-error-row" />
                                         </div>
-                                        <input
-                                            value={link}
-                                            placeholder="Maximum 20 characters"
-                                            onChange={(event) => setLink(event.target.value)}
-                                        />
-                                        <div className="form-error-row" />
-                                    </div>
-                                    <footer className="create-board-footer">
-                                        <button
-                                            className="standard-button"
-                                            onClick={onConfirm}
-                                        >
+                                        <footer className="create-board-footer">
+                                            <button
+                                                className="standard-button"
+                                                onClick={onConfirm}
+                                            >
                                             Confirm
-                                        </button>
-                                        <button
-                                            className="standard-button"
-                                            onClick={hideModal}
-                                        >
+                                            </button>
+                                            <button
+                                                className="standard-button"
+                                                onClick={hideModal}
+                                            >
                                             Cancel
-                                        </button>
-                                    </footer>
+                                            </button>
+                                        </footer>
+                                    </div>
                                 </div>
-                            </Modal>
-                            : null}
-                        {showOptions ?
-                            <div className="options-wrapper">
+                            </main> : null}
+                        {showOptions ? (
+                            <div className={`options-wrapper ${optionsVisible ? '' : 'no-display'}`}>
                                 <Options
                                     toggleBlockType={toggleBlockType}
                                     editorState={editorState}
@@ -239,13 +255,15 @@ export const NoteEditor = (props) => {
                                     insertConfig={insertConfig}
                                     toggleInsertType={toggleInsertType}
                                 />
-                            </div> :
-                            null
-                        }
+                            </div>
+                        ) : null}
                     </div>,
-                    <div className="fullscreen-button-wrapper" key="fullscreen-button-wrapper">
-                        <button className="standard-button" onClick={toggleFullScreen}>
-                            <i className="fas fa-expand" />
+                    <div
+                        className={`fullscreen-button-wrapper ${optionsVisible ? '' : 'no-display'}`}
+                        key="fullscreen-button-wrapper"
+                    >
+                        <button className="standard-button" onMouseDown={toggleFullScreen}>
+                            <i className={fullScreenFlag ? 'fas fa-compress' : 'fas fa-expand'} />
                         </button>
                     </div>
                 ]}
