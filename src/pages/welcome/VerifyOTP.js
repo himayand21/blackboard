@@ -1,15 +1,15 @@
-import React, { useState, useEffect, useRef, createRef } from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import PropTypes from 'prop-types';
-import { useHistory } from 'react-router-dom';
-import { NavBar } from '../../components/navBar';
-import { Footer } from '../../components/footer';
-import { Loader } from '../../components/loader';
-import { WELCOME } from '../../constants';
-import { Background } from '../../components/background';
-import { useToast } from '../../components/toast';
+import {useHistory} from 'react-router-dom';
+import {NavBar} from '../../components/navBar';
+import {Footer} from '../../components/footer';
+import {Loader} from '../../components/loader';
+import {WELCOME} from '../../constants';
+import {Background} from '../../components/background';
+import {useToast} from '../../components/toast';
 
-import { resendOtpAPI } from '../../api/resendOTP';
-import { OTPBox } from '../../components/otpBox';
+import {resendOtpAPI} from '../../api/resendOTP';
+import {OTPBox} from '../../components/otpBox';
 
 const OTPValuesInitial = {
     input1: '',
@@ -28,7 +28,7 @@ const VerifyOTP = (props) => {
     const history = useHistory();
     const addToast = useToast();
 
-    const { withAuthProps } = props;
+    const {withAuthProps} = props;
 
     const {
         sendOTP,
@@ -50,10 +50,9 @@ const VerifyOTP = (props) => {
         if (user?.email) setEmail(user.email);
     }, [user]);
 
+    const OTPEntered = Object.values(otp).join('');
 
-    const OTPEntered = Object.values(otp).reduce((acc, currentVal) => String(acc) + String(currentVal), '');
-
-    const isOTPValid = () => !isNaN(OTPEntered) && OTPEntered.length === 6;
+    const isOTPValid = !isNaN(OTPEntered) && OTPEntered.length === 6;
 
     const handleVerifyOTP = () => {
         verifyOTP({
@@ -132,7 +131,7 @@ const VerifyOTP = (props) => {
                                             Resend
                                         </span>
                                     </div>
-                                    <button className="standard-button" disabled={!isOTPValid()} onClick={handleVerifyOTP}>
+                                    <button className="standard-button" disabled={!isOTPValid} onClick={handleVerifyOTP}>
                                         {loading ? <Loader /> : 'Verify'}
                                     </button>
                                 </footer>
@@ -140,32 +139,33 @@ const VerifyOTP = (props) => {
                         </article>
                     </section>
                 ) : (
-                        <section className="login-content">
-                            <article className="login-article article">
-                                <div className="login-modal animate-1">
-                                    <div className="login-header">Verify your Email Address</div>
-                                    <div className="login-subheader">{`Please confirm to request an OTP to your registered email address.`}</div>
-                                    <div className="login-form">
-                                        <div className="form-row">
-                                            <div className="form-label">EMAIL</div>
-                                            <input
-                                                value={email}
-                                                readOnly={Boolean(user)}
-                                                onChange={updateEmail}
-                                            />
-                                        </div>
-                                        <div className="form-error-row" />
+                    <section className="login-content">
+                        <article className="login-article article">
+                            <div className="login-modal animate-1">
+                                <div className="login-header">Verify your Email Address</div>
+                                <div className="login-subheader">{`Please confirm to request an OTP to your registered email address.`}</div>
+                                <div className="login-form">
+                                    <div className="form-row">
+                                        <div className="form-label">EMAIL</div>
+                                        <input
+                                            value={email}
+                                            readOnly={Boolean(user)}
+                                            onChange={updateEmail}
+                                            autoFocus
+                                        />
                                     </div>
-                                    <footer className="login-footer">
-                                        <div className="login-footer-link-wrapper" />
-                                        <button className="standard-button" onClick={requestOTP}>
-                                            {loading ? <Loader /> : 'Confirm'}
-                                        </button>
-                                    </footer>
+                                    <div className="form-error-row" />
                                 </div>
-                            </article>
-                        </section>
-                    )}
+                                <footer className="login-footer">
+                                    <div className="login-footer-link-wrapper" />
+                                    <button className="standard-button" onClick={requestOTP}>
+                                        {loading ? <Loader /> : 'Confirm'}
+                                    </button>
+                                </footer>
+                            </div>
+                        </article>
+                    </section>
+                )}
                 <Footer />
             </main>
         </div>

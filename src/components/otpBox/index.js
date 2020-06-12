@@ -1,4 +1,5 @@
 import React from 'react';
+
 export const OTPBox = (props) => {
     const {
         OTPInputIds,
@@ -9,24 +10,22 @@ export const OTPBox = (props) => {
     const lengthOfOTP = OTPInputIds.length;
 
     const handleOTPinput = (event) => {
-        const { value, dataset: { otpid, index } } = event.target;
-        if (otp[otpid] === '') {
-            setOtp({ ...otp, [otpid]: isOneDigitNumber(value) ? value : otp[otpid] });
+        const {value, dataset: {otpid, index}} = event.target;
+        if (otp[otpid] === '' && isOneDigitNumber(value)) {
+            setOtp({...otp, [otpid]: value});
             focusToNextBox(index, value);
-        }
-        else if (value === "") {
-            setOtp({ ...otp, [otpid]: value });
-        }
-        else {
+        } else if (value === '') {
+            setOtp({...otp, [otpid]: value});
+        } else {
             const newValue = value.slice(otp[otpid].length) || value;
-            setOtp({ ...otp, [otpid]: isOneDigitNumber(newValue) ? newValue : otp[otpid] });
+            isOneDigitNumber(newValue) && setOtp({...otp, [otpid]: newValue});
             focusToNextBox(index, value);
         }
     };
 
     const checkBackSpace = (event) => {
-        const { dataset: { otpid, index, } } = event.target;
-        if ((event.key == 'Backspace' || event.keyCode === 8) && !otp[otpid]) {
+        const {dataset: {otpid, index}} = event.target;
+        if ((event.key === 'Backspace' || event.keyCode === 8) && !otp[otpid]) {
             event.preventDefault();
             focusToPreviousBox(index);
         }
@@ -35,28 +34,30 @@ export const OTPBox = (props) => {
     const isOneDigitNumber = (value) => !isNaN(value) && value.length === 1;
 
     const focusToNextBox = (index, value) => {
-        parseInt(index) < lengthOfOTP - 1 && isOneDigitNumber(value) && inputsRef[parseInt(index) + 1].focus();
+        if ((parseInt(index, 10) < lengthOfOTP - 1) && isOneDigitNumber(value)) {
+            inputsRef[parseInt(index, 10) + 1].focus();
+        }
     };
 
     const focusToPreviousBox = (index) => {
-        parseInt(index) > 0 && inputsRef[parseInt(index) - 1].focus();
+        if (parseInt(index, 10) > 0) {
+            inputsRef[parseInt(index, 10) - 1].focus();
+        }
     };
-
-
 
     return (
         OTPInputIds.map((each, index) => (
             <input
-                autoFocus={index == 0}
+                autoFocus={index === 0}
                 value={otp[each]}
                 data-otpid={each}
                 data-index={index}
                 onChange={handleOTPinput}
-                ref={el => inputsRef[index] = el}
+                ref={(el) => inputsRef[index] = el}
                 key={each + index}
                 onKeyDown={checkBackSpace}
             />
         ))
 
-    )
-}
+    );
+};
