@@ -41,6 +41,8 @@ export const EditNote = (props) => {
 
     const history = useHistory();
 
+    useEffect(() => () => document.title = 'Blackboard', []);
+
     useEffect(() => {
         if (data?.note) {
             const {name, description, editor} = data.note;
@@ -66,6 +68,10 @@ export const EditNote = (props) => {
             else setMessage('You have unsaved changes ...');
         }
     }, [editorState, newTitle, newDescription]);
+
+    useEffect(() => {
+        document.title = `[Note]: ${newTitle || 'Untitled'} - Blackboard`;
+    }, [newTitle]);
 
     useEffect(() => {
         if (error) {
@@ -154,7 +160,6 @@ export const EditNote = (props) => {
                     <button
                         className="standard-button"
                         onClick={switchToReadOnly}
-                        disabled={!message}
                     >
                         Discard
                     </button>

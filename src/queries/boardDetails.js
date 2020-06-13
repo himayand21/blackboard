@@ -13,11 +13,18 @@ query board ($id: ID!) {
       name,
       description,
       sharedWith,
+      sharedWithDetails {
+        name
+      }
 	    time,
       board,
       owner,
       pinned,
       comments {
+        time,
+        senderDetails {
+          name
+        }
         id
       }
     }

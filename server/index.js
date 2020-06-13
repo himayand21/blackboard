@@ -5,6 +5,8 @@ const bodyParser = require('body-parser');
 const expressGraphQL = require('express-graphql');
 const mongoose = require('mongoose');
 const serverless = require('serverless-http');
+const cookieParser = require('cookie-parser');
+
 const server = require('./auth');
 
 const schema = require('./schema');
@@ -39,6 +41,8 @@ db.once('open', () => {
 app.listen(PORT, () => {
     console.log('Listening');
 });
+
+app.use(cookieParser());
 
 app.use(express.static(__dirname + '/build'));
 app.use(bodyParser.urlencoded({extended: true}));

@@ -17,7 +17,6 @@ import './styles/App.scss';
 
 const initialState = {
     user: null,
-    token: null,
     loading: false
 };
 
@@ -86,10 +85,9 @@ const App = () => {
                 ...state,
                 laoding: true
             });
-            const {user, token} = await verifyOtpAPI(body);
+            const {user} = await verifyOtpAPI(body);
             setState({
                 user,
-                token,
                 loading: false
             });
             setEnterOTPVisible(true);
@@ -111,11 +109,10 @@ const App = () => {
                 ...state,
                 loading: true
             });
-            const {user, token} = await loginAPI(body);
+            const {user} = await loginAPI(body);
             setState({
                 ...initialState,
-                user,
-                token
+                user
             });
         } catch (error) {
             setState({
@@ -129,13 +126,13 @@ const App = () => {
         }
     };
 
-    const logout = async (token, allDeviceFlag) => {
+    const logout = async (allDeviceFlag) => {
         try {
             setState({
                 ...state,
                 loading: true
             });
-            await logoutAPI(token, allDeviceFlag);
+            await logoutAPI(allDeviceFlag);
             setState(initialState);
         } catch (error) {
             setState({
@@ -149,17 +146,16 @@ const App = () => {
         }
     };
 
-    const getCurrentUser = async (token) => {
+    const getCurrentUser = async () => {
         try {
             setState({
                 ...state,
                 loading: true
             });
-            const user = await currentUserAPI(token);
+            const user = await currentUserAPI();
             setState({
                 ...initialState,
-                user,
-                token
+                user
             });
         } catch (error) {
             setState({
@@ -167,10 +163,12 @@ const App = () => {
                 loading: false
             });
             setCurrentError(true);
-            addToast({
-                type: 'error',
-                message: error.message
-            });
+            if (state.user) {
+                addToast({
+                    type: 'error',
+                    message: error.message
+                });
+            }
         }
     };
 

@@ -49,14 +49,17 @@ function login(User) {
                                 } else if (validUser.verified) {
                                     const token = await validUser.generateAuthToken();
                                     await validUser.save();
+                                    res.cookie('token', token, {
+                                        httpOnly: true,
+                                        sameSite: true
+                                    });
                                     res.status(200).send({
                                         user: {
                                             email: validUser.email,
                                             // eslint-disable-next-line no-underscore-dangle
                                             id: validUser._id,
                                             verified: validUser.verified
-                                        },
-                                        token
+                                        }
                                     });
                                 } else {
                                     await validUser.save();

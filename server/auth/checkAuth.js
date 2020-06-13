@@ -4,8 +4,8 @@ const jwt = require('jsonwebtoken');
 function checkAuth(User) {
     return async function(req, res, next) {
         try {
-            const header = req.header('Authorization');
-            if (!header) {
+            const {token} = req.cookies;
+            if (!token) {
                 res.status(401).send({
                     error: {
                         status: 401,
@@ -14,7 +14,6 @@ function checkAuth(User) {
                     }
                 });
             } else {
-                const token = header.split(' ')[1];
                 jwt.verify(token, process.env.JWT_KEY, (err, decoded) => {
                     if (err) {
                         res.status(401).send({
@@ -40,7 +39,6 @@ function checkAuth(User) {
                                     id: user._id,
                                     verified: user.verified
                                 };
-                                req.token = token;
                                 next();
                             }
                         });

@@ -31,7 +31,7 @@ export const MoveNote = (props) => {
             },
             refetchQueries: [{
                 query: refetchQuery,
-                variables: {user: note.owner}
+                variables: {id: note.owner}
             }]
         });
         const newRoute = `${DASHBOARD}/${selectedBoard}${NOTES}/${note.id}`;

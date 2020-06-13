@@ -44,6 +44,11 @@ export const Boards = (props) => {
     });
 
     useEffect(() => {
+        document.title = 'My Dashbaord - Blackboard';
+        return (() => document.title = 'Blackboard');
+    }, []);
+
+    useEffect(() => {
         if (error) {
             history.push(ERROR);
         }

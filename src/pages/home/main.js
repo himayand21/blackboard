@@ -15,7 +15,6 @@ import {Popup} from '../../components/popup';
 import {Modal} from '../../components/modal';
 
 import {
-    AUTH_TOKEN,
     REDIRECT_TOKEN,
     ERROR,
     NOTES,
@@ -77,10 +76,8 @@ export const Main = (props) => {
     const {userDetail} = data;
 
     const userLogout = async () => {
-        const token = localStorage.getItem(AUTH_TOKEN);
         setLoggingOut(true);
-        await logout(token);
-        localStorage.removeItem(AUTH_TOKEN);
+        await logout();
         sessionStorage.removeItem(REDIRECT_TOKEN);
     };
 

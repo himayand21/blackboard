@@ -40,12 +40,12 @@ function forgotPassword(User) {
                                 const transporter = nodemailer.createTransport({
                                     service: 'gmail',
                                     auth: {
-                                        user: process.env.BLACKBOARD_EMAIL,
-                                        pass: process.env.BLACKBOARD_PASS
+                                        user: process.env.CLIENT_EMAIL,
+                                        pass: process.env.CLIENT_PASS
                                     }
                                 });
                                 transporter.sendMail({
-                                    from: `"Blackboard Solutions" <${process.env.BLACKBOARD_EMAIL}>`,
+                                    from: `"Blackboard Solutions" <${process.env.CLIENT_EMAIL}>`,
                                     to: updatedUser.email,
                                     subject: 'Forgot your Password?',
                                     text: 'Forgot your Password?',
@@ -53,7 +53,7 @@ function forgotPassword(User) {
                                     <h3>Well, it happens to the best of us.</h3>
                                     <p>Enter this OTP and verify your registered email address.</p>
                                     <h2>${otp}</h2>
-                                    <p>Feel free to contact us right <a href="mailto:${process.env.BLACKBOARD_EMAIL}">here</a>, if you face any further issues.</p>
+                                    <p>Feel free to contact us right <a href="mailto:${process.env.CLIENT_EMAIL}">here</a>, if you face any further issues.</p>
                                     <p>See you around.</p>
                                     <p><b>Team Blackboard</b></p>
                                     </div>`,

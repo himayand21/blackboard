@@ -3,16 +3,11 @@ import {NETLIFY_PREFIX} from './constants';
 export const changePasswordAPI = async (
     password
 ) => {
-    const token = await localStorage.getItem('blackboard-token');
     const response = await fetch(`${NETLIFY_PREFIX}/user/change-password`, {
         method: 'POST',
         body: JSON.stringify({
             password
         }),
-        headers: {
-            'content-type': 'application/json',
-            authorization: `Bearer ${token}`
-        },
         credentials: 'include'
     });
     if (response.ok) {

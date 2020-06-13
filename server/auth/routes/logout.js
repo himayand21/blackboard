@@ -7,9 +7,10 @@ function logout(model) {
             const {
                 body,
                 user,
-                token
+                cookies
             } = req;
-
+            const {token} = cookies;
+            res.clearCookie('token');
             model.findById(user.id, 'tokens', async (err, loggedInUser) => {
                 if (body && body.allDevices) {
                     loggedInUser.tokens = [];

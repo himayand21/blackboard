@@ -62,7 +62,8 @@ export const NoteEditor = (props) => {
         else throw new Error('Error');
     };
 
-    const toggleFullScreen = () => {
+    const toggleFullScreen = (event) => {
+        event.stopPropagation();
         try {
             if (editorRef) {
                 if (!fullScreenFlag) {
@@ -192,11 +193,8 @@ export const NoteEditor = (props) => {
                         plugins={[LinkPlugin]}
                     />
                 </div>
-                {readOnly ? null : [
-                    <div
-                        key={'editor-button-wrapper'}
-                        className={`${showOptions ? 'with-options' : ''} editor-button-wrapper`}
-                    >
+                {readOnly ? null : (
+                    <div className={`${showOptions ? 'with-options' : ''} editor-button-wrapper`}>
                         <button
                             className={`standard-button ${optionsVisible ? '' : 'no-display'}`}
                             onMouseDown={(event) => {
@@ -257,16 +255,16 @@ export const NoteEditor = (props) => {
                                 />
                             </div>
                         ) : null}
-                    </div>,
-                    <div
-                        className={`fullscreen-button-wrapper ${optionsVisible ? '' : 'no-display'}`}
-                        key="fullscreen-button-wrapper"
-                    >
-                        <button className="standard-button" onMouseDown={toggleFullScreen}>
-                            <i className={fullScreenFlag ? 'fas fa-compress' : 'fas fa-expand'} />
-                        </button>
                     </div>
-                ]}
+                )}
+                <div className={`fullscreen-button-wrapper ${optionsVisible ? '' : 'no-display'}`}>
+                    <button
+                        className="standard-button"
+                        onClick={toggleFullScreen}
+                    >
+                        <i className={fullScreenFlag ? 'fas fa-compress' : 'fas fa-expand'} />
+                    </button>
+                </div>
             </>
         );
     }

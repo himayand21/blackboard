@@ -1,18 +1,11 @@
 import {NETLIFY_PREFIX} from './constants';
 
-export const logoutAPI = async (
-    token,
-    allDeviceFlag
-) => {
+export const logoutAPI = async (allDeviceFlag) => {
     const response = await fetch(`${NETLIFY_PREFIX}/user/logout`, {
         method: 'POST',
         body: JSON.stringify({
             allDevices: allDeviceFlag
         }),
-        headers: {
-            'content-type': 'application/json',
-            authorization: `Bearer ${token}`
-        },
         credentials: 'include'
     });
     if (response.ok) {
