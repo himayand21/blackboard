@@ -8,7 +8,8 @@ import {
     currentUserAPI,
     verifyOtpAPI,
     sendOtpAPI,
-    forgotPasswordAPI
+    forgotPasswordAPI,
+    loginWithGoogleAPI
 } from './api';
 import {useToast} from './components/toast';
 
@@ -53,7 +54,14 @@ const App = () => {
             });
         }
     };
-
+    const loginWithGoogle = async () => {
+        try {
+            const {url} = await loginWithGoogleAPI();
+            window.location.href = url;
+        } catch (err) {
+            console.log(err);
+        }
+    };
     const sendOTP = async (body) => {
         try {
             setState({
@@ -206,6 +214,7 @@ const App = () => {
             signup={signup}
             sendOTP={sendOTP}
             verifyOTP={verifyOTP}
+            loginWithGoogle={loginWithGoogle}
             forgotPassword={forgotPassword}
             enterOTPVisible={enterOTPVisible}
             setEnterOTPVisible={setEnterOTPVisible}

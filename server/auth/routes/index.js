@@ -7,11 +7,15 @@ const verifyOTP = require('./verifyOTP');
 const sendOTP = require('./sendOTP');
 const forgotPassword = require('./forgotPassword');
 const resendOTP = require('./resendOTP');
+const googleLogin = require('./googleLogin');
+const googleCallBack = require('./googleCallBack');
 
 function createAuth(model) {
     return [
         current(model),
         login(model),
+        googleLogin(model),
+        googleCallBack(),
         logout(model),
         signup(model),
         changePassword(model),

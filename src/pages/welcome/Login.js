@@ -15,7 +15,10 @@ export const Login = (props) => {
     const {
         login,
         loading,
+        loginWithGoogle
     } = withAuthProps;
+
+    const handleGoogleAuth = () => loginWithGoogle();
 
     const handleLogin = () => login({email, password});
 
@@ -67,6 +70,9 @@ export const Login = (props) => {
                             </div>
                             <button className="standard-button" onClick={handleLogin}>
                                 {loading ? <Loader /> : 'Sign In'}
+                            </button>
+                            <button onClick={handleGoogleAuth}>
+                                Sign in with Google
                             </button>
                         </footer>
                     </div>
