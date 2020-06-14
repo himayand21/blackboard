@@ -8,6 +8,7 @@ import {Boards} from '../boards';
 import {Board} from '../notes';
 import {ViewNote} from '../../pages/notes/common/ViewNote';
 import {Toast} from '../../components/toast/Toast';
+import {withToast} from '../../components/toast/withToast';
 
 import query from '../../queries/userDetails';
 import mutation from '../../mutations/addUser';
@@ -26,7 +27,7 @@ import {NameForm} from './NameForm';
 import {UpdateNameForm} from './UpdateNameForm';
 import {ChangePassword} from './ChangePassword';
 
-export const Main = (props) => {
+const MainComponent = (props) => {
     const [clickPosition, setClickPosition] = useState({
         x: 0,
         y: 0
@@ -39,7 +40,7 @@ export const Main = (props) => {
     const history = useHistory();
     const match = useRouteMatch();
 
-    const {id, logout, email} = props;
+    const {id, logout, email, csrfToken, addToast} = props;
 
     const {data, loading, error} = useQuery(query, {
         variables: {
@@ -188,7 +189,11 @@ export const Main = (props) => {
                     show={changePasswordVisible}
                     hideModal={hideChangePassword}
                 >
-                    <ChangePassword hideModal={hideChangePassword} />
+                    <ChangePassword
+                        hideModal={hideChangePassword}
+                        csrfToken={csrfToken}
+                        addToast={addToast}
+                    />
                 </Modal>
             ) : null}
             <Switch>
@@ -209,8 +214,12 @@ export const Main = (props) => {
     );
 };
 
-Main.propTypes = {
+MainComponent.propTypes = {
     id: PropTypes.string,
     logout: PropTypes.func,
-    email: PropTypes.string
+    email: PropTypes.string,
+    csrfToken: PropTypes.string,
+    addToast: PropTypes.func
 };
+
+export const Main = withToast(MainComponent);

@@ -38,11 +38,12 @@ function verifyOTP(User) {
                         validUser.otp = null;
                         validUser.verified = true;
                         const token = await validUser.generateAuthToken();
-                        await validUser.save();
                         res.cookie('token', token, {
                             httpOnly: true,
+                            secure: process.env.NODE_ENV === 'production',
                             sameSite: true
                         });
+                        await validUser.save();
                         res.status(200).send({
                             user: {
                                 email: validUser.email,

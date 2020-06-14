@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
-import {useToast} from '../../components/toast';
 
 import {Loader} from '../../components/loader';
 import {changePasswordAPI} from '../../api';
@@ -10,21 +9,20 @@ export const ChangePassword = (props) => {
     const [passwordTwo, setPasswordTwo] = useState('');
     const [changing, setChanging] = useState(false);
     const [message, setError] = useState(null);
-    const {addToast} = useToast();
 
-    const {hideModal} = props;
+    const {hideModal, csrfToken, addToast} = props;
 
     const changePassword = async () => {
         setChanging(true);
         setError(null);
         try {
-            await changePasswordAPI(passwordOne);
+            await changePasswordAPI(passwordOne, csrfToken);
             setChanging(false);
+            hideModal();
             addToast({
                 type: 'success',
                 message: 'Password changed successfully.'
             });
-            hideModal();
         } catch (error) {
             setError(error.message);
             setChanging(false);
@@ -78,5 +76,7 @@ export const ChangePassword = (props) => {
 };
 
 ChangePassword.propTypes = {
-    hideModal: PropTypes.func
+    hideModal: PropTypes.func,
+    csrfToken: PropTypes.string,
+    addToast: PropTypes.func
 };
