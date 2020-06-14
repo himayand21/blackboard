@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import PropTypes from 'prop-types';
 import {useHistory, useRouteMatch} from 'react-router-dom';
 import {useQuery} from '@apollo/react-hooks';
@@ -20,6 +20,7 @@ export const ViewNote = (props) => {
 
     const history = useHistory();
     const match = useRouteMatch();
+    const editorRef = useRef(null);
 
     const {noteId} = match.params;
 
@@ -29,9 +30,12 @@ export const ViewNote = (props) => {
         }
     });
 
+    useEffect(() => () => document.title = 'Blackboard', []);
+
     useEffect(() => {
         if (data?.note) {
             const {note} = data;
+            document.title = `[Note]: ${note.name || 'Untitled'} - Blackboard`;
             if (note.editor) {
                 const rawEditorState = convertFromRaw(JSON.parse(note.editor));
                 const newEditorState = EditorState.createWithContent(rawEditorState);
@@ -100,7 +104,11 @@ export const ViewNote = (props) => {
                         />
                     </div>
                 </div>
-                <div className="note-wrapper" onClick={isOwner ? switchToEdit : null}>
+                <div
+                    className="note-wrapper"
+                    onClick={isOwner ? switchToEdit : null}
+                    ref={editorRef}
+                >
                     <div className="note-title">
                         <input
                             value={name}
@@ -120,6 +128,7 @@ export const ViewNote = (props) => {
                         <NoteEditor
                             editorState={editorState}
                             onChange={onChange}
+                            editorRef={editorRef}
                             readOnly
                         />
                     </div>

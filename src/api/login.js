@@ -3,7 +3,7 @@ import {NETLIFY_PREFIX} from './constants';
 export const loginAPI = async ({
     email,
     password
-}) => {
+}, csrfToken) => {
     const response = await fetch(`${NETLIFY_PREFIX}/user/login`, {
         method: 'POST',
         body: JSON.stringify({
@@ -11,7 +11,8 @@ export const loginAPI = async ({
             password
         }),
         headers: {
-            'content-type': 'application/json'
+            'content-type': 'application/json',
+            'X-CSRF-Token': csrfToken
         },
         credentials: 'include'
     });

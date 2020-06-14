@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {EditorState, RichUtils} from 'draft-js';
 import Editor from 'draft-js-plugins-editor';
 
-import {useToast} from '../../../components/toast';
+import {withToast} from '../../../components/toast/withToast';
 
 import {Options} from '../components/Options';
 import {getBlockStyle} from '../util/getBlockStyle';
@@ -14,7 +14,7 @@ import {checkLink} from '../util/checkLink';
 import {LINK} from '../constants';
 import LinkPlugin from './Link';
 
-export const NoteEditor = (props) => {
+const NoteEditorComponent = (props) => {
     const [showOptions, setShowOptions] = useState(false);
     const [optionButton, setOptionButton] = useState(false);
     const [show, setShow] = useState(false);
@@ -22,9 +22,7 @@ export const NoteEditor = (props) => {
     const [fullScreenFlag, setFullScreenFlag] = useState(false);
     const [optionsVisible, setOptionsVisible] = useState(false);
 
-    const {addToast} = useToast();
-
-    const {editorState, onChange, readOnly, editorRef} = props;
+    const {editorState, onChange, readOnly, editorRef, addToast} = props;
 
     const toggleShowOptions = () => setShowOptions(!showOptions);
     const showOptionButton = () => setOptionButton(true);
@@ -62,7 +60,8 @@ export const NoteEditor = (props) => {
         else throw new Error('Error');
     };
 
-    const toggleFullScreen = () => {
+    const toggleFullScreen = (event) => {
+        event.stopPropagation();
         try {
             if (editorRef) {
                 if (!fullScreenFlag) {
@@ -192,11 +191,8 @@ export const NoteEditor = (props) => {
                         plugins={[LinkPlugin]}
                     />
                 </div>
-                {readOnly ? null : [
-                    <div
-                        key={'editor-button-wrapper'}
-                        className={`${showOptions ? 'with-options' : ''} editor-button-wrapper`}
-                    >
+                {readOnly ? null : (
+                    <div className={`${showOptions ? 'with-options' : ''} editor-button-wrapper`}>
                         <button
                             className={`standard-button ${optionsVisible ? '' : 'no-display'}`}
                             onMouseDown={(event) => {
@@ -257,25 +253,28 @@ export const NoteEditor = (props) => {
                                 />
                             </div>
                         ) : null}
-                    </div>,
-                    <div
-                        className={`fullscreen-button-wrapper ${optionsVisible ? '' : 'no-display'}`}
-                        key="fullscreen-button-wrapper"
-                    >
-                        <button className="standard-button" onMouseDown={toggleFullScreen}>
-                            <i className={fullScreenFlag ? 'fas fa-compress' : 'fas fa-expand'} />
-                        </button>
                     </div>
-                ]}
+                )}
+                <div className={`fullscreen-button-wrapper ${optionsVisible ? '' : 'no-display'}`}>
+                    <button
+                        className="standard-button"
+                        onClick={toggleFullScreen}
+                    >
+                        <i className={fullScreenFlag ? 'fas fa-compress' : 'fas fa-expand'} />
+                    </button>
+                </div>
             </>
         );
     }
     return null;
 };
 
-NoteEditor.propTypes = {
+NoteEditorComponent.propTypes = {
     editorState: PropTypes.object,
     onChange: PropTypes.func,
     readOnly: PropTypes.bool,
-    editorRef: PropTypes.object
+    editorRef: PropTypes.object,
+    addToast: PropTypes.func
 };
+
+export const NoteEditor = withToast(NoteEditorComponent);

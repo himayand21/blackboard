@@ -6,22 +6,17 @@ import {Background} from '../../components/background';
 
 import {
     DASHBOARD,
-    AUTH_TOKEN,
     REDIRECT_TOKEN
 } from '../../constants';
 
 const Error = (props) => {
-    const {currentError} = props;
+    const {withAuthProps} = props;
+    const {currentError, logout} = withAuthProps;
     const history = useHistory();
 
     const goToHome = () => {
         sessionStorage.removeItem(REDIRECT_TOKEN);
         history.push(DASHBOARD);
-    };
-
-    const logout = () => {
-        localStorage.removeItem(AUTH_TOKEN);
-        window.location.reload();
     };
 
     return (
@@ -61,7 +56,7 @@ const Error = (props) => {
 };
 
 Error.propTypes = {
-    currentError: PropTypes.bool
+    withAuthProps: PropTypes.object
 };
 
 export default Error;

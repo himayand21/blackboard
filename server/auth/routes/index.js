@@ -8,13 +8,18 @@ const sendOTP = require('./sendOTP');
 const forgotPassword = require('./forgotPassword');
 const resendOTP = require('./resendOTP');
 
-function createAuth(model) {
+function generateProtectedRoutes(model) {
     return [
         current(model),
-        login(model),
         logout(model),
+        changePassword(model)
+    ];
+}
+
+function generateUnprotectedRoutes(model) {
+    return [
+        login(model),
         signup(model),
-        changePassword(model),
         sendOTP(model),
         forgotPassword(model),
         verifyOTP(model),
@@ -22,4 +27,7 @@ function createAuth(model) {
     ];
 }
 
-module.exports = createAuth;
+module.exports = {
+    generateProtectedRoutes,
+    generateUnprotectedRoutes
+};

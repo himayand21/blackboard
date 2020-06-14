@@ -1,5 +1,9 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import PropTypes from 'prop-types';
+
 import Routes from './Routes';
+import Loader from './pages/loader';
+import {Background} from './components/background';
 
 import {
     loginAPI,
@@ -8,46 +12,52 @@ import {
     currentUserAPI,
     verifyOtpAPI,
     sendOtpAPI,
-    forgotPasswordAPI
+    forgotPasswordAPI,
+    getCSRFTokenAPI
 } from './api';
-import {useToast} from './components/toast';
+import {withToast} from './components/toast/withToast';
 
 import '@fortawesome/fontawesome-free/css/all.css';
 import './styles/App.scss';
 
-const initialState = {
-    user: null,
-    token: null,
-    loading: false
-};
-
-const App = () => {
-    const [state, setState] = useState(initialState);
+const App = (props) => {
+    const [user, setUser] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [enterOTPVisible, setEnterOTPVisible] = useState(false);
     const [currentError, setCurrentError] = useState(false);
+    const [appLoading, setAppLoading] = useState(true);
+    const [appError, setAppError] = useState(false);
+    const [csrfToken, setCsrfToken] = useState(null);
 
-    const {addToast} = useToast();
+    const {addToast} = props;
 
-    const clearState = () => setState(initialState);
+    useEffect(() => {
+        (async function() {
+            try {
+                setAppLoading(true);
+                const {token} = await getCSRFTokenAPI();
+                setCsrfToken(token);
+                setAppLoading(false);
+            } catch (error) {
+                setAppLoading(false);
+                setAppError(true);
+            }
+        })();
+    }, []);
+
+    const clearState = () => {
+        setUser(null);
+        setLoading(false);
+    };
 
     const signup = async (body) => {
         try {
-            setState({
-                ...state,
-                loading: true
-            });
-            const {user} = await signupAPI(body);
-            setState({
-                ...state,
-                user,
-                loading: false
-            });
+            setLoading(true);
+            const res = await signupAPI(body);
+            setUser(res.user);
+            setLoading(false);
         } catch (error) {
-            setState({
-                ...state,
-                user: null,
-                loading: false
-            });
+            clearState();
             addToast({
                 type: 'error',
                 message: error.message
@@ -57,22 +67,13 @@ const App = () => {
 
     const sendOTP = async (body) => {
         try {
-            setState({
-                ...state,
-                loading: true
-            });
-            const {user} = await sendOtpAPI(body);
-            setState({
-                ...state,
-                loading: false,
-                user
-            });
+            setLoading(true);
+            const res = await sendOtpAPI(body);
+            setUser(res.user);
+            setLoading(false);
             setEnterOTPVisible(true);
         } catch (error) {
-            setState({
-                ...state,
-                loading: false
-            });
+            setLoading(false);
             addToast({
                 type: 'error',
                 message: error.message
@@ -82,22 +83,13 @@ const App = () => {
 
     const verifyOTP = async (body) => {
         try {
-            setState({
-                ...state,
-                laoding: true
-            });
-            const {user, token} = await verifyOtpAPI(body);
-            setState({
-                user,
-                token,
-                loading: false
-            });
+            setLoading(true);
+            const res = await verifyOtpAPI(body);
+            setUser(res.user);
+            setLoading(false);
             setEnterOTPVisible(true);
         } catch (error) {
-            setState({
-                ...state,
-                loading: false
-            });
+            setLoading(false);
             addToast({
                 type: 'error',
                 message: error.message
@@ -107,21 +99,12 @@ const App = () => {
 
     const login = async (body) => {
         try {
-            setState({
-                ...state,
-                loading: true
-            });
-            const {user, token} = await loginAPI(body);
-            setState({
-                ...initialState,
-                user,
-                token
-            });
+            setLoading(true);
+            const res = await loginAPI(body, csrfToken);
+            setUser(res.user);
+            setLoading(false);
         } catch (error) {
-            setState({
-                ...state,
-                loading: false
-            });
+            setLoading(false);
             addToast({
                 type: 'error',
                 message: error.message
@@ -129,19 +112,11 @@ const App = () => {
         }
     };
 
-    const logout = async (token, allDeviceFlag) => {
+    const logout = async (allDeviceFlag) => {
         try {
-            setState({
-                ...state,
-                loading: true
-            });
-            await logoutAPI(token, allDeviceFlag);
-            setState(initialState);
+            await logoutAPI(allDeviceFlag, csrfToken);
+            clearState();
         } catch (error) {
-            setState({
-                ...state,
-                loading: false
-            });
             addToast({
                 type: 'error',
                 message: error.message
@@ -149,49 +124,33 @@ const App = () => {
         }
     };
 
-    const getCurrentUser = async (token) => {
+    const getCurrentUser = async () => {
         try {
-            setState({
-                ...state,
-                loading: true
-            });
-            const user = await currentUserAPI(token);
-            setState({
-                ...initialState,
-                user,
-                token
-            });
+            setLoading(true);
+            const res = await currentUserAPI(csrfToken);
+            setUser(res.user);
+            setLoading(false);
         } catch (error) {
-            setState({
-                ...state,
-                loading: false
-            });
+            setLoading(false);
             setCurrentError(true);
-            addToast({
-                type: 'error',
-                message: error.message
-            });
+            if (user) {
+                addToast({
+                    type: 'error',
+                    message: error.message
+                });
+            }
         }
     };
 
     const forgotPassword = async (body) => {
         try {
-            setState({
-                ...state,
-                loading: true
-            });
-            const {user} = await forgotPasswordAPI(body);
-            setState({
-                ...state,
-                loading: false,
-                user
-            });
+            setLoading(true);
+            const res = await forgotPasswordAPI(body);
+            setUser(res.user);
+            setLoading(false);
             setEnterOTPVisible(true);
         } catch (error) {
-            setState({
-                ...state,
-                loading: false
-            });
+            setLoading(false);
             addToast({
                 type: 'error',
                 message: error.message
@@ -199,9 +158,43 @@ const App = () => {
         }
     };
 
+    if (appError) {
+        return (
+            <div className="screen-loader">
+                <Background />
+                <div className="loading-section">
+                    <div className="loading-user-details">
+                        <div>Sorry !</div>
+                        <div className="button-wrapper">
+                            <div>
+                                We are down for maintenance.
+                                <br />
+                                We will be back soon.
+                            </div>
+                            <button
+                                className="standard-button"
+                                onClick={logout}
+                            >
+                                Log out
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    if (appLoading) {
+        return (
+            <Loader />
+        );
+    }
+
     return (
         <Routes
-            {...state}
+            user={user}
+            csrfToken={csrfToken}
+            loading={loading}
             getCurrentUser={getCurrentUser}
             logout={logout}
             login={login}
@@ -217,4 +210,8 @@ const App = () => {
     );
 };
 
-export default App;
+App.propTypes = {
+    addToast: PropTypes.func
+};
+
+export default withToast(App);

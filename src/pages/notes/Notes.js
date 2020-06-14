@@ -62,6 +62,12 @@ export const Notes = (props) => {
         }
     }, [data]);
 
+    useEffect(() => {
+        document.title = `[Board]: ${boardName || 'Untitled'} - Blackboard`;
+    }, [boardName]);
+
+    useEffect(() => () => document.title = 'Blackboard', []);
+
     if (!notes.length) {
         return (
             <div className={`notes-section notes-wrapper notes-not-found ${color}-section`}>

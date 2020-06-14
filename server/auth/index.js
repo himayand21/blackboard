@@ -1,9 +1,10 @@
 const checkAuth = require('./checkAuth');
 const createSchema = require('./createSchema');
-const createAuth = require('./routes');
+const {generateProtectedRoutes, generateUnprotectedRoutes} = require('./routes');
 
 module.exports = {
     checkAuth,
     createSchema,
-    createAuth
+    generateProtectedRoutes,
+    generateUnprotectedRoutes
 };

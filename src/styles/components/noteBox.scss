@@ -5,7 +5,7 @@
     border-radius: 10px;
     box-sizing: border-box;
     min-height: 180px;
-    background-color: $faded-black;
+    background: linear-gradient(180deg, transparentize($black, 0.5) 25%, transparentize($black, 0.2) 75%);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -92,8 +92,6 @@
         }
     }
     .note-time {
-        height: 110px;
-        margin-top: -80px;
         display: flex;
         justify-content: space-between;
         flex-direction: row-reverse;
@@ -105,7 +103,6 @@
         padding-right: 15px;
         box-sizing: border-box;
         border-radius: 0 0 10px 10px;
-        background: linear-gradient(180deg, transparent 0%, $low-faded-black 100%);
         span {
             @include typography-caption();
             font-weight: bold;
@@ -166,9 +163,6 @@
             }
             i {
                 margin-right: 7px;
-            }
-            &:hover {
-                cursor: pointer;
             }
         }
     }
@@ -281,19 +275,13 @@
                 }
             }
         }
-        .note-comment-count {
+        .note-comment-count, .note-preview {
             color: $color !important;
             span {
-                background-color: transparentize($color: $color, $amount: 0.8);
+                background-color: transparentize($color: $color, $amount: 0.75) !important;
                 &:hover {
-                    background-color: transparentize($color: $color, $amount: 0.9);
+                    background-color: transparentize($color: $color, $amount: 0.9) !important;
                 }
-            }
-        }
-        .note-preview {
-            color: $color !important;
-            span {
-                background-color: transparentize($color: $color, $amount: 0.9) !important;
             }
         }
     }

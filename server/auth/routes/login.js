@@ -48,6 +48,11 @@ function login(User) {
                                     });
                                 } else if (validUser.verified) {
                                     const token = await validUser.generateAuthToken();
+                                    res.cookie('token', token, {
+                                        httpOnly: true,
+                                        secure: process.env.NODE_ENV === 'production',
+                                        sameSite: true
+                                    });
                                     await validUser.save();
                                     res.status(200).send({
                                         user: {
@@ -55,8 +60,7 @@ function login(User) {
                                             // eslint-disable-next-line no-underscore-dangle
                                             id: validUser._id,
                                             verified: validUser.verified
-                                        },
-                                        token
+                                        }
                                     });
                                 } else {
                                     await validUser.save();

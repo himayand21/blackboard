@@ -22,7 +22,7 @@
 		}
 	}
 	.footer-social {
-		@include typography-caption();
+		@include typography-body();
 		@include animate-rise-block(3, normal, 0.5s);
 		i {
 			margin: 0 6px;

@@ -6,3 +6,4 @@ export * from './changePassword';
 export * from './sendOTP';
 export * from './verifyOTP';
 export * from './forgotPassword';
+export * from './getCSRFToken';

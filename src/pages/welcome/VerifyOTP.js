@@ -6,7 +6,7 @@ import {Footer} from '../../components/footer';
 import {Loader} from '../../components/loader';
 import {WELCOME} from '../../constants';
 import {Background} from '../../components/background';
-import {useToast} from '../../components/toast';
+import {withToast} from '../../components/toast/withToast';
 
 import {resendOtpAPI} from '../../api/resendOTP';
 import {OTPBox} from '../../components/otpBox';
@@ -26,9 +26,8 @@ const VerifyOTP = (props) => {
     const [otp, setOtp] = useState(OTPValuesInitial);
 
     const history = useHistory();
-    const addToast = useToast();
 
-    const {withAuthProps} = props;
+    const {withAuthProps, addToast} = props;
 
     const {
         sendOTP,
@@ -173,7 +172,8 @@ const VerifyOTP = (props) => {
 };
 
 VerifyOTP.propTypes = {
-    withAuthProps: PropTypes.object
+    withAuthProps: PropTypes.object,
+    addToast: PropTypes.func
 };
 
-export default VerifyOTP;
+export default withToast(VerifyOTP);

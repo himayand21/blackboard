@@ -1,5 +1,4 @@
 // tokens
-export const AUTH_TOKEN = 'blackboard-token';
 export const REDIRECT_TOKEN = 'blackboard-redirect-path';
 
 // routes

@@ -12,7 +12,6 @@ import {
     WELCOME,
     DASHBOARD,
     ERROR,
-    AUTH_TOKEN,
     REDIRECT_TOKEN,
     VERIFY
 } from './constants';
@@ -25,25 +24,22 @@ const Routes = (props) => {
     const {
         getCurrentUser,
         user,
-        token,
         currentError
     } = props;
 
     useEffect(() => {
         if (currentError) {
             setAppLoading(false);
-            history.push(ERROR);
+            if (user) {
+                history.push(ERROR);
+            } else {
+                history.push(WELCOME);
+            }
         }
     }, [currentError]);
 
     useEffect(() => {
-        const authToken = localStorage.getItem(AUTH_TOKEN);
-        if (!authToken) {
-            setAppLoading(false);
-            history.push(WELCOME);
-        } else {
-            getCurrentUser(authToken);
-        }
+        getCurrentUser();
     }, []);
 
     useEffect(() => {
@@ -51,7 +47,6 @@ const Routes = (props) => {
             setAppLoading(false);
             if (!user.verified) history.push(VERIFY);
             else {
-                localStorage.setItem(AUTH_TOKEN, token);
                 const redirectPath = sessionStorage.getItem(REDIRECT_TOKEN);
                 if (redirectPath) {
                     history.push(redirectPath);
@@ -82,7 +77,7 @@ const Routes = (props) => {
                 <VerifyOTP withAuthProps={props} />
             </Route>
             <Route path={ERROR}>
-                <Error currentError={currentError} />
+                <Error withAuthProps={props} />
             </Route>
         </Switch>
     );
