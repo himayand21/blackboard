@@ -11,7 +11,7 @@ export const ShareWithEveryone = (props) => {
         addToast
     } = props;
 
-    const link = `http://0.0.0.0:8080/dashboard/note/${note.id}`;
+    const link = `${window.location.origin}/dashboard/note/${note.id}`;
     const {sharedWithEveryone} = note;
 
     const copyToClipboard = () => {
