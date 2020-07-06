@@ -56,7 +56,6 @@ export const Board = (props) => {
                 <EditNote
                     color={color}
                     backURL={backURL}
-                    owner={user}
                 />
             </Route>
             <Route path={`${match.path}/:noteId`}>
@@ -72,7 +71,6 @@ export const Board = (props) => {
                     notes={notes}
                     boardName={name}
                     boardId={boardId}
-                    owner={user}
                 />
             </Route>
         </Switch>

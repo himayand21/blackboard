@@ -30,8 +30,7 @@ export const MoveNote = (props) => {
                 board: selectedBoard
             },
             refetchQueries: [{
-                query: refetchQuery,
-                variables: {id: note.owner}
+                query: refetchQuery
             }]
         });
         const newRoute = `${DASHBOARD}/${selectedBoard}${NOTES}/${note.id}`;
@@ -49,7 +48,6 @@ export const MoveNote = (props) => {
                 }} />
             ) : null}
             <SwitchBoard
-                owner={note.owner}
                 board={note.board}
                 switching={moving}
                 hideModal={hideModal}

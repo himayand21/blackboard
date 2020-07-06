@@ -42,11 +42,7 @@ const MainComponent = (props) => {
 
     const {id, logout, email, csrfToken, addToast} = props;
 
-    const {data, loading, error} = useQuery(query, {
-        variables: {
-            id
-        }
-    });
+    const {data, loading, error} = useQuery(query);
 
     const [mutate, {loading: adding, error: mutationError}] = useMutation(mutation, {
         awaitRefetchQueries: true
@@ -90,8 +86,7 @@ const MainComponent = (props) => {
                 email
             },
             refetchQueries: [{
-                query,
-                variables: {id}
+                query
             }]
         });
     };
@@ -207,7 +202,7 @@ const MainComponent = (props) => {
                     />
                 </Route>
                 <Route path={match.path}>
-                    <Boards id={props.id} />
+                    <Boards />
                 </Route>
             </Switch>
         </>

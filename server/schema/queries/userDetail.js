@@ -15,11 +15,9 @@ const UserDetailType = require('../types/userDetail');
 const userDetailQuery = {
     userDetail: {
         type: UserDetailType,
-        args: {
-            id: {type: new GraphQLNonNull(GraphQLID)}
-        },
-        resolve(parentValue, {id}) {
-            return UserDetail.findById(id);
+        resolve(parentValue, args, context) {
+            const {user: {id: userId}} = context;
+            return UserDetail.findById(userId);
         }
     },
     searchByEmail: {

@@ -14,13 +14,13 @@ const commentMutation = {
         type: CommentType,
         args: {
             content: {type: GraphQLString},
-            sender: {type: GraphQLID},
-            note: {type: GraphQLID},
-            time: {type: GraphQLString}
+            note: {type: GraphQLID}
         },
-        resolve(parentValue, args) {
+        resolve(parentValue, args, context) {
+            const {user: {id: userId}} = context;
             return (new Comment({
                 ...args,
+                sender: userId,
                 time: Date.now()
             })).save();
         }

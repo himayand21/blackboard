@@ -97,7 +97,6 @@ export const ViewNote = (props) => {
                     <div className="notes-right-header option-wrapper">
                         <Options
                             note={note}
-                            user={user}
                             backURL={backURL}
                             switchToEdit={switchToEdit}
                             isOwner={isOwner}

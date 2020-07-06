@@ -1,8 +1,8 @@
 import {gql} from 'apollo-boost';
 
 export default gql`
-mutation updateUser($id: ID, $name: String) {
-  updateUser(id: $id, name: $name) {
+mutation updateUser($name: String) {
+  updateUser(name: $name) {
     name
   }
 }

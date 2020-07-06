@@ -1,9 +1,9 @@
 import {gql} from 'apollo-boost';
 
 export default gql`
-query ___composed($id: ID!) {
+query ___composed {
     boards:
-    boards (user: $id) {
+    boards {
         name,
         id,
         user,
@@ -23,7 +23,7 @@ query ___composed($id: ID!) {
         }
     },
     recentNotes:
-    getRecentNotes (id: $id) {
+    getRecentNotes {
         id,
         name,
         description,
@@ -55,7 +55,7 @@ query ___composed($id: ID!) {
         }
     },
     pinnedNotes:
-    getPinnedNotes (id: $id) {
+    getPinnedNotes {
         id,
         name,
         description,

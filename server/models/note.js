@@ -10,6 +10,7 @@ const NoteSchema = new Schema({
     owner: {type: String},
     time: {type: String},
     pinned: {type: Boolean},
+    sharedWithEveryone: {type: Boolean},
     sharedWith: {type: Array}
 });
 

@@ -16,8 +16,11 @@ const noteQuery = {
         args: {
             id: {type: new GraphQLNonNull(GraphQLID)}
         },
-        resolve(parentValue, {id}) {
-            return Note.findById(id);
+        async resolve(parentValue, {id}, context) {
+            const {user: {id: userId}} = context;
+            const note = await Note.findById(id);
+            if (note.sharedWithEveryone || (note.owner === userId.toString()) || note.sharedWith.includes(userId.toString())) return note;
+            throw new Error('Unauthorized');
         }
     },
     notes: {
@@ -31,35 +34,29 @@ const noteQuery = {
     },
     getPinnedNotes: {
         type: new GraphQLList(NoteType),
-        args: {
-            id: {type: new GraphQLNonNull(GraphQLID)}
-        },
-        resolve(parentValue, {id}) {
+        resolve(parentValue, args, context) {
+            const {user: {id: userId}} = context;
             return Note.find({
-                owner: id,
+                owner: userId,
                 pinned: true
             }).sort('-time');
         }
     },
     getSharedNotes: {
         type: new GraphQLList(NoteType),
-        args: {
-            id: {type: new GraphQLNonNull(GraphQLID)}
-        },
-        resolve(parentValue, {id}) {
+        resolve(parentValue, args, context) {
+            const {user: {id: userId}} = context;
             return Note.find({
-                sharedWith: id
+                sharedWith: userId.toString()
             }).sort('-time');
         }
     },
     getRecentNotes: {
         type: new GraphQLList(NoteType),
-        args: {
-            id: {type: new GraphQLNonNull(GraphQLID)}
-        },
-        resolve(parentValue, {id}) {
+        resolve(parentValue, args, context) {
+            const {user: {id: userId}} = context;
             return Note.find({
-                owner: id
+                owner: userId
             }).sort('-time').limit(4);
         }
     }

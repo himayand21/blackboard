@@ -12,16 +12,11 @@ export const SwitchBoard = (props) => {
         hideModal,
         switching,
         handleConfirm,
-        board,
-        owner
+        board
     } = props;
 
     const [selectedBoard, setSelectedBoard] = useState(board);
-    const {data, error, loading} = useQuery(query, {
-        variables: {
-            user: owner
-        }
-    });
+    const {data, error, loading} = useQuery(query);
 
     if (error) {
         return (
@@ -94,7 +89,7 @@ export const SwitchBoard = (props) => {
                     className="standard-button footer-button"
                     onClick={hideModal}
                 >
-                            Cancel
+                    Cancel
                 </button>
             </footer>
         </div>
@@ -105,6 +100,5 @@ SwitchBoard.propTypes = {
     board: PropTypes.string,
     hideModal: PropTypes.func,
     switching: PropTypes.bool,
-    handleConfirm: PropTypes.func,
-    owner: PropTypes.string
+    handleConfirm: PropTypes.func
 };

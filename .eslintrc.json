@@ -3,7 +3,7 @@
     "browser": true,
     "es6": true,
     "jest": true,
-	"node": true
+    "node": true
   },
   "extends": [
     "eslint:recommended",
@@ -11,6 +11,23 @@
     "plugin:import/errors",
     "plugin:import/warnings"
   ],
+  "settings": {
+    "react": {
+      "createClass": "createReactClass",
+      "pragma": "React",
+      "version": "detect",
+      "flowVersion": "0.53"
+    },
+    "propWrapperFunctions": [
+      "forbidExtraProps",
+      {"property": "freeze", "object": "Object"},
+      {"property": "myFavoriteWrapper"}
+    ],
+    "linkComponents": [
+      "Hyperlink",
+      {"name": "Link", "linkAttribute": "to"}
+    ]
+  },
   "globals": {
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"

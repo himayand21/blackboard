@@ -2,6 +2,21 @@
   width: 100%;
   padding: 0px 5% 5%;
   box-sizing: border-box;
+  .back-button-wrapper {
+    display: flex;
+    flex-direction: column;
+    .back-button {
+      margin-bottom: 15px;
+      max-width: 55px;
+      margin-top: -20px;
+      background: unset;
+      color: $green;
+      padding: 0px;
+      i {
+        margin-right: 7px;
+      }
+    }
+  }
   .create-board-header {
     @include typography-intro-super();
     font-weight: bold;
@@ -173,6 +188,43 @@
     .standard-button {
       margin-left: 7px;
       margin-right: 0px !important;
+    }
+  }
+  .share-public {
+    color: $white;
+    margin-top: 20px;
+    .share-public-link {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      .link-header {
+        @include typography-body();
+        font-weight: bold;
+        margin-bottom: 10px;
+        i {
+          color: $green;
+          margin-left: 10px;
+          border-radius: 50%;
+          padding: 12px;
+          cursor: pointer;
+          background-color: transparentize($color: $green, $amount: 0.7);
+        }
+      }
+      .share-toggle {
+        margin-left: 10px;
+      }
+    }
+    .public-link {
+      @include typography-body-reduced();
+      max-width: 100%;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      font-weight: bold;
+    }
+    .public-share-message {
+      @include typography-body-reduced();
+      font-weight: bold;
     }
   }
 }

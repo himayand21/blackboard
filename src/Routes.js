@@ -55,6 +55,9 @@ const Routes = (props) => {
                 }
             }
         } else {
+            if (window.location.pathname.includes('dashboard/note/')) {
+                sessionStorage.setItem(REDIRECT_TOKEN, location.pathname);
+            }
             history.push(WELCOME);
         }
     }, [user]);
@@ -67,7 +70,7 @@ const Routes = (props) => {
 
     return (
         <Switch>
-            <Route path={WELCOME} >
+            <Route path={WELCOME}>
                 <Welcome withAuthProps={props} />
             </Route>
             <Route path={DASHBOARD}>

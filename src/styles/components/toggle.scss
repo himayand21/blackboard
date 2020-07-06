@@ -1,0 +1,42 @@
+.switch + div {
+	vertical-align: middle;
+	border-radius: 999px;
+	width: 50px;
+	height: 25px;
+	background-color: $gray;
+	cursor: pointer;
+}
+
+.switch.checked + div {
+	width: 50px;
+	background-position: 0 0;
+	background-color: transparentize($color: $green, $amount: 0.6);
+}
+
+.switch + div > div {
+	float: left;
+	width: 23px;
+	height: 23px;
+	border-radius: inherit;
+	background: $white;
+	transition-timing-function: cubic-bezier(1,0,0,1);
+	transition-duration: 0.4s;
+	transition-property: transform;
+	pointer-events: none;
+	margin-top: 1px;
+	margin-left: 1px;
+}
+
+.switch.checked + div > div {
+	transform: translateX(25px);
+	background: $green;
+}
+
+.switch.disabled + div {
+	background-color: transparentize($color: $gray, $amount: 0.6);
+	cursor: not-allowed;
+}
+
+.switch.disabled + div > div {
+	background-color: $gray;
+}

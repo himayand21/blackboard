@@ -1,8 +1,8 @@
 import {gql} from 'apollo-boost';
 
 export default gql`
-query getUserDetails ($id: ID!) {
-  userDetail (id: $id) {
+query getUserDetails {
+  userDetail {
     name,
     id,
     email,
