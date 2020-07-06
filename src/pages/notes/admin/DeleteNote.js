@@ -17,7 +17,7 @@ export const DeleteNote = (props) => {
     });
 
     const {note, hideModal, backURL} = props;
-    const {id, owner} = note;
+    const {id} = note;
 
     const history = useHistory();
 
@@ -27,10 +27,7 @@ export const DeleteNote = (props) => {
                 id
             },
             refetchQueries: [{
-                query: refetchQuery,
-                variables: {
-                    id: owner
-                }
+                query: refetchQuery
             }]
         });
         sessionStorage.setItem(REDIRECT_TOKEN, backURL);

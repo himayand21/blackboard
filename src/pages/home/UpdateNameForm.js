@@ -21,8 +21,7 @@ export const UpdateNameForm = (props) => {
 
     const updateUser = async () => {
         const refetchQueries = [{
-            query: getUserDetails,
-            variables: {id}
+            query: getUserDetails
         }];
         if (noteId) {
             refetchQueries.push({

@@ -21,7 +21,7 @@ import '@fortawesome/fontawesome-free/css/all.css';
 import './styles/App.scss';
 
 const App = (props) => {
-    const [user, setUser] = useState(false);
+    const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(false);
     const [enterOTPVisible, setEnterOTPVisible] = useState(false);
     const [currentError, setCurrentError] = useState(false);

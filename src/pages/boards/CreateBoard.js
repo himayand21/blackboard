@@ -14,7 +14,6 @@ export const CreateBoard = (props) => {
     const [boardName, setBoardName] = useState('');
 
     const {
-        id,
         hideModal
     } = props;
 
@@ -25,13 +24,11 @@ export const CreateBoard = (props) => {
     const addBoard = async () => {
         await mutate({
             variables: {
-                user: id,
                 name: boardName,
                 color: boardColor
             },
             refetchQueries: [{
-                query,
-                variables: {user: id}
+                query
             }]
         });
         hideModal();
@@ -103,6 +100,5 @@ export const CreateBoard = (props) => {
 };
 
 CreateBoard.propTypes = {
-    id: PropTypes.string,
     hideModal: PropTypes.func
 };

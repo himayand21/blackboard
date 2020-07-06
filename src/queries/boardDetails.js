@@ -26,7 +26,8 @@ query board ($id: ID!) {
           name
         }
         id
-      }
+      },
+      sharedWithEveryone
     }
   }
 }

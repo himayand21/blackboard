@@ -13,17 +13,16 @@ const userDetailMutations = {
     addUser: {
         type: UserDetailType,
         args: {
-            id: {type: GraphQLID},
             name: {type: GraphQLString},
             email: {type: GraphQLString}
         },
         resolve(parentValue, {
-            id: _id,
             name,
             email
-        }) {
+        }, context) {
+            const {user: {id: userId}} = context;
             return new UserDetail({
-                _id,
+                _id: userId,
                 name,
                 email
             }).save();
@@ -32,13 +31,41 @@ const userDetailMutations = {
     updateUser: {
         type: UserDetailType,
         args: {
-            id: {type: GraphQLID},
             name: {type: GraphQLString}
         },
-        resolve(parentValue, {id, name}) {
-            return UserDetail.findByIdAndUpdate(id, {
+        resolve(parentValue, {name}, context) {
+            const {user: {id: userId}} = context;
+            return UserDetail.findByIdAndUpdate(userId, {
                 $set: {
                     name
+                }
+            }, {'new': true});
+        }
+    },
+    addConnection: {
+        type: UserDetailType,
+        args: {
+            connection: {type: GraphQLID}
+        },
+        resolve(parentValue, {connection}, context) {
+            const {user: {id: userId}} = context;
+            return UserDetail.findByIdAndUpdate(userId, {
+                $push: {
+                    connections: connection
+                }
+            }, {'new': true});
+        }
+    },
+    removeConnection: {
+        type: UserDetailType,
+        args: {
+            connection: {type: GraphQLID}
+        },
+        resolve(parentValue, {connection}, context) {
+            const {user: {id: userId}} = context;
+            return UserDetail.findByIdAndUpdate(userId, {
+                $pull: {
+                    connections: connection
                 }
             }, {'new': true});
         }

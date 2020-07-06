@@ -11,7 +11,6 @@ import mutation from '../../mutations/updateBoard';
 
 export const EditBoard = (props) => {
     const {
-        id,
         hideModal,
         selectedBoard,
         setSelectedBoard
@@ -29,8 +28,7 @@ export const EditBoard = (props) => {
                 color: selectedBoard.color
             },
             refetchQueries: [{
-                query,
-                variables: {user: id}
+                query
             }]
         });
         hideModal();
@@ -106,7 +104,6 @@ export const EditBoard = (props) => {
 };
 
 EditBoard.propTypes = {
-    id: PropTypes.string,
     hideModal: PropTypes.func,
     selectedBoard: PropTypes.object,
     setSelectedBoard: PropTypes.func

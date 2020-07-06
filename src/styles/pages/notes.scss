@@ -340,6 +340,7 @@
 .shared-with-section {
   min-height: 50px;
   max-height: 25vh;
+  margin-top: 15px;
   overflow: auto;
   @include styled-scroll();
 }
@@ -348,7 +349,21 @@
   @include typography-body-reduced();
   color: $lightgray;
   font-weight: bold;
-  margin-top: 15px;
+  margin-top: 10px;
+}
+
+.share-button {
+  min-width: 75px;
+  display: flex;
+  button {
+    flex: 1;
+    &.revert-button {
+      background-color: $box-red;
+    }
+  }
+  @media only screen and (max-width: 500px) {
+    min-width: 60px;
+  }
 }
 
 .share-section {
@@ -358,17 +373,21 @@
 
 .share-wrapper {
     display: flex;
+    align-items: center;
     margin: 15px 0px;
     .share-icon {
         margin-right: 10px;
-        margin-top: 5px;
+        margin-top: 3px;
     }
     .share-details {
         flex: 1;
         color: $white;
-        max-width: calc(100% - 115px);
+        max-width: calc(100% - 110px);
+        display: flex;
+        justify-content: flex-end;
+        flex-direction: column;
         .share-name {
-            @include typography-body-reduced();
+            @include typography-body();
             font-weight: bold;
             white-space: nowrap;
             text-overflow: ellipsis;
@@ -376,7 +395,7 @@
             max-width: 100%;
         }
         .share-email {
-            @include typography-body-reduced();
+            @include typography-body();
             white-space: nowrap;
             text-overflow: ellipsis;
             overflow: hidden;

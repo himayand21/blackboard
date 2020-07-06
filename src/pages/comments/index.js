@@ -11,7 +11,7 @@ import mutation from '../../mutations/addComment';
 import {getRelativeTime} from '../../util/getRelativeTime';
 
 export const Comments = (props) => {
-    const {note, user} = props;
+    const {note} = props;
     const {comments} = note;
 
     const [text, setText] = useState('');
@@ -24,7 +24,6 @@ export const Comments = (props) => {
         await mutate({
             variables: {
                 content: text,
-                sender: user,
                 note: note.id
             },
             refetchQueries: [{
@@ -105,6 +104,5 @@ export const Comments = (props) => {
 
 Comments.propTypes = {
     data: PropTypes.object,
-    note: PropTypes.object,
-    user: PropTypes.string
+    note: PropTypes.object
 };

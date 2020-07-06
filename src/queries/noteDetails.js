@@ -1,7 +1,7 @@
 import {gql} from 'apollo-boost';
 
 export default gql`
-query getNote($id: ID!){
+query getNote($id: ID!) {
   note (id: $id) {
     id,
     name,
@@ -27,7 +27,8 @@ query getNote($id: ID!){
       senderDetails {
         name
       }
-    }
+    },
+    sharedWithEveryone
   }
 }
 `;

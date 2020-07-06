@@ -38,7 +38,6 @@ export const NoteBox = (props) => {
         id,
         pinned,
         board,
-        owner,
         ownerDetails,
         boardDetails
     } = note;
@@ -60,8 +59,7 @@ export const NoteBox = (props) => {
                 pinned: !pinned
             },
             refetchQueries: [{
-                query: refetchQuery,
-                variables: {id: owner}
+                query: refetchQuery
             }]
         });
     };
@@ -215,7 +213,7 @@ export const NoteBox = (props) => {
                     }}
                 >
                     <div className="popup-message">
-                        {`Shared with ${lastShare.name}${noOfShares > 1 ? `and ${noOfShares - 1} others` : ''}.`}
+                        {`Shared with ${lastShare.name}${noOfShares > 1 ? ` and ${noOfShares - 1} others` : ''}.`}
                     </div>
                 </Popup>
             ) : null}

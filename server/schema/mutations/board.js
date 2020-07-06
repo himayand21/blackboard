@@ -17,12 +17,13 @@ const boardMutation = {
         type: BoardType,
         args: {
             name: {type: GraphQLString},
-            user: {type: GraphQLID},
             color: {type: GraphQLString}
         },
-        resolve(parentValue, args) {
+        resolve(parentValue, args, context) {
+            const {user: {id: userId}} = context;
             return (new Board({
                 ...args,
+                user: userId,
                 time: Date.now()
             })).save();
         }

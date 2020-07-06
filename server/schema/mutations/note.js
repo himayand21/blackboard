@@ -20,12 +20,13 @@ const noteMutation = {
             name: {type: GraphQLString},
             description: {type: GraphQLString},
             board: {type: GraphQLID},
-            editor: {type: GraphQLString},
-            owner: {type: GraphQLID},
+            editor: {type: GraphQLString}
         },
-        resolve(parentValue, args) {
+        resolve(parentValue, args, context) {
+            const {user: {id: userId}} = context;
             return (new Note({
                 ...args,
+                owner: userId,
                 time: Date.now(),
                 pinned: false
             })).save();
@@ -76,15 +77,14 @@ const noteMutation = {
         type: NoteType,
         args: {
             id: {type: GraphQLID},
-            sharingWith: {type: GraphQLID},
-            sharingFrom: {type: GraphQLID}
+            sharingWith: {type: GraphQLID}
         },
         async resolve(parentValue, {
             id,
-            sharingWith,
-            sharingFrom
-        }) {
-            await UserDetail.findByIdAndUpdate(sharingFrom, {
+            sharingWith
+        }, context) {
+            const {user: {id: userId}} = context;
+            await UserDetail.findByIdAndUpdate(userId, {
                 $push: {
                     connections: sharingWith
                 }
@@ -92,6 +92,23 @@ const noteMutation = {
             return Note.findByIdAndUpdate(id, {
                 $push: {
                     sharedWith: sharingWith
+                }
+            });
+        }
+    },
+    unshareNote: {
+        type: NoteType,
+        args: {
+            id: {type: GraphQLID},
+            unsharingWith: {type: GraphQLID}
+        },
+        async resolve(parentValue, {
+            id,
+            unsharingWith
+        }) {
+            return Note.findByIdAndUpdate(id, {
+                $pull: {
+                    sharedWith: unsharingWith
                 }
             });
         }
@@ -119,6 +136,20 @@ const noteMutation = {
             return Note.findByIdAndUpdate(id, {
                 $set: {
                     pinned
+                }
+            }, {'new': true});
+        }
+    },
+    toggleShareWithEveryone: {
+        type: NoteType,
+        args: {
+            sharedWithEveryone: {type: GraphQLBoolean},
+            id: {type: GraphQLID}
+        },
+        resolve(parentValue, {sharedWithEveryone, id}) {
+            return Note.findByIdAndUpdate(id, {
+                $set: {
+                    sharedWithEveryone
                 }
             }, {'new': true});
         }

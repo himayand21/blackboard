@@ -11,7 +11,6 @@ import mutation from '../../mutations/deleteBoard';
 export const DeleteBoard = (props) => {
     const {
         hideModal,
-        id,
         selectedBoard
     } = props;
 
@@ -25,8 +24,7 @@ export const DeleteBoard = (props) => {
                 id: selectedBoard.id
             },
             refetchQueries: [{
-                query,
-                variables: {user: id}
+                query
             }]
         });
         hideModal();
@@ -65,7 +63,6 @@ export const DeleteBoard = (props) => {
 };
 
 DeleteBoard.propTypes = {
-    id: PropTypes.string,
     hideModal: PropTypes.func,
     selectedBoard: PropTypes.object,
     setSelectedBoard: PropTypes.func

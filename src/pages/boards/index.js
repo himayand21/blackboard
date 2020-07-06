@@ -1,6 +1,5 @@
 /* eslint-disable no-nested-ternary */
 import React, {useState, useEffect} from 'react';
-import PropTypes from 'prop-types';
 import {useHistory, useRouteMatch} from 'react-router-dom';
 import {useQuery} from '@apollo/react-hooks';
 
@@ -25,7 +24,7 @@ import {DeleteBoard} from './DeleteBoard';
 import {EditBoard} from './EditBoard';
 import {CreateBoard} from './CreateBoard';
 
-export const Boards = (props) => {
+export const Boards = () => {
     const [show, setShow] = useState(false);
     const [editMode, setEditMode] = useState(false);
     const [deleteMode, setDeleteMode] = useState(false);
@@ -35,13 +34,7 @@ export const Boards = (props) => {
     const history = useHistory();
     const match = useRouteMatch();
 
-    const {id} = props;
-
-    const {error, loading, data} = useQuery(dashboardQuery, {
-        variables: {
-            id
-        }
-    });
+    const {error, loading, data} = useQuery(dashboardQuery);
 
     useEffect(() => {
         document.title = 'My Dashbaord - Blackboard';
@@ -300,24 +293,17 @@ export const Boards = (props) => {
                         hideModal={hideModal}
                         selectedBoard={selectedBoard}
                         setSelectedBoard={setSelectedBoard}
-                        id={id}
                     /> : selectedBoard && deleteMode ?
                         <DeleteBoard
                             hideModal={hideModal}
                             selectedBoard={selectedBoard}
                             setSelectedBoard={setSelectedBoard}
-                            id={id}
                         /> :
                         <CreateBoard
                             hideModal={hideModal}
-                            id={id}
                         />
                 }
             </Modal>
         </>
     );
-};
-
-Boards.propTypes = {
-    id: PropTypes.string
 };

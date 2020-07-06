@@ -24,6 +24,7 @@ const NoteType = new GraphQLObjectType({
         time: {type: GraphQLString},
         owner: {type: GraphQLID},
         pinned: {type: GraphQLBoolean},
+        sharedWithEveryone: {type: GraphQLBoolean},
         sharedWith: {type: new GraphQLList(GraphQLString)},
         sharedWithDetails: {
             type: new GraphQLList(require('./userDetail')),

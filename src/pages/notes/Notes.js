@@ -19,7 +19,7 @@ export const Notes = (props) => {
     const history = useHistory();
     const match = useRouteMatch();
 
-    const {color, notes, boardName, boardId, owner} = props;
+    const {color, notes, boardName, boardId} = props;
 
     const [mutate, {loading, data, error: mutationError}] = useMutation(mutation, {
         refetchQueries: [{
@@ -45,7 +45,6 @@ export const Notes = (props) => {
         mutate({
             variables: {
                 board: boardId,
-                owner,
                 editor: '',
                 name: '',
                 description: ''

@@ -16,17 +16,19 @@ const boardQuery = {
         args: {
             id: {type: new GraphQLNonNull(GraphQLID)}
         },
-        resolve(parentValue, {id}) {
-            return Board.findById(id);
+        resolve(parentValue, {id}, context) {
+            const {user: {id: userId}} = context;
+            return Board.findOne({
+                _id: id,
+                user: userId
+            });
         }
     },
     boards: {
         type: new GraphQLList(BoardType),
-        args: {
-            user: {type: new GraphQLNonNull(GraphQLID)}
-        },
-        resolve(parentValue, {user}) {
-            return Board.find({user}).sort('-time');
+        resolve(parentValue, args, context) {
+            const {user: {id: userId}} = context;
+            return Board.find({user: userId}).sort('-time');
         }
     }
 };

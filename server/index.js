@@ -71,10 +71,11 @@ app.use(`${netlifyPrefix}/csrf-token`, function(req, res) {
 });
 
 app.use(`${netlifyPrefix}/auth`, generateProtectedRoutes(model));
-app.use(`${netlifyPrefix}/graphql`, checkAuth(model), expressGraphQL({
+app.use(`${netlifyPrefix}/graphql`, checkAuth(model), expressGraphQL((req) => ({
     schema,
+    context: {user: req.user},
     graphiql: true
-}));
+})));
 
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname + '/build/index.html'));

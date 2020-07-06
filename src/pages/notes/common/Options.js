@@ -22,7 +22,7 @@ export const Options = (props) => {
     const [show, setShow] = useState(null);
     const hideModal = () => setShow(null);
 
-    const {note, backURL, switchToEdit, user, isOwner} = props;
+    const {note, backURL, switchToEdit, isOwner} = props;
     const {comments, sharedWith} = note;
 
     const renderModal = () => {
@@ -45,7 +45,6 @@ export const Options = (props) => {
                     return (
                         <ShareNote
                             note={note}
-                            user={user}
                         />
                     );
                 }
@@ -55,7 +54,6 @@ export const Options = (props) => {
             }
             case COMMENT: return (
                 <Comments
-                    user={user}
                     note={note}
                     hideModal={hideModal}
                 />
@@ -115,6 +113,5 @@ Options.propTypes = {
     note: PropTypes.object,
     backURL: PropTypes.string,
     switchToEdit: PropTypes.func,
-    user: PropTypes.string,
     isOwner: PropTypes.bool
 };

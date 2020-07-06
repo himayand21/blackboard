@@ -109,7 +109,7 @@ export const EditNote = (props) => {
     };
 
     const updateNote = async () => {
-        const {id, owner} = note;
+        const {id} = note;
         await mutate({
             variables: {
                 id,
@@ -121,8 +121,7 @@ export const EditNote = (props) => {
                 query,
                 variables: {id}
             }, {
-                query: refetchQuery,
-                variables: {id: owner}
+                query: refetchQuery
             }]
         });
     };
