@@ -159,7 +159,7 @@
     "import/extensions": ["error", { "js": "never", "css": "always" }],
     "import/order": "error",
     "import/newline-after-import": "error",
-    "import/max-dependencies": ["error", { "max": 20 }],
+    "import/max-dependencies": ["error", { "max": 25 }],
     "import/no-deprecated": "error"
   }
 }

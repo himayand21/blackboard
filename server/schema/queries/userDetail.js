@@ -39,6 +39,23 @@ const userDetailQuery = {
                 }
             });
         }
+    },
+    searchUserByEmail: {
+        type: UserDetailType,
+        args: {
+            email: {type: GraphQLString}
+        },
+        async resolve(parentValue, {email}, context) {
+            const {user: {id: userId}} = context;
+            const userDetails = await UserDetail.findById(userId);
+            return UserDetail.findOne({
+                email,
+                _id: {
+                    $nin: userDetails.connections,
+                    $ne: userId
+                }
+            });
+        }
     }
 };
 

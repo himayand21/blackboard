@@ -148,6 +148,9 @@
     flex: 1;
     @include typography-intro-super();
     font-weight: bold;
+    span {
+      cursor: pointer;
+    }
   }
 }
 

@@ -6,8 +6,8 @@ import {Loader} from '../../components/loader';
 import {Pallete} from '../../components/pallete';
 import {Toast} from '../../components/toast/Toast';
 
-import query from '../../queries/boards';
-import mutation from '../../mutations/updateBoard';
+import getBoards from '../../queries/boards';
+import updateBoard from '../../mutations/updateBoard';
 
 export const EditBoard = (props) => {
     const {
@@ -16,19 +16,19 @@ export const EditBoard = (props) => {
         setSelectedBoard
     } = props;
 
-    const [mutate, {loading: updating, error: mutationError}] = useMutation(mutation, {
+    const [update, {loading: updating, error: mutationError}] = useMutation(updateBoard, {
         awaitRefetchQueries: true
     });
 
-    const updateBoard = async () => {
-        await mutate({
+    const handleClick = async () => {
+        await update({
             variables: {
                 id: selectedBoard.id,
                 name: selectedBoard.name,
                 color: selectedBoard.color
             },
             refetchQueries: [{
-                query
+                query: getBoards
             }]
         });
         hideModal();
@@ -57,15 +57,15 @@ export const EditBoard = (props) => {
     } = selectedBoard;
 
     return (
-        <div className="create-board">
+        <div className="modal-content">
             {mutationError ? (
                 <Toast content={{
                     message: 'Uh oh! Failed to update your board.',
                     type: 'error'
                 }} />
             ) : null}
-            <header className="create-board-header">Edit Board</header>
-            <div className="create-board-form">
+            <header className="modal-content-header">Edit Board</header>
+            <div className="modal-form">
                 <div className="form-label">
 					TITLE
                 </div>
@@ -84,11 +84,11 @@ export const EditBoard = (props) => {
                 />
                 <div className="form-error-row" />
             </div>
-            <footer className="create-board-footer">
+            <footer className="modal-footer">
                 <button
                     className="standard-button"
                     disabled={!name.length}
-                    onClick={updateBoard}
+                    onClick={handleClick}
                 >
                     {updating ? <Loader /> : 'Confirm'}
                 </button>

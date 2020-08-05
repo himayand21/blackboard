@@ -32,12 +32,12 @@ export const ChangePassword = (props) => {
     const samePassword = passwordOne === passwordTwo;
 
     return (
-        <div className="create-board">
-            <header className="create-board-header">Change Password</header>
-            <div className="create-board-intro">
+        <div className="modal-content">
+            <header className="modal-content-header">Change Password</header>
+            <div className="modal-content-intro">
 				You can update your password here.
             </div>
-            <div className="create-board-form">
+            <div className="modal-form">
                 <div className="form-label">
 					NEW PASSWORD
                 </div>
@@ -55,7 +55,7 @@ export const ChangePassword = (props) => {
                     onChange={(e) => setPasswordTwo(e.target.value)}
                 />
                 <div className="form-error-row">{message}</div>
-                <footer className="create-board-footer">
+                <footer className="modal-footer">
                     <button
                         className="standard-button"
                         disabled={!passwordOne || !samePassword}

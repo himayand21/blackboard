@@ -8,18 +8,18 @@ import {Toast} from '../../components/toast/Toast';
 
 import getUserDetails from '../../queries/userDetails';
 import getNoteDetails from '../../queries/noteDetails';
-import mutation from '../../mutations/updateUser';
+import updateUser from '../../mutations/updateUser';
 
 export const UpdateNameForm = (props) => {
     const [name, setName] = useState('');
     const {pathname} = useLocation();
     const noteId = pathname.split('notes/')[1];
 
-    const [mutate, {loading, error: mutationError}] = useMutation(mutation);
+    const [update, {loading, error: mutationError}] = useMutation(updateUser);
 
     const {hideModal, id, placeholder} = props;
 
-    const updateUser = async () => {
+    const handleUpdateUser = async () => {
         const refetchQueries = [{
             query: getUserDetails
         }];
@@ -29,7 +29,7 @@ export const UpdateNameForm = (props) => {
                 variables: {id: noteId}
             });
         }
-        await mutate({
+        await update({
             variables: {
                 id,
                 name
@@ -52,18 +52,18 @@ export const UpdateNameForm = (props) => {
     };
 
     return (
-        <div className="create-board">
+        <div className="modal-content">
             {mutationError ? (
                 <Toast content={{
                     message: 'Uh oh! Failed to update your profile.',
                     type: 'error'
                 }} />
             ) : null}
-            <header className="create-board-header">Edit Profile</header>
-            <div className="create-board-intro">
+            <header className="modal-content-header">Edit Profile</header>
+            <div className="modal-content-intro">
 				You can edit your basic profile details here.
             </div>
-            <div className="create-board-form">
+            <div className="modal-form">
                 <div className="form-label">
 					NAME
                 </div>
@@ -74,10 +74,10 @@ export const UpdateNameForm = (props) => {
                 />
                 <div className="form-error-row" />
             </div>
-            <footer className="create-board-footer">
+            <footer className="modal-footer">
                 <button
                     className="standard-button"
-                    onClick={updateUser}
+                    onClick={handleUpdateUser}
                     disabled={!name || loading}
                 >
                     {loading ? <Loader /> : 'Confirm'}

@@ -1,37 +1,36 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import {useRouteMatch, Switch, Route, useHistory} from 'react-router-dom';
+import {useRouteMatch, Switch, Route} from 'react-router-dom';
 import {useQuery} from '@apollo/react-hooks';
 
-import query from '../../queries/boardDetails';
+import getBoardDetails from '../../queries/boardDetails';
 
-import {ERROR} from '../../constants';
+import {NotFound} from '../error/NotFound';
 
 import {Notes} from './Notes';
 import {ViewNote} from './common/ViewNote';
 import {EditNote} from './admin/EditNote';
 
 export const Board = (props) => {
-    const history = useHistory();
     const match = useRouteMatch();
 
     const backURL = match.url;
     const {boardId} = match.params;
 
-    const {loading, data, error} = useQuery(query, {
+    const {loading, data, error} = useQuery(getBoardDetails, {
         variables: {
             id: boardId
         }
     });
 
-    useEffect(() => {
-        if (error) {
-            history.push(ERROR);
-        }
-    }, [error]);
-
     if (error) {
-        return null;
+        return (
+            <div className="screen-loader">
+                <div className="loading-section">
+                    <NotFound type="board" />
+                </div>
+            </div>
+        );
     }
 
     if (loading) {

@@ -10,7 +10,7 @@ import {Loader} from '../../../components/loader';
 import {Popup} from '../../../components/popup';
 
 import refetchQuery from '../../../queries/refetchQuery';
-import mutation from '../../../mutations/togglePinNote';
+import togglePinNote from '../../../mutations/togglePinNote';
 import {DASHBOARD, NOTES, REDIRECT_TOKEN} from '../../../constants';
 
 export const NoteBox = (props) => {
@@ -47,13 +47,13 @@ export const NoteBox = (props) => {
     const relativeTime = getRelativeTime(time);
     const showCommentBox = comments.length || sharedWith.length;
 
-    const [mutate, {loading, error: mutationError}] = useMutation(mutation, {
+    const [togglePin, {loading, error: mutationError}] = useMutation(togglePinNote, {
         awaitRefetchQueries: true
     });
 
-    const togglePin = (event) => {
+    const handleTogglePin = (event) => {
         event.stopPropagation();
-        mutate({
+        togglePin({
             variables: {
                 id,
                 pinned: !pinned
@@ -147,7 +147,7 @@ export const NoteBox = (props) => {
                         <span className="note-name-span">{name ? name : 'Untitled'}</span>
                         {shared ? null : (
                             <span className={`note-name-pin ${pinned ? 'note-name-pinned' : ''}`}>
-                                {loading ? <Loader /> : <i className="fas fa-thumbtack" onClick={togglePin} />}
+                                {loading ? <Loader /> : <i className="fas fa-thumbtack" onClick={handleTogglePin} />}
                             </span>
                         )}
                     </div>

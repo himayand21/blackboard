@@ -6,8 +6,8 @@ import {Loader} from '../../components/loader';
 import {Icon} from '../../components/icon';
 import {Toast} from '../../components/toast/Toast';
 
-import query from '../../queries/noteDetails';
-import mutation from '../../mutations/addComment';
+import getNoteDetails from '../../queries/noteDetails';
+import addComment from '../../mutations/addComment';
 import {getRelativeTime} from '../../util/getRelativeTime';
 
 export const Comments = (props) => {
@@ -16,18 +16,18 @@ export const Comments = (props) => {
 
     const [text, setText] = useState('');
 
-    const [mutate, {loading: updating, error: mutationError}] = useMutation(mutation, {
+    const [add, {loading: updating, error: mutationError}] = useMutation(addComment, {
         awaitRefetchQueries: true
     });
 
     const sendComment = async () => {
-        await mutate({
+        await add({
             variables: {
                 content: text,
                 note: note.id
             },
             refetchQueries: [{
-                query,
+                query: getNoteDetails,
                 variables: {id: note.id}
             }]
         });
@@ -35,14 +35,14 @@ export const Comments = (props) => {
     };
 
     return (
-        <div className="create-board">
+        <div className="modal-content">
             {mutationError ? (
                 <Toast content={{
                     message: 'Uh oh! Failed to post your comment',
                     type: 'error'
                 }} />
             ) : null}
-            <div className="create-board-header">
+            <div className="modal-content-header">
                 Comments
             </div>
             <div className="comments-section">
@@ -81,14 +81,14 @@ export const Comments = (props) => {
                     </div>
                 ) : null}
                 <div className="action-row">
-                    <div className="type-comment">
+                    <div className="input-wrapper">
                         <input
                             placeholder="Type your comment ..."
                             onChange={(event) => setText(event.target.value)}
                             value={text}
                         />
                     </div>
-                    <div className="send-comment">
+                    <div className="action-button">
                         <button
                             className="standard-button footer-button"
                             onClick={sendComment}

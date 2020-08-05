@@ -50,7 +50,7 @@ const userDetailMutations = {
         resolve(parentValue, {connection}, context) {
             const {user: {id: userId}} = context;
             return UserDetail.findByIdAndUpdate(userId, {
-                $push: {
+                $addToSet: {
                     connections: connection
                 }
             }, {'new': true});

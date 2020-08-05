@@ -1,4 +1,4 @@
-.create-board {
+.modal-content {
   width: 100%;
   padding: 0px 5% 5%;
   box-sizing: border-box;
@@ -17,13 +17,13 @@
       }
     }
   }
-  .create-board-header {
+  .modal-content-header {
     @include typography-intro-super();
     font-weight: bold;
     color: $lightgreen;
     margin-top: -15px;
   }
-  .create-board-intro {
+  .modal-content-intro {
     margin-top: 20px;
     @include typography-intro-reduced();
     font-weight: bold;
@@ -156,7 +156,7 @@
       }
     }
   }
-  .create-board-form {
+  .modal-form {
     margin-top: 40px;
     .form-label {
       @include form-label();
@@ -180,7 +180,7 @@
       margin-top: 10px;
     }
   }
-  .create-board-footer {
+  .modal-footer {
     @include typography-body-reduced();
     display: flex;
     justify-content: flex-end;

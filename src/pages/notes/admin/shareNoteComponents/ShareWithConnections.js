@@ -10,7 +10,7 @@ export const ShareWithConnections = (props) => {
 
     if (!connections.length) {
         return (
-            <div className="share-header">
+            <div className="connection-header">
                 {'You don\'t have any connections yet.'}
             </div>
         );
@@ -22,21 +22,21 @@ export const ShareWithConnections = (props) => {
     };
 
     return (
-        <div className="shared-with-section">
+        <div className="connections-section">
             {connections.map((each) => (
-                <div className="share-wrapper" key={each.id}>
-                    <div className="share-icon">
+                <div className="connections-wrapper" key={each.id}>
+                    <div className="connection-icon">
                         <Icon name={each.name} />
                     </div>
-                    <div className="share-details">
-                        <div className="share-name">
+                    <div className="connection-details">
+                        <div className="connection-name">
                             {each.name}
                         </div>
-                        <div className="share-email">
+                        <div className="connection-email">
                             {each.email}
                         </div>
                     </div>
-                    <div className="share-button">
+                    <div className="confirm-button">
                         <ShareButton
                             loading={loading}
                             alreadyShared={sharedWith.includes(each.id)}

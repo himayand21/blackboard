@@ -2,10 +2,10 @@ import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import {useQuery, useMutation} from '@apollo/react-hooks';
 
-import mutation from '../../../mutations/shareNote';
-import unshareMutation from '../../../mutations/unshareNote';
-import refetechQuery from '../../../queries/noteDetails';
-import query from '../../../queries/userDetails';
+import shareNote from '../../../mutations/shareNote';
+import unshareNote from '../../../mutations/unshareNote';
+import getNoteDetails from '../../../queries/noteDetails';
+import getUserDetails from '../../../queries/userDetails';
 import shareWithEveryoneMutation from '../../../mutations/toggleSharedWithEveryone';
 
 import {withToast} from '../../../components/toast/withToast';
@@ -26,15 +26,15 @@ const ShareNoteComponent = (props) => {
     const {note, addToast} = props;
     const [option, setOption] = useState('');
 
-    const {data: userData} = useQuery(query);
+    const {data: userData} = useQuery(getUserDetails);
 
-    const [mutate, {loading: sharing, error: shareError}] = useMutation(mutation);
-    const [unshare, {loading: unsharing, error: unshareError}] = useMutation(unshareMutation);
+    const [share, {loading: sharing, error: shareError}] = useMutation(shareNote);
+    const [unshare, {loading: unsharing, error: unshareError}] = useMutation(unshareNote);
     const [shareWithEveryone, {loading: sharingWithEveryone, error: makeItPublicError}] = useMutation(shareWithEveryoneMutation);
 
     const error = shareError || unshareError || makeItPublicError;
 
-    const unshareNote = async (unsharingWith) => {
+    const handleUnshareNote = async (unsharingWith) => {
         await unshare({
             variables: {
                 id: note.id,
@@ -42,12 +42,12 @@ const ShareNoteComponent = (props) => {
             },
             awaitRefetchQueries: true,
             refetchQueries: [{
-                query: refetechQuery,
+                query: getNoteDetails,
                 variables: {
                     id: note.id
                 },
             }, {
-                query
+                query: getUserDetails
             }]
         });
         addToast({
@@ -56,20 +56,20 @@ const ShareNoteComponent = (props) => {
         });
     };
 
-    const shareNote = async (sharingWith) => {
-        await mutate({
+    const handleShareNote = async (sharingWith) => {
+        await share({
             variables: {
                 id: note.id,
                 sharingWith
             },
             awaitRefetchQueries: true,
             refetchQueries: [{
-                query: refetechQuery,
+                query: getNoteDetails,
                 variables: {
                     id: note.id
                 },
             }, {
-                query
+                query: getUserDetails
             }]
         });
         addToast({
@@ -86,7 +86,7 @@ const ShareNoteComponent = (props) => {
             },
             awaitRefetchQueries: true,
             refetchQueries: [{
-                query: refetechQuery,
+                query: getNoteDetails,
                 variables: {
                     id: note.id
                 }
@@ -103,15 +103,15 @@ const ShareNoteComponent = (props) => {
             case SHARED_WITH: return (
                 <SharedWith
                     note={note}
-                    unshareNote={unshareNote}
+                    unshareNote={handleUnshareNote}
                     loading={sharing || unsharing}
                 />
             );
             case FIND_AND_SHARE: return (
                 <FindAndShare
                     note={note}
-                    shareNote={shareNote}
-                    unshareNote={unshareNote}
+                    shareNote={handleShareNote}
+                    unshareNote={handleUnshareNote}
                     loading={sharing || unsharing}
                 />
             );
@@ -120,8 +120,8 @@ const ShareNoteComponent = (props) => {
                     connections={userData?.userDetail?.connectionDetails}
                     note={note}
                     loading={sharing || unsharing}
-                    shareNote={shareNote}
-                    unshareNote={unshareNote}
+                    shareNote={handleShareNote}
+                    unshareNote={handleUnshareNote}
                 />
             );
             case SHARE_WITH_EVERYONE: return (
@@ -137,16 +137,18 @@ const ShareNoteComponent = (props) => {
     };
 
     return (
-        <div className="create-board">
-            <div className="create-board-header">{option ? (
-                <div className="back-button-wrapper">
-                    <button className="standard-button back-button" onClick={() => setOption('')}>
-                        <i className="fas fa-chevron-left" />
-                        <span>Back</span>
-                    </button>
-                    {option}
-                </div>
-            ) : 'Sharing Options'}</div>
+        <div className="modal-content">
+            <div className="modal-content-header">
+                {option ? (
+                    <div className="back-button-wrapper">
+                        <button className="standard-button back-button" onClick={() => setOption('')}>
+                            <i className="fas fa-chevron-left" />
+                            <span>Back</span>
+                        </button>
+                        {option}
+                    </div>
+                ) : 'Sharing Options'}
+            </div>
             {error ? (
                 <Toast content={{
                     type: 'error',

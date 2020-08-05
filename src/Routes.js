@@ -55,7 +55,7 @@ const Routes = (props) => {
                 }
             }
         } else {
-            if (window.location.pathname.includes('dashboard/note/')) {
+            if (window.location.pathname.includes('dashboard')) {
                 sessionStorage.setItem(REDIRECT_TOKEN, location.pathname);
             }
             history.push(WELCOME);
