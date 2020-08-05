@@ -85,12 +85,12 @@ const noteMutation = {
         }, context) {
             const {user: {id: userId}} = context;
             await UserDetail.findByIdAndUpdate(userId, {
-                $push: {
+                $addToSet: {
                     connections: sharingWith
                 }
             });
             return Note.findByIdAndUpdate(id, {
-                $push: {
+                $addToSet: {
                     sharedWith: sharingWith
                 }
             });

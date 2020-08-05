@@ -32,6 +32,17 @@ const NoteEditorComponent = (props) => {
         if (editorState === null) {
             onChange(EditorState.createEmpty());
         }
+        ['fullscreenchange', 'webkitfullscreenchange', 'mozfullscreenchange', 'msfullscreenchange'].forEach(
+            (eventType) => document.addEventListener(eventType, () => {
+                const isFullScreen = document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement || document.msFullscreenElement;
+                setFullScreenFlag(Boolean(isFullScreen));
+            })
+        );
+        return (() => {
+            ['fullscreenchange', 'webkitfullscreenchange', 'mozfullscreenchange', 'msfullscreenchange'].forEach(
+                (eventType) => document.removeEventListener(eventType, null)
+            );
+        });
     }, []);
 
     useEffect(() => {
@@ -41,7 +52,6 @@ const NoteEditorComponent = (props) => {
     }, [editorState]);
 
     const enterFullScreen = () => {
-        setFullScreenFlag(true);
         const element = editorRef.current;
         if (element.requestFullscreen) element.requestFullscreen();
         else if (element.mozRequestFullScreen) element.mozRequestFullScreen();
@@ -51,7 +61,6 @@ const NoteEditorComponent = (props) => {
     };
 
     const exitFullScreen = () => {
-        setFullScreenFlag(false);
         const doc = window.document;
         if (doc.exitFullscreen) doc.exitFullscreen();
         else if (doc.mozCancelFullScreen) doc.mozCancelFullScreen();
@@ -210,9 +219,9 @@ const NoteEditorComponent = (props) => {
                                             <i className="fas fa-times" />
                                         </button>
                                     </header>
-                                    <div className="create-board">
-                                        <header className="create-board-header">Add Link here</header>
-                                        <div className="create-board-form">
+                                    <div className="modal-content">
+                                        <header className="modal-content-header">Add Link here</header>
+                                        <div className="modal-form">
                                             <div className="form-label">
                                             LINK
                                             </div>
@@ -223,7 +232,7 @@ const NoteEditorComponent = (props) => {
                                             />
                                             <div className="form-error-row" />
                                         </div>
-                                        <footer className="create-board-footer">
+                                        <footer className="modal-footer">
                                             <button
                                                 className="standard-button"
                                                 onClick={onConfirm}

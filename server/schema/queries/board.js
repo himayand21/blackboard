@@ -16,12 +16,14 @@ const boardQuery = {
         args: {
             id: {type: new GraphQLNonNull(GraphQLID)}
         },
-        resolve(parentValue, {id}, context) {
+        async resolve(parentValue, {id}, context) {
             const {user: {id: userId}} = context;
-            return Board.findOne({
+            const board = await Board.findOne({
                 _id: id,
                 user: userId
             });
+            if (board) return board;
+            return new Error('Board does not exists');
         }
     },
     boards: {

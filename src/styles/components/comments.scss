@@ -29,23 +29,4 @@
             }
         }
     }
-    .action-row {
-        margin-top: 5px;
-        display: flex;
-        margin-bottom: 20px;
-        align-items: flex-end;
-    }
-    .type-comment {
-        flex: 1;
-        input {
-            @include form-input();
-            padding-bottom: 10px;
-        }
-    }
-    .send-comment {
-        margin-left: 10px;
-        .standard-button {
-            margin-right: 0px !important;
-        }
-    }
 }

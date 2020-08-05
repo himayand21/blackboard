@@ -5,8 +5,8 @@ import {useMutation} from '@apollo/react-hooks';
 import {Loader} from '../../components/loader';
 import {Toast} from '../../components/toast/Toast';
 
-import query from '../../queries/boards';
-import mutation from '../../mutations/deleteBoard';
+import getBoards from '../../queries/boards';
+import deleteBoard from '../../mutations/deleteBoard';
 
 export const DeleteBoard = (props) => {
     const {
@@ -14,40 +14,40 @@ export const DeleteBoard = (props) => {
         selectedBoard
     } = props;
 
-    const [mutate, {loading: deleting, error: mutationError}] = useMutation(mutation, {
+    const [remove, {loading: deleting, error: mutationError}] = useMutation(deleteBoard, {
         awaitRefetchQueries: true
     });
 
-    const deleteBoard = async () => {
-        await mutate({
+    const handleClick = async () => {
+        await remove({
             variables: {
                 id: selectedBoard.id
             },
             refetchQueries: [{
-                query
+                query: getBoards
             }]
         });
         hideModal();
     };
 
     return (
-        <div className="create-board">
+        <div className="modal-content">
             {mutationError ? (
                 <Toast content={{
                     message: 'Uh oh! Failed to delete board',
                     type: 'error'
                 }} />
             ) : null}
-            <div className="create-board-header">
+            <div className="modal-content-header">
 				Are you sure?
             </div>
-            <div className="create-board-intro delete-board">
+            <div className="modal-content-intro delete-board">
 				This process is irreversible and would remove all Notes associated with<span>{selectedBoard.name}</span>.
             </div>
-            <footer className="create-board-footer">
+            <footer className="modal-footer">
                 <button
                     className="standard-button"
-                    onClick={deleteBoard}
+                    onClick={handleClick}
                 >
                     {deleting ? <Loader /> : 'Confirm'}
                 </button>

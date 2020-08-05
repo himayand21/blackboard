@@ -2,6 +2,13 @@
   max-height: 100vh;
   max-width: 100vw;
   overflow: hidden;
+  .not-found-error {
+    width: 500px;
+    max-width: 85vw;
+    svg {
+      margin-bottom: 10px;
+    }
+  }
   .loading-section {
     z-index: 3;
     height: 100vh;

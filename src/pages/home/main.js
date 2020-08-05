@@ -10,10 +10,11 @@ import {ViewNote} from '../../pages/notes/common/ViewNote';
 import {Toast} from '../../components/toast/Toast';
 import {withToast} from '../../components/toast/withToast';
 
-import query from '../../queries/userDetails';
-import mutation from '../../mutations/addUser';
+import getUserDetails from '../../queries/userDetails';
+import addUser from '../../mutations/addUser';
 import {Popup} from '../../components/popup';
 import {Modal} from '../../components/modal';
+import {RedirectToBoard} from '../boards/RedirectToBoard';
 
 import {
     REDIRECT_TOKEN,
@@ -26,6 +27,7 @@ import {Loader} from '../../components/loader';
 import {NameForm} from './NameForm';
 import {UpdateNameForm} from './UpdateNameForm';
 import {ChangePassword} from './ChangePassword';
+import {Connections} from './connections';
 
 const MainComponent = (props) => {
     const [clickPosition, setClickPosition] = useState({
@@ -35,6 +37,7 @@ const MainComponent = (props) => {
     const [show, setShow] = useState(false);
     const [editVisible, setEditVisible] = useState(false);
     const [changePasswordVisible, setChangePasswordVisible] = useState(false);
+    const [connectionsVisible, setConnectionsVisible] = useState(false);
     const [loggingOut, setLoggingOut] = useState(false);
 
     const history = useHistory();
@@ -42,9 +45,9 @@ const MainComponent = (props) => {
 
     const {id, logout, email, csrfToken, addToast} = props;
 
-    const {data, loading, error} = useQuery(query);
+    const {data, loading, error} = useQuery(getUserDetails);
 
-    const [mutate, {loading: adding, error: mutationError}] = useMutation(mutation, {
+    const [add, {loading: adding, error: mutationError}] = useMutation(addUser, {
         awaitRefetchQueries: true
     });
 
@@ -78,15 +81,15 @@ const MainComponent = (props) => {
         sessionStorage.removeItem(REDIRECT_TOKEN);
     };
 
-    const addUser = (name) => {
-        mutate({
+    const handleAddUser = (name) => {
+        add({
             variables: {
                 id,
                 name,
                 email
             },
             refetchQueries: [{
-                query
+                query: getUserDetails
             }]
         });
     };
@@ -102,13 +105,19 @@ const MainComponent = (props) => {
                 ) : null}
                 <NameForm
                     data={data}
-                    addUser={addUser}
+                    addUser={handleAddUser}
                     email={email}
                     adding={adding}
                 />
             </>
         );
     }
+
+    const {
+        name: userName,
+        connectionDetails,
+        connections: connectionIds
+    } = userDetail;
 
     const showPopup = (event) => {
         const x = event.clientX;
@@ -136,6 +145,13 @@ const MainComponent = (props) => {
         setChangePasswordVisible(true);
     };
     const hideChangePassword = () => setChangePasswordVisible(false);
+
+    const showConnections = () => {
+        setShow(false);
+        setConnectionsVisible(true);
+    };
+    const hideConnections = () => setConnectionsVisible(false);
+
     const onTitleClick = () => {
         sessionStorage.removeItem(REDIRECT_TOKEN);
         history.push(DASHBOARD);
@@ -145,8 +161,8 @@ const MainComponent = (props) => {
         <>
             <NavBar onTitleClick={onTitleClick}>
                 <div className="user-name">
-                    <Icon name={userDetail.name} />
-                    <span className="user-first-name">{userDetail.name}</span>
+                    <Icon name={userName} />
+                    <span className="user-first-name">{userName}</span>
                     <Popup
                         show={show}
                         hidePopup={hidePopup}
@@ -158,6 +174,7 @@ const MainComponent = (props) => {
                         <ul>
                             <li onClick={showEditForm}>Edit Profile</li>
                             <li onClick={showChangePassword}>Change Password</li>
+                            <li onClick={showConnections}>My Connections</li>
                             <li onClick={loggingOut ? null : userLogout}>
                                 <span>Logout</span>
                                 {loggingOut ? <Loader /> : null}
@@ -175,7 +192,7 @@ const MainComponent = (props) => {
                     <UpdateNameForm
                         id={props.id}
                         hideModal={hideEditForm}
-                        placeholder={userDetail.name}
+                        placeholder={userName}
                     />
                 </Modal>
             ) : null}
@@ -191,17 +208,31 @@ const MainComponent = (props) => {
                     />
                 </Modal>
             ) : null}
+            {connectionsVisible ? (
+                <Modal
+                    show={connectionsVisible}
+                    hideModal={hideConnections}
+                >
+                    <Connections
+                        connections={connectionDetails}
+                        connectionIds={connectionIds}
+                    />
+                </Modal>
+            ) : null}
             <Switch>
-                <Route path={`${match.path}/:boardId${NOTES}`}>
-                    <Board user={props.id} />
-                </Route>
                 <Route path={`${match.path}/note/:noteId`}>
                     <ViewNote
                         backURL={`${match.path}`}
                         user={props.id}
                     />
                 </Route>
-                <Route path={match.path}>
+                <Route path={`${match.path}/:boardId${NOTES}`}>
+                    <Board user={props.id} />
+                </Route>
+                <Route exact path={`${match.path}/:boardId`}>
+                    <RedirectToBoard />
+                </Route>
+                <Route exact path={match.path}>
                     <Boards />
                 </Route>
             </Switch>

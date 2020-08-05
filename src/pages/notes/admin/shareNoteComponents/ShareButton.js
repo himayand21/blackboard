@@ -14,7 +14,7 @@ export const ShareButton = (props) => {
 
     return (
         <button
-            className={`standard-button ${alreadyShared ? 'revert-button' : ''}`}
+            className={`standard-button ${alreadyShared ? 'cancel-button' : ''}`}
             disabled={loading && updating}
             onClick={handleClick}
         >

@@ -337,7 +337,7 @@
   }
 }
 
-.shared-with-section {
+.connections-section {
   min-height: 50px;
   max-height: 25vh;
   margin-top: 15px;
@@ -345,48 +345,49 @@
   @include styled-scroll();
 }
 
-.share-header {
+.connection-header {
   @include typography-body-reduced();
   color: $lightgray;
   font-weight: bold;
   margin-top: 10px;
 }
 
-.share-button {
+.confirm-button {
   min-width: 75px;
   display: flex;
   button {
     flex: 1;
-    &.revert-button {
+    &.cancel-button {
       background-color: $box-red;
+      color: white;
     }
   }
   @media only screen and (max-width: 500px) {
-    min-width: 60px;
+    min-width: 70px;
   }
 }
 
-.share-section {
+.search-section {
   margin-top: 15px;
   color: $white;
 }
 
-.share-wrapper {
+.connections-wrapper {
     display: flex;
     align-items: center;
     margin: 15px 0px;
-    .share-icon {
+    .connection-icon {
         margin-right: 10px;
         margin-top: 3px;
     }
-    .share-details {
+    .connection-details {
         flex: 1;
         color: $white;
-        max-width: calc(100% - 110px);
+        max-width: calc(100% - 120px);
         display: flex;
         justify-content: flex-end;
         flex-direction: column;
-        .share-name {
+        .connection-name {
             @include typography-body();
             font-weight: bold;
             white-space: nowrap;
@@ -394,7 +395,7 @@
             overflow: hidden;
             max-width: 100%;
         }
-        .share-email {
+        .connection-email {
             @include typography-body();
             white-space: nowrap;
             text-overflow: ellipsis;
@@ -408,18 +409,18 @@
     display: flex;
     margin-bottom: 20px;
     align-items: flex-end;
-}
-.type-comment {
-    flex: 1;
-    input {
-        @include form-input();
-        padding-bottom: 10px;
+    .input-wrapper {
+      flex: 1;
+      input {
+          @include form-input();
+          padding-bottom: 10px;
+      }
     }
-}
-.send-comment {
-    margin-left: 10px;
-    .standard-button {
-        margin-right: 0px !important;
+    .action-button {
+        margin-left: 10px;
+        .standard-button {
+            margin-right: 0px !important;
+        }
     }
 }
 

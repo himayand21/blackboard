@@ -7,12 +7,12 @@ import {Loader} from '../../../components/loader';
 import {Toast} from '../../../components/toast/Toast';
 
 import refetchQuery from '../../../queries/refetchQuery';
-import mutation from '../../../mutations/deleteNote';
+import deleteNote from '../../../mutations/deleteNote';
 
 import {REDIRECT_TOKEN} from '../../../constants';
 
 export const DeleteNote = (props) => {
-    const [mutate, {loading: deleting, error: mutationError}] = useMutation(mutation, {
+    const [remove, {loading: deleting, error: mutationError}] = useMutation(deleteNote, {
         awaitRefetchQueries: true
     });
 
@@ -21,8 +21,8 @@ export const DeleteNote = (props) => {
 
     const history = useHistory();
 
-    const deleteNote = async () => {
-        await mutate({
+    const handleDeleteNote = async () => {
+        await remove({
             variables: {
                 id
             },
@@ -36,23 +36,23 @@ export const DeleteNote = (props) => {
     };
 
     return (
-        <div className="create-board">
+        <div className="modal-content">
             {mutationError ? (
                 <Toast content={{
                     message: 'Uh oh! Note deletion failed.',
                     type: 'error'
                 }} />
             ) : null}
-            <div className="create-board-header">
+            <div className="modal-content-header">
 				Are you sure?
             </div>
-            <div className="create-board-intro delete-board">
+            <div className="modal-content-intro delete-board">
 				This process is irreversible and would remove all data associated with<span>{note.name ? note.name : 'Untitled'}</span>.
             </div>
-            <footer className="create-board-footer">
+            <footer className="modal-footer">
                 <button
                     className="standard-button footer-button"
-                    onClick={deleteNote}
+                    onClick={handleDeleteNote}
                 >
                     {deleting ? <Loader /> : 'Confirm'}
                 </button>

@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import {useHistory, useRouteMatch} from 'react-router-dom';
 import {useMutation} from '@apollo/react-hooks';
 
-import mutation from '../../mutations/addNote';
-import query from '../../queries/boardDetails';
+import addNote from '../../mutations/addNote';
+import getBoardDetails from '../../queries/boardDetails';
 
 import {Loader} from '../../components/loader';
 import {Toast} from '../../components/toast/Toast';
@@ -21,9 +21,9 @@ export const Notes = (props) => {
 
     const {color, notes, boardName, boardId} = props;
 
-    const [mutate, {loading, data, error: mutationError}] = useMutation(mutation, {
+    const [add, {loading, data, error: mutationError}] = useMutation(addNote, {
         refetchQueries: [{
-            query,
+            query: getBoardDetails,
             variables: {
                 id: boardId
             }
@@ -42,7 +42,7 @@ export const Notes = (props) => {
     };
 
     const goToCreateNote = async () => {
-        mutate({
+        add({
             variables: {
                 board: boardId,
                 editor: '',

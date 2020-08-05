@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import {useLazyQuery} from '@apollo/react-hooks';
 
-import lazyQuery from '../../../../queries/searchByEmail';
+import getSearchByEmail from '../../../../queries/searchByEmail';
 
 import {Loader} from '../../../../components/loader';
 import {Icon} from '../../../../components/icon';
@@ -17,7 +17,7 @@ export const FindAndShare = (props) => {
         unshareNote
     } = props;
 
-    const [searchByEmail, {loading: searching, data}] = useLazyQuery(lazyQuery);
+    const [searchByEmail, {loading: searching, data}] = useLazyQuery(getSearchByEmail);
 
     const search = () => {
         searchByEmail({
@@ -33,14 +33,14 @@ export const FindAndShare = (props) => {
     return (
         <>
             <div className="action-row">
-                <div className="type-comment">
+                <div className="input-wrapper">
                     <input
                         placeholder="someone@example.com"
                         onChange={(event) => setText(event.target.value)}
                         value={text}
                     />
                 </div>
-                <div className="send-comment">
+                <div className="action-button">
                     <button
                         className="standard-button footer-button"
                         onClick={search}
@@ -50,35 +50,45 @@ export const FindAndShare = (props) => {
                 </div>
             </div>
             {data ? (
-                <div className="share-section">
+                <div className="search-section">
                     {data.searchByEmail ? (
                         <>
-                            <div className="share-header">SEARCH RESULT</div>
-                            <div className="share-wrapper">
-                                <div className="share-icon">
+                            <div className="connection-header">SEARCH RESULT</div>
+                            <div className="connections-wrapper">
+                                <div className="connection-icon">
                                     <Icon name={data.searchByEmail.name} />
                                 </div>
-                                <div className="share-details">
-                                    <div className="share-name">
+                                <div className="connection-details">
+                                    <div className="connection-name">
                                         {data.searchByEmail.name}
                                     </div>
-                                    <div className="share-email">
+                                    <div className="connection-email">
                                         {data.searchByEmail.email}
                                     </div>
                                 </div>
-                                <div className="share-button">
-                                    <button
-                                        className="standard-button"
-                                        disabled={loading}
-                                        onClick={() => sharedWith.includes(data.searchByEmail.id) ? unshareNote(data.searchByEmail.id) : shareNote(data.searchByEmail.id)}
-                                    >
-                                        {sharedWith.includes(data.searchByEmail.id) ? 'Revert' : 'Share'}
-                                    </button>
+                                <div className="confirm-button">
+                                    {sharedWith.includes(data.searchByEmail.id) ? (
+                                        <button
+                                            className="standard-button cancel-button"
+                                            disabled={loading}
+                                            onClick={() => unshareNote(data.searchByEmail.id)}
+                                        >
+                                            Revert
+                                        </button>
+                                    ) : (
+                                        <button
+                                            className="standard-button"
+                                            disabled={loading}
+                                            onClick={() => shareNote(data.searchByEmail.id)}
+                                        >
+                                            Share
+                                        </button>
+                                    )}
                                 </div>
                             </div>
                         </>
                     ) : (
-                        <div className="share-header">NO SEARCH RESULTS FOUND</div>
+                        <div className="connection-header">NO SEARCH RESULTS FOUND</div>
                     )}
                 </div>
             ) : null}

@@ -5,7 +5,7 @@ import {useQuery} from '@apollo/react-hooks';
 import {Loader} from '../../../components/loader';
 import {Toast} from '../../../components/toast/Toast';
 
-import query from '../../../queries/boards';
+import getBoards from '../../../queries/boards';
 
 export const SwitchBoard = (props) => {
     const {
@@ -16,7 +16,7 @@ export const SwitchBoard = (props) => {
     } = props;
 
     const [selectedBoard, setSelectedBoard] = useState(board);
-    const {data, error, loading} = useQuery(query);
+    const {data, error, loading} = useQuery(getBoards);
 
     if (error) {
         return (
@@ -25,11 +25,11 @@ export const SwitchBoard = (props) => {
                     message: 'Uh oh! Failed to load your boards.',
                     type: 'error'
                 }} />
-                <div className="create-board">
-                    <div className="create-board-header">
+                <div className="modal-content">
+                    <div className="modal-content-header">
                         Sorry
                     </div>
-                    <div className="create-board-intro delete-board">
+                    <div className="modal-content-intro delete-board">
                         There seems to be a problem loading your boards ...
                     </div>
                 </div>
@@ -41,11 +41,11 @@ export const SwitchBoard = (props) => {
 
     if (loading) {
         return (
-            <div className="create-board">
-                <div className="create-board-header">
+            <div className="modal-content">
+                <div className="modal-content-header">
                 Switch Board
                 </div>
-                <div className="create-board-intro delete-board">
+                <div className="modal-content-intro delete-board">
                 Just a Second ...
                 </div>
             </div>
@@ -55,8 +55,8 @@ export const SwitchBoard = (props) => {
     const {boards} = data;
 
     return (
-        <div className="create-board">
-            <div className="create-board-header">
+        <div className="modal-content">
+            <div className="modal-content-header">
                 Switch Board
             </div>
             <div className="create-board-list">
@@ -77,7 +77,7 @@ export const SwitchBoard = (props) => {
                     ))}
                 </div>
             </div>
-            <footer className="create-board-footer">
+            <footer className="modal-footer">
                 <button
                     className="standard-button footer-button"
                     onClick={() => handleConfirm(selectedBoard)}

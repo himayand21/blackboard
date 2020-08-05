@@ -6,8 +6,8 @@ import {Loader} from '../../components/loader';
 import {Pallete} from '../../components/pallete';
 import {Toast} from '../../components/toast/Toast';
 
-import query from '../../queries/boards';
-import mutation from '../../mutations/addBoard';
+import getBoards from '../../queries/boards';
+import addBoard from '../../mutations/addBoard';
 
 export const CreateBoard = (props) => {
     const [boardColor, setBoardColor] = useState('grey');
@@ -17,18 +17,18 @@ export const CreateBoard = (props) => {
         hideModal
     } = props;
 
-    const [mutate, {loading: adding, error: mutationError}] = useMutation(mutation, {
+    const [add, {loading: adding, error: mutationError}] = useMutation(addBoard, {
         awaitRefetchQueries: true
     });
 
-    const addBoard = async () => {
-        await mutate({
+    const handleClick = async () => {
+        await add({
             variables: {
                 name: boardName,
                 color: boardColor
             },
             refetchQueries: [{
-                query
+                query: getBoards
             }]
         });
         hideModal();
@@ -49,19 +49,19 @@ export const CreateBoard = (props) => {
     }, []);
 
     return (
-        <div className="create-board">
+        <div className="modal-content">
             {mutationError ? (
                 <Toast content={{
                     message: 'Uh oh! Board creation failed.',
                     type: 'error'
                 }} />
             ) : null}
-            <header className="create-board-header">Create a Board</header>
-            <div className="create-board-intro">
+            <header className="modal-content-header">Create a Board</header>
+            <div className="modal-content-intro">
 				A board is like a collection. For example, if you are planning for a Goa trip - the board title could be
                 <span>Trip to Goa.</span>
             </div>
-            <div className="create-board-form">
+            <div className="modal-form">
                 <div className="form-label">
 					TITLE
                 </div>
@@ -80,11 +80,11 @@ export const CreateBoard = (props) => {
                 />
                 <div className="form-error-row" />
             </div>
-            <footer className="create-board-footer">
+            <footer className="modal-footer">
                 <button
                     className="standard-button"
                     disabled={!boardName.length}
-                    onClick={addBoard}
+                    onClick={handleClick}
                 >
                     {adding ? <Loader /> : 'Confirm'}
                 </button>

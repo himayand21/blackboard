@@ -5,11 +5,12 @@ import {useQuery} from '@apollo/react-hooks';
 import {convertFromRaw, EditorState} from 'draft-js';
 
 import {
-    REDIRECT_TOKEN,
-    ERROR
+    REDIRECT_TOKEN
 } from '../../../constants';
 
-import query from '../../../queries/noteDetails';
+import {NotFound} from '../../error/NotFound';
+
+import getNoteDetails from '../../../queries/noteDetails';
 
 import {NoteEditor} from '../components/NoteEditor';
 import {Options} from './Options';
@@ -24,7 +25,7 @@ export const ViewNote = (props) => {
 
     const {noteId} = match.params;
 
-    const {data, error, loading} = useQuery(query, {
+    const {data, error, loading} = useQuery(getNoteDetails, {
         variables: {
             id: noteId
         }
@@ -44,14 +45,14 @@ export const ViewNote = (props) => {
         }
     }, [data]);
 
-    useEffect(() => {
-        if (error) {
-            history.push(ERROR);
-        }
-    }, [error]);
-
     if (error) {
-        return null;
+        return (
+            <div className="screen-loader">
+                <div className="loading-section">
+                    <NotFound type="note" />
+                </div>
+            </div>
+        );
     }
 
     if (loading) {

@@ -9,8 +9,8 @@ import {
     ERROR
 } from '../../../constants';
 
-import query from '../../../queries/noteDetails';
-import mutation from '../../../mutations/updateNote';
+import getNoteDetails from '../../../queries/noteDetails';
+import updateNote from '../../../mutations/updateNote';
 import refetchQuery from '../../../queries/refetchQuery';
 
 import {Toast} from '../../../components/toast/Toast';
@@ -29,13 +29,13 @@ export const EditNote = (props) => {
     const match = useRouteMatch();
     const {noteId} = match.params;
 
-    const {data, loading, error} = useQuery(query, {
+    const {data, loading, error} = useQuery(getNoteDetails, {
         variables: {
             id: noteId
         }
     });
 
-    const [mutate, {loading: updating, error: mutationError}] = useMutation(mutation, {
+    const [update, {loading: updating, error: mutationError}] = useMutation(updateNote, {
         awaitRefetchQueries: true
     });
 
@@ -108,9 +108,9 @@ export const EditNote = (props) => {
         history.push(backURL);
     };
 
-    const updateNote = async () => {
+    const handleUpdateNote = async () => {
         const {id} = note;
-        await mutate({
+        await update({
             variables: {
                 id,
                 name: newTitle,
@@ -118,7 +118,7 @@ export const EditNote = (props) => {
                 editor: JSON.stringify(convertToRaw(editorState.getCurrentContent()))
             },
             refetchQueries: [{
-                query,
+                query: getNoteDetails,
                 variables: {id}
             }, {
                 query: refetchQuery
@@ -167,7 +167,7 @@ export const EditNote = (props) => {
                     <button
                         className="standard-button"
                         disabled={!message}
-                        onClick={updateNote}
+                        onClick={handleUpdateNote}
                     >
                         {updating ? <Loader /> : 'Save'}
                     </button>

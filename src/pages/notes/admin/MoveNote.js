@@ -10,7 +10,7 @@ import {
 } from '../../../constants';
 
 import refetchQuery from '../../../queries/refetchQuery';
-import mutation from '../../../mutations/moveNote';
+import moveNote from '../../../mutations/moveNote';
 
 import {Toast} from '../../../components/toast/Toast';
 import {SwitchBoard} from '../components/SwitchBoard';
@@ -19,12 +19,12 @@ export const MoveNote = (props) => {
     const {note, hideModal} = props;
 
     const history = useHistory();
-    const [mutate, {loading: moving, error: mutationError}] = useMutation(mutation, {
+    const [move, {loading: moving, error: mutationError}] = useMutation(moveNote, {
         awaitRefetchQueries: true
     });
 
     const handleConfirm = async (selectedBoard) => {
-        await mutate({
+        await move({
             variables: {
                 id: note.id,
                 board: selectedBoard
