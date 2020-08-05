@@ -7,7 +7,7 @@ import {WelcomeHome} from './WelcomeHome';
 import {Login} from './Login';
 import {Signup} from './Signup';
 
-export const Welcome = (props) => {
+const Welcome = (props) => {
 
     const [signupActive, setSignupActive] = useState(false);
     const [loginActive, setLoginActive] = useState(false);
@@ -76,3 +76,5 @@ export const Welcome = (props) => {
 Welcome.propTypes = {
     withAuthProps: PropTypes.object
 };
+
+export default Welcome;

@@ -17,7 +17,6 @@ import {
 } from './api';
 import {withToast} from './components/toast/withToast';
 
-import '@fortawesome/fontawesome-free/css/all.css';
 import './styles/App.scss';
 
 const App = (props) => {

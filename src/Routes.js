@@ -1,12 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, lazy, Suspense} from 'react';
 import {Route, useHistory, Switch} from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import {Welcome} from './pages/welcome';
-import Home from './pages/home';
 import Loader from './pages/loader';
-import Error from './pages/error';
-import VerifyOTP from './pages/welcome/VerifyOTP';
 
 import {
     WELCOME,
@@ -17,6 +13,11 @@ import {
 } from './constants';
 
 import './styles/App.scss';
+
+const Welcome = lazy(() => import('./pages/welcome'));
+const Home = lazy(() => import('./pages/home'));
+const VerifyOTP = lazy(() => import('./pages/welcome/VerifyOTP'));
+const Error = lazy(() => import('./pages/error'));
 
 const Routes = (props) => {
     const [appLoading, setAppLoading] = useState(true);
@@ -69,20 +70,22 @@ const Routes = (props) => {
     }
 
     return (
-        <Switch>
-            <Route path={WELCOME}>
-                <Welcome withAuthProps={props} />
-            </Route>
-            <Route path={DASHBOARD}>
-                <Home withAuthProps={props} />
-            </Route>
-            <Route path={VERIFY}>
-                <VerifyOTP withAuthProps={props} />
-            </Route>
-            <Route path={ERROR}>
-                <Error withAuthProps={props} />
-            </Route>
-        </Switch>
+        <Suspense fallback={<Loader />}>
+            <Switch>
+                <Route path={WELCOME}>
+                    <Welcome withAuthProps={props} />
+                </Route>
+                <Route path={DASHBOARD}>
+                    <Home withAuthProps={props} />
+                </Route>
+                <Route path={VERIFY}>
+                    <VerifyOTP withAuthProps={props} />
+                </Route>
+                <Route path={ERROR}>
+                    <Error withAuthProps={props} />
+                </Route>
+            </Switch>
+        </Suspense>
     );
 };
 
