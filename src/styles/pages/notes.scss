@@ -1,0 +1,439 @@
+.notes-section {
+  &.notes-wrapper {
+    margin: 0;
+    max-height: calc(100vh - 70px);
+    overflow-y: auto;
+    @include styled-scroll();
+    .notes-message-section {
+      height: calc(100vh - 244px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      .notes-header-section {
+        width: 700px;
+        max-width: 90vw;
+        .note-header {
+          @include typography-headline();
+          color: $white;
+          text-align: center;
+        }
+      }
+      .notes-button-row {
+        margin-top: 30px;
+        .standard-button {
+          @include big-button();
+        }
+      }
+    }
+    .notes-container {
+      margin: 15px 15px;
+      max-width: calc(100vw - 30px);
+    }
+  }
+  .notes-header {
+    margin-top: 15px;
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+    z-index: 3;
+    &.multi-options {
+      justify-content: space-between;
+      .notes-left-header {
+        margin-left: 20px;
+        @include typography-intro();
+        color: $white;
+        line-height: 37px;
+      }
+      .option-wrapper {
+        display: flex;
+        margin-right: 20px;
+        align-items: center;
+        ul {
+          @include typography-label-reduced();
+          font-weight: normal;
+        }
+        .note-message {
+          @include typography-label-reduced();
+          margin-right: 15px;
+        }
+        color: $white;
+        .standard-button {
+          margin-right: 10px;
+        }
+        .popup-button {
+          margin-right: 0px;
+        }
+      }
+    }
+    .note-header-name {
+      padding-right: 15px;
+      padding-left: 150px;
+      padding-bottom: 15px;
+      @include typography-intro-super();
+      font-weight: bold;
+      text-align: right;
+      @media only screen and (max-width: 1068px) {
+        padding-left: 100px;
+      }
+      @media only screen and (max-width: 735px) {
+        padding-left: 60px;
+      }
+    }
+    .standard-button {
+      margin-right: 10px;
+      &.switch-button {
+        margin-right: 10px;
+      }
+    }
+  }
+  .note-wrapper {
+    margin: 15px 10px 0;
+    min-height: calc(100vh - 142px);
+    max-height: calc(100vh - 142px);
+    background: $faded-black;
+    border: 2px solid $darkgray;
+    border-bottom: none;
+    max-width: calc(100vw - 20px);
+    @include styled-scroll();
+    padding: 25px 25px 0px;
+    border-radius: 15px 15px 0 0;
+    box-sizing: border-box;
+    color: $white;
+    overflow: auto;
+    @media only screen and (max-width: 1068px) {
+      padding: 15px 15px 0;
+    }
+    div:focus {
+      outline: none;
+    }
+    .note-title {
+      position: relative;
+      input {
+        @include typography-intro-super();
+        border: none;
+        background: none;
+        outline: none !important;
+        color: $white;
+        width: 100%;
+      }
+      margin-bottom: 20px;
+      margin-top: 5px;
+    }
+    .note-description {
+      position: relative;
+      input {
+        @include typography-intro();
+        border: none;
+        background: none;
+        outline: none !important;
+        color: $white;
+        width: 100%;
+      }
+      margin-bottom: 20px;
+    }
+    .note-length {
+      position: absolute;
+      @include typography-superstring();
+      color: $box-grey;
+      font-weight: bold;
+      right: 5px;
+      top: -10px;
+    }
+    .note-story {
+      @include typography-body();
+      font-weight: lighter;
+      height: auto;
+      .public-DraftEditor-content {
+        height: 100%;
+      }
+      position: relative;
+      .public-DraftEditorPlaceholder-root {
+        position: absolute;
+        top: 0;
+        color: $gray;
+        user-select: none;
+      }
+
+      .editor-blockquote,
+      .public-DraftStyleDefault-ul,
+      .public-DraftStyleDefault-ol,
+      .public-DraftStyleDefault-pre,
+      h2 {
+        background-color: transparentize($color: $darkgray, $amount: 0.4);
+        margin: 10px 0;
+        padding: 20px 10px;
+        padding-left: 60px;
+        border-radius: 15px;
+        position: relative;
+        color: $lightgray;
+        &:before {
+          position: absolute;
+          left: 0px;
+          top: 0px;
+          height: 100%;
+          width: 50px;
+          @include center();
+          background-color: $low-faded-black;
+          border-radius: 15px 0 0 15px;
+          font-family: 'Font Awesome 5 Free';
+          font-weight: 900;
+        }
+      }
+      h2 {
+        padding-left: 10px;
+        border-bottom-left-radius: 0px;
+        border-bottom-right-radius: 0px;
+        border-bottom: 1px solid $gray;
+      }
+      .editor-blockquote {
+        &:before {
+          content: "\f10d";
+          font-family: 'Font Awesome 5 Free';
+          font-weight: 900;
+        }
+      }
+      .public-DraftStyleDefault-ul {
+        padding-left: 75px;
+        &:before {
+          content: "\f0ca";
+          font-family: 'Font Awesome 5 Free';
+          font-weight: 900;
+        }
+      }
+      .public-DraftStyleDefault-ol {
+        padding-left: 75px;
+        &:before {
+          content: "\f0cb";
+          font-family: 'Font Awesome 5 Free';
+          font-weight: 900;
+        }
+      }
+      .public-DraftStyleDefault-pre {
+        padding-top: 20px;
+        padding-right: 10px;
+        padding-bottom: 20px;
+        max-width: 100%;
+        overflow: auto;
+        pre {
+          margin: 2px 0;
+        }
+        &:before {
+          content: "\f121";
+          font-family: 'Font Awesome 5 Free';
+          font-weight: 900;
+        }
+      }
+    }
+  }
+}
+
+@each $item in $colors {
+  $color: #bfbfbf;
+  $boxColor: $box-grey;
+  .#{$item}-section {
+    @if $item == red {
+      $color: $box-red;
+      $boxColor: $box-red;
+    }
+    @if $item == blue {
+      $color: #6aa6e6;
+      $boxColor: $box-blue;
+    }
+    @if $item == orange {
+      $color: $box-orange;
+      $boxColor: $box-orange;
+    }
+    @if $item == yellow {
+      $color: $box-yellow;
+      $boxColor: $box-yellow;
+    }
+    @if $item == grey {
+      $color: #bfbfbf;
+      $boxColor: $box-grey;
+    }
+    @if $item == violet {
+      $color: #d18fbf;
+      $boxColor: $box-violet;
+    }
+    @if $item == brown {
+      $color: #c38765;
+      $boxColor: $box-brown;
+    }
+    @if $item == pink {
+      $color: $box-pink;
+      $boxColor: $box-pink;
+    }
+    @if $item == cyan {
+      $color: $box-cyan;
+      $boxColor: $box-cyan;
+    }
+    @if $item == green {
+      $color: $green;
+      $boxColor: $box-green;
+    }
+    .note-header-name {
+      box-shadow: 10px 3px 6px -5px $boxColor;
+      color: $white;
+      margin-top: -20px;
+      padding-top: 20px;
+      background: linear-gradient(135deg, transparent 60%, transparentize($boxColor, 0.7));
+    }
+    .standard-button {
+      background-color: $color !important;
+      &:hover {
+        background-color: lighten($color, 5) !important;
+      }
+    }
+    .modal-wrapper .standard-button {
+      background-color: $green !important;
+      border-radius: 5px;
+      padding: 10px 15px;
+      &:hover {
+        background-color: lighten($color: $green, $amount: 5) !important;
+      }
+    }
+    .standard-badge {
+      background-color: $color;
+    }
+    .block-link, .standard-interactive {
+      color: $color;
+    }
+    .standard-interactive {
+      background-color: transparentize($color: $color, $amount: 0.8);
+      &:hover {
+        background-color: transparentize($color: $color, $amount: 0.9);
+      }
+    }
+    .standard-interactive-badge {
+      color: $color;
+    }
+    .editor-blockquote,
+    .public-DraftStyleDefault-ul,
+    .public-DraftStyleDefault-ol,
+    .public-DraftStyleDefault-pre,
+    h2 {
+      &:before {
+        color: $color;
+      }
+    }
+    .block-link {
+      color: $color;
+      @include typography-body-reduced();
+      padding: 2px 10px;
+      font-weight: bold;
+      text-decoration: none;
+      border-radius: 8px;
+      background-color: transparentize($color: $color, $amount: 0.7);
+      margin: 0 2px;
+      &:before {
+       content: "\f0c1";
+       font-family: 'Font Awesome 5 Free';
+       font-weight: 900;
+       margin-right: 8px;
+       font-size: 13px;
+      }
+    }
+  }
+}
+
+.connections-section {
+  min-height: 50px;
+  max-height: 25vh;
+  margin-top: 15px;
+  overflow: auto;
+  @include styled-scroll();
+}
+
+.connection-header {
+  @include typography-body-reduced();
+  color: $lightgray;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.confirm-button {
+  min-width: 75px;
+  display: flex;
+  button {
+    flex: 1;
+    &.cancel-button {
+      background-color: $box-red;
+      color: white;
+    }
+  }
+  @media only screen and (max-width: 500px) {
+    min-width: 70px;
+  }
+}
+
+.search-section {
+  margin-top: 15px;
+  color: $white;
+}
+
+.connections-wrapper {
+    display: flex;
+    align-items: center;
+    margin: 15px 0px;
+    .connection-icon {
+        margin-right: 10px;
+        margin-top: 3px;
+    }
+    .connection-details {
+        flex: 1;
+        color: $white;
+        max-width: calc(100% - 120px);
+        display: flex;
+        justify-content: flex-end;
+        flex-direction: column;
+        .connection-name {
+            @include typography-body();
+            font-weight: bold;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            max-width: 100%;
+        }
+        .connection-email {
+            @include typography-body();
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            max-width: 100%;
+        }
+    }
+}
+.action-row {
+    margin-top: 5px;
+    display: flex;
+    margin-bottom: 20px;
+    align-items: flex-end;
+    .input-wrapper {
+      flex: 1;
+      input {
+          @include form-input();
+          padding-bottom: 10px;
+      }
+    }
+    .action-button {
+        margin-left: 10px;
+        .standard-button {
+            margin-right: 0px !important;
+        }
+    }
+}
+
+@media only screen and (max-width: 735px) {
+  .notes-section {
+    .editor-button-wrapper, .fullscreen-button-wrapper, .absolute-button-wrapper {
+      .standard-button {
+        min-height: 40px;
+        min-width: 40px;
+      }
+    }
+    .editor-button-wrapper .options-wrapper .editor-submenu .submenu-options-wrapper {
+      margin-top: 2.5px;
+    }
+  }
+}

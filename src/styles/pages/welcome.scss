@@ -1,0 +1,180 @@
+@import "../partials/mixins";
+
+.welcome-screen {
+  @include screen-container();
+
+  .welcome-main {
+    color: $white;
+
+    .welcome-content {
+      width: 100vw;
+
+      .welcome-article {
+        @include main-article();
+        @include animate-rise-block(3);
+
+        .welcome-header-section {
+          width: 700px;
+          text-align: center;
+          max-width: 90%;
+
+          .welcome-header {
+            @include typography-headline();
+          }
+          .welcome-subheader {
+            margin-top: 20px;
+            @include typography-intro();
+          }
+
+          .welcome-button-row {
+            margin-top: 45px;
+            button {
+              @include big-button();
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.login-content {
+  width: 100vw;
+
+  .login-article {
+    @include main-article();
+    @include animate-fade-in(0.5s);
+
+    &.verify-article {
+      min-height: 100vh;
+      max-height: unset;
+    }
+
+    .login-modal {
+      @include screen-modal();
+
+      .login-header {
+        @include typography-headline-reduced();
+        color: $lightgreen;
+      }
+      .login-subheader {
+        margin-top: 20px;
+        @include typography-intro-reduced();
+        color: $lightgray;
+        span {
+          @include block-link();
+        }
+      }
+      .login-form {
+        margin-top: 50px;
+        .otp-inputs {
+          height: 70px;
+          display: flex;
+          justify-content: space-evenly;
+          align-items: center;
+          input {
+            text-align: center;
+            width: 70px;
+            height: 70px;
+            margin: 0 5px;
+            padding: 0;
+            border: 1px solid $gray;
+            border-radius: 10px;
+            background-color: lighten($color: $low-faded-black, $amount: 4);
+            &:focus {
+              border: 1px solid $green;
+            }
+          }
+        }
+        .form-label {
+          @include form-label();
+          margin-top: 45px;
+          color: $lightgray;
+        }
+        .form-forgot-password {
+          text-align: right;
+          margin-top: 5px;
+          .standard-block-link {
+            color: $green;
+            background: transparent;
+            border: none;
+            @include typography-body-reduced();
+            font-weight: bold;
+            cursor: pointer;
+          }
+        }
+        .form-error-row {
+          text-align: center;
+          min-height: 40px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          color: $red;
+          @include typography-body-reduced();
+          font-weight: bold;
+        }
+        input {
+          @include form-input();
+          padding-bottom: 10px;
+        }
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus,
+        input:-webkit-autofill:active {
+          @include form-input();
+          -webkit-box-shadow: 0 0 0 30px $black inset !important;
+          -webkit-text-fill-color: $white !important;
+        }
+      }
+      .login-footer {
+        @include typography-body-reduced();
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .login-footer-link-wrapper {
+          span {
+            margin-right: 5px;
+          }
+          .login-footer-link {
+            @include block-link();
+          }
+        }
+      }
+    }
+  }
+}
+@media only screen and (max-width: 570px) {
+  .login-content {
+    .login-article {
+      .login-modal {
+        .login-form .otp-inputs {
+          height: 60px;
+          // background-color: red;
+          input {
+            width: 50px;
+            font-size: 26px;
+            height: 50px;
+          }
+        }
+      }
+    }
+  }
+}
+@media only screen and (max-width: 430px) {
+  .login-content {
+    .login-article {
+      .login-modal {
+        .login-form .otp-inputs {
+          height: 50px;
+          // background-color: red;
+          input {
+            width: 40px;
+            height: 40px;
+            margin: 2px;
+          }
+        }
+      }
+    }
+  }
+}

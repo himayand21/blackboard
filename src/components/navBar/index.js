@@ -1,13 +1,23 @@
-import {connect} from 'react-redux';
-import {NavBarComponent} from './NavBarComponent';
-import './navBar.scss';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-const mapStateToProps = (state) => {
-	const {user} = state;
-	return ({ ...user });
-}
+export const NavBar = (props) => {
+    const {onTitleClick} = props;
+    return (
+        <nav className="navbar-container">
+            <div className="navbar">
+                <header className="header">
+                    <span onClick={onTitleClick ? onTitleClick : () => {}} role="link">
+                        Blackboard
+                    </span>
+                </header>
+                <div className="navbar-children">{props.children}</div>
+            </div>
+        </nav>
+    );
+};
 
-export const NavBar = connect(
-    mapStateToProps,
-    null
-)(NavBarComponent);
+NavBar.propTypes = {
+    children: PropTypes.node,
+    onTitleClick: PropTypes.func
+};

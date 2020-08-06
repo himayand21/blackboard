@@ -1,11 +1,15 @@
 {
-  "name": "organiser",
+  "name": "blackboard",
   "version": "1.0.0",
-  "description": "This is an assignment for HappyFox",
+  "description": "An application to save structured data as notes",
+  "main": "functions/index.js",
   "scripts": {
-    "start": "webpack-dev-server",
-    "build": "webpack --env=production",
-    "devbuild": "webpack --env=development"
+    "start": "rm -rf build && webpack --env=development && env-cmd -f .env node index.js",
+    "start:client": "webpack-dev-server",
+    "start:server": "env-cmd -f .env nodemon server/index.js",
+    "inspect:server": "env-cmd -f .env node --inspect server/index.js",
+    "build": "rm -rf lib && babel server --out-dir lib && netlify-lambda build lib && webpack --env=production",
+    "lint": "eslint ."
   },
   "browserslist": {
     "production": [
@@ -20,17 +24,30 @@
     ]
   },
   "devDependencies": {
+    "@babel/cli": "^7.10.1",
     "@babel/core": "^7.7.7",
     "@babel/plugin-proposal-class-properties": "^7.7.4",
     "@babel/polyfill": "^7.7.0",
     "@babel/preset-env": "^7.7.7",
     "@babel/preset-react": "^7.7.4",
+    "@commitlint/cli": "^9.0.1",
+    "@commitlint/config-conventional": "^9.0.1",
+    "babel-eslint": "^10.1.0",
     "babel-loader": "^8.0.6",
+    "compression-webpack-plugin": "^4.0.0",
+    "copy-webpack-plugin": "^6.0.1",
     "css-loader": "^3.4.0",
+    "env-cmd": "^10.1.0",
+    "eslint": "^6.8.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-react": "^7.20.3",
     "file-loader": "^5.0.2",
     "html-webpack-plugin": "^3.2.0",
+    "husky": "^4.2.5",
     "mini-css-extract-plugin": "^0.8.2",
+    "netlify-lambda": "^1.6.3",
     "node-sass": "^4.13.0",
+    "nodemon": "^2.0.3",
     "sass-loader": "^8.0.0",
     "webpack": "^4.41.4",
     "webpack-cli": "^3.3.10",
@@ -38,10 +55,30 @@
     "webpack-manifest-plugin": "^2.2.0"
   },
   "dependencies": {
+    "@apollo/react-hooks": "^3.1.5",
+    "@fortawesome/fontawesome-free": "^5.13.0",
+    "apollo-boost": "^0.4.9",
+    "apollo-cache-inmemory": "^1.6.5",
+    "apollo-link-context": "^1.0.20",
+    "apollo-link-http": "^1.5.16",
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.5",
+    "csurf": "^1.11.0",
+    "draft-js": "^0.11.5",
+    "draft-js-plugins-editor": "^3.0.0",
+    "express": "^4.17.1",
+    "express-graphql": "^0.9.0",
+    "graphql": "^14.6.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.9.16",
+    "nodemailer": "^6.4.8",
     "react": "16.12.0",
     "react-dom": "16.12.0",
     "react-redux": "7.1.3",
+    "react-router-dom": "^5.1.2",
     "redux": "4.0.4",
-    "redux-thunk": "2.3.0"
+    "redux-thunk": "2.3.0",
+    "serverless-http": "^2.5.0",
+    "validator": "^13.0.0"
   }
 }

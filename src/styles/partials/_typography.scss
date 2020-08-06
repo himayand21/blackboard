@@ -1,0 +1,180 @@
+@font-face {
+	font-family: "Poppins";
+	font-style: normal;
+	font-weight: 300;
+	font-display: swap;
+	src: local("Poppins Light"), local("Poppins-Light"),
+		url('Poppins.woff2') format("woff2");
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC,
+		U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+$font-family: 'Poppins', sans-serif;
+
+@mixin typography-body {
+	font-size: 16px;
+	font-weight: normal;
+	font-family: $font-family;
+}
+
+@mixin typography-body-reduced {
+	font-size: 14px;
+	font-weight: normal;
+	font-family: $font-family;
+	@media only screen and (max-width: 735px) {
+		font-size: 11px;
+	}
+}
+
+@mixin typography-headline-super {
+	font-size: 64px;
+	font-weight: bold;
+	font-family: $font-family;
+	@media only screen and (max-width: 1068px) {
+		font-size: 48px;
+	}
+	@media only screen and (max-width: 735px) {
+		font-size: 40px;
+	}
+	@media only screen and (max-width: 450px) {
+		font-size: 32px;
+	}
+}
+
+@mixin typography-headline {
+	font-size: 48px;
+	font-weight: bold;
+	font-family: $font-family;
+	@media only screen and (max-width: 1068px) {
+		font-size: 40px;
+	}
+	@media only screen and (max-width: 735px) {
+		font-size: 32px;
+	}
+	@media only screen and (max-width: 450px) {
+		font-size: 26px;
+	}
+}
+
+@mixin typography-headline-reduced {
+	font-size: 40px;
+	font-weight: bold;
+	font-family: $font-family;
+	@media only screen and (max-width: 1068px) {
+		font-size: 32px;
+	}
+	@media only screen and (max-width: 735px) {
+		font-size: 26px;
+	}
+	@media only screen and (max-width: 450px) {
+		font-size: 21px;
+	}
+}
+
+@mixin typography-intro-super {
+	font-size: 32px;
+	font-weight: normal;
+	font-family: $font-family;
+	@media only screen and (max-width: 1068px) {
+		font-size: 28px;
+	}
+	@media only screen and (max-width: 735px) {
+		font-size: 24px;
+	}
+	@media only screen and (max-width: 450px) {
+		font-size: 20px;
+	}
+}
+
+@mixin typography-intro {
+	font-size: 24px;
+	font-weight: normal;
+	font-family: $font-family;
+	@media only screen and (max-width: 1068px) {
+		font-size: 21px;
+	}
+	@media only screen and (max-width: 735px) {
+		font-size: 18px;
+	}
+	@media only screen and (max-width: 450px) {
+		font-size: 16px;
+	}
+}
+
+@mixin typography-intro-reduced {
+	font-size: 20px;
+	font-weight: normal;
+	font-family: $font-family;
+	@media only screen and (max-width: 1068px) {
+		font-size: 18px;
+	}
+	@media only screen and (max-width: 735px) {
+		font-size: 16px;
+	}
+	@media only screen and (max-width: 450px) {
+		font-size: 14px;
+	}
+}
+
+@mixin typography-label-super {
+	font-size: 24px;
+	font-weight: bold;
+	font-family: $font-family;
+	@media only screen and (max-width: 1068px) {
+		font-size: 21px;
+	}
+	@media only screen and (max-width: 735px) {
+		font-size: 18px;
+	}
+	@media only screen and (max-width: 450px) {
+		font-size: 16px;
+	}
+}
+
+@mixin typography-label {
+	font-size: 21px;
+	font-weight: bold;
+	font-family: $font-family;
+	@media only screen and (max-width: 1068px) {
+		font-size: 19px;
+	}
+	@media only screen and (max-width: 735px) {
+		font-size: 17px;
+	}
+	@media only screen and (max-width: 450px) {
+		font-size: 14px;
+	}
+}
+
+@mixin typography-label-reduced {
+	font-size: 17px;
+	font-weight: bold;
+	font-family: $font-family;
+	@media only screen and (max-width: 1068px) {
+		font-size: 14px;
+	}
+}
+
+@mixin typography-caption {
+	font-size: 12px;
+	font-weight: normal;
+	font-family: $font-family;
+	@media only screen and (max-width: 1068px) {
+		font-size: 10px;
+	}
+}
+
+@mixin typography-superstring {
+	font-size: 12px;
+	font-weight: normal;
+	font-family: $font-family;
+	@media only screen and (max-width: 1068px) {
+		font-size: 10px;
+	}
+	@media only screen and (max-width: 735px) {
+		font-size: 9px;
+	}
+	@media only screen and (max-width: 450px) {
+		font-size: 8px;
+	}
+}

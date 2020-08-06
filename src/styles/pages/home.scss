@@ -1,0 +1,21 @@
+.home-screen {
+  @include screen-container();
+}
+
+.user-name {
+	@include typography-label-reduced();
+	display: flex;
+	align-items: center;
+	.user-first-name {
+		max-width: 35vw;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		white-space: nowrap;
+	}
+	.user-first-name, .profile-icon {
+		margin-right: 8px;
+	}
+	.profile-icon {
+		min-width: 35px;
+	}
+}

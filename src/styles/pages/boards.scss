@@ -1,0 +1,115 @@
+.boards {
+  @include animate-fade-in(0.3s);
+  display: grid;
+  grid-template-columns: repeat(4, calc(25% - 8px));
+  grid-template-rows: repeat(auto, 1fr);
+  grid-gap: 10px;
+  width: 100%;
+  @media only screen and (max-width: 1068px) {
+    grid-template-columns: repeat(3, calc(33% - 4px));
+  }
+  @media only screen and (max-width: 735px) {
+    grid-template-columns: repeat(2, calc(50% - 4px));
+    grid-gap: 8px;
+  }
+  @media only screen and (max-width: 450px) {
+    grid-template-columns: repeat(2, calc(50% - 2px));
+    grid-gap: 4px;
+  }
+}
+
+.boards-wrapper {
+  max-width: 100vw;
+  color: $white;
+  @include main-article();
+  max-height: unset;
+  &.home-wrapper {
+    justify-content: flex-start;
+  }
+  min-height: calc(100vh - 70px);
+  .boards-header-section {
+    @include animate-fade-in(0.5s);
+    width: 700px;
+    text-align: center;
+    max-width: 90%;
+    .board-header {
+      @include typography-headline-reduced();
+      text-align: center;
+    }
+    .board-subheader {
+      margin-top: 20px;
+      @include typography-intro();
+      span {
+        @include block-link();
+      }
+    }
+  }
+  .boards-button-row {
+    @include animate-fade-in(0.5s);
+    margin-top: 45px;
+    button {
+      @include big-button();
+    }
+  }
+  .loading-section {
+    width: 700px;
+    margin-bottom: 70px;
+    text-align: center;
+    max-width: 90%;
+    .loading-board-details {
+      @include typography-intro();
+      font-weight: bold;
+    }
+  }
+  .boards-title-section {
+    @include animate-fade-in(0.3s);
+    margin-bottom: 20px;
+    margin-left: 15px;
+    @include typography-intro-reduced();
+    color: $lightgray;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .boards-container {
+    margin: 0;
+    max-height: calc(100vh - 70px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    @include animate-fade-in(0.5s);
+    @include styled-scroll();
+    width: 100vw;
+    box-sizing: border-box;
+    text-align: center;
+    padding: 30px 20px;
+
+    .section-container:not(:first-child) {
+      margin-top: 25px;
+    }
+
+    .boards-header-section {
+      margin: auto;
+      margin-bottom: 40px;
+    }
+
+    @media only screen and (max-width: 1068px) {
+      padding: 20px 15px;
+      .boards-title-section {
+        margin-left: 10px;
+      }
+      .boards-header-section {
+        margin-bottom: 30px;
+      }
+    }
+    @media only screen and (max-width: 735px) {
+      padding: 15px 5px;
+      .boards-title-section {
+        margin-left: 15px;
+      }
+      .boards-header-section {
+        margin-bottom: 20px;
+      }
+    }    
+  }
+}
