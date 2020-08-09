@@ -172,10 +172,16 @@ const App = (props) => {
                             </div>
                             <button
                                 className="standard-button"
-                                onClick={logout}
+                                onClick={() => window.location.reload()}
                             >
-                                Log out
+                                Refresh
                             </button>
+                            <div>
+                                Stuck here?
+                                <span onClick={logout}>
+                                    Log out
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>

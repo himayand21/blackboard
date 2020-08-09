@@ -182,6 +182,12 @@ const NoteEditorComponent = (props) => {
             }
         };
 
+        const handleEnter = (event) => {
+            if (event.keyCode === 13) {
+                onConfirm();
+            }
+        };
+
         return (
             <>
                 <div
@@ -229,6 +235,7 @@ const NoteEditorComponent = (props) => {
                                                 value={link}
                                                 placeholder="Maximum 20 characters"
                                                 onChange={(event) => setLink(event.target.value)}
+                                                onKeyDown={handleEnter}
                                             />
                                             <div className="form-error-row" />
                                         </div>
@@ -237,7 +244,7 @@ const NoteEditorComponent = (props) => {
                                                 className="standard-button"
                                                 onClick={onConfirm}
                                             >
-                                            Confirm
+                                                Confirm
                                             </button>
                                             <button
                                                 className="standard-button"

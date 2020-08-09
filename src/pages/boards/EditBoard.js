@@ -51,6 +51,12 @@ export const EditBoard = (props) => {
         });
     };
 
+    const handleEnter = (event) => {
+        if (name.length && event.keyCode === 13) {
+            handleClick();
+        }
+    };
+
     const {
         name,
         color
@@ -74,6 +80,7 @@ export const EditBoard = (props) => {
                     value={name}
                     placeholder="Maximum 25 characters"
                     onChange={handleInput}
+                    onKeyDown={handleEnter}
                 />
                 <div className="form-label">
 					COLOR
