@@ -11,7 +11,7 @@
 
       .welcome-article {
         @include main-article();
-        @include animate-rise-block(3);
+        @include animate-rise-block(4);
 
         .welcome-header-section {
           width: 700px;
@@ -24,6 +24,14 @@
           .welcome-subheader {
             margin-top: 20px;
             @include typography-intro();
+          }
+          .welcome-tour-header {
+            font-weight: bold;
+            span {
+              color: $green;
+              margin-left: 5px;
+              cursor: pointer;
+            }
           }
 
           .welcome-button-row {
@@ -144,6 +152,55 @@
     }
   }
 }
+
+.tour-box {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  padding: 10px;
+  .tour-left-button, .tour-right-button {
+    min-width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .tour-box-image-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    .tour-box-image {
+      flex: 1;
+      max-height: 50vh;
+      max-width: 100%;
+      padding: 0 10px;
+      box-sizing: border-box;
+    }
+    .tour-box-message {
+      @include typography-intro-reduced();
+      font-weight: bold;
+      text-align: center;
+      color: $white;
+      margin: 25px 0px;
+    }
+    a {
+      text-decoration: unset;
+      margin-left: 5px;
+      margin-right: 5px;
+      color: unset;
+      color: darken($color: $green, $amount: 10);
+      cursor: pointer;
+    }
+    .tour-box-footer {
+      @include typography-body-reduced();
+      align-self: flex-end;
+      color: $gray;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+  }
+}
+
 @media only screen and (max-width: 570px) {
   .login-content {
     .login-article {
@@ -157,6 +214,13 @@
             height: 50px;
           }
         }
+      }
+    }
+  }
+  .tour-box {
+    .tour-box-image-wrapper {
+      .tour-box-image {
+        max-height: 250px;
       }
     }
   }
@@ -174,6 +238,13 @@
             margin: 2px;
           }
         }
+      }
+    }
+  }
+  .tour-box {
+    .tour-box-image-wrapper {
+      .tour-box-image {
+        max-height: 200px;
       }
     }
   }

@@ -68,6 +68,9 @@
                 font-size: 10px;
                 margin-right: 3px;
                 margin-top: 3px;
+                @media only screen and (max-width: 735px) {
+                    margin-top: 1px;
+                }
             }
             .board-note-name {
                 text-align: left;

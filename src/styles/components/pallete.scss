@@ -16,10 +16,10 @@ $colors: red, blue, orange, yellow, grey, violet, brown, pink, cyan, green;
           height: 42px;
           width: 42px;
           border-radius: 50%;
-		  border: 2px solid $lightgray;
-		  box-sizing: border-box;
-		  $backgroundColor: $box-grey;
-		  cursor: pointer;
+		      border: 2px solid $lightgray;
+          box-sizing: border-box;
+          $backgroundColor: $box-grey;
+          cursor: pointer;
           @if $item == red {
             $backgroundColor: $box-red;
           }

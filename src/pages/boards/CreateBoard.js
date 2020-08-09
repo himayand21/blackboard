@@ -39,6 +39,12 @@ export const CreateBoard = (props) => {
         if (name.length <= 25) setBoardName(event.target.value);
     };
 
+    const handleEnter = (event) => {
+        if (boardName.length && event.keyCode === 13) {
+            handleClick();
+        }
+    };
+
     useEffect(() => {
         setBoardName('');
         setBoardColor('grey');
@@ -70,6 +76,7 @@ export const CreateBoard = (props) => {
                     value={boardName}
                     placeholder="Maximum 25 characters"
                     onChange={handleInput}
+                    onKeyDown={handleEnter}
                 />
                 <div className="form-label">
 					COLOR

@@ -14,6 +14,12 @@ export const Signup = (props) => {
         signup({email, password});
     };
 
+    const handleEnter = (event) => {
+        if (event.keyCode === 13) {
+            handleSignup();
+        }
+    };
+
     if (signupActive) {
         return (
             <section
@@ -32,6 +38,7 @@ export const Signup = (props) => {
                                     autoFocus
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
+                                    onKeyDown={handleEnter}
                                 />
                             </div>
                             <div className="form-row">
@@ -40,6 +47,7 @@ export const Signup = (props) => {
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     type="password"
+                                    onKeyDown={handleEnter}
                                 />
                             </div>
                             <div className="form-error-row" />

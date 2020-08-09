@@ -30,6 +30,12 @@ export const FindAndShare = (props) => {
 
     const {sharedWith} = note;
 
+    const handleEnter = (event) => {
+        if (text.length && event.keyCode === 13) {
+            search();
+        }
+    };
+
     return (
         <>
             <div className="action-row">
@@ -38,12 +44,14 @@ export const FindAndShare = (props) => {
                         placeholder="someone@example.com"
                         onChange={(event) => setText(event.target.value)}
                         value={text}
+                        onKeyDown={handleEnter}
                     />
                 </div>
                 <div className="action-button">
                     <button
                         className="standard-button footer-button"
                         onClick={search}
+                        disabled={!text.length}
                     >
                         {searching ? <Loader /> : 'Search'}
                     </button>

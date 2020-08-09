@@ -1,6 +1,6 @@
 import React, {Fragment} from 'react';
 
-import blackboard from '../../assets/blackboard.jpg';
+import blackboard from '../../assets/blackboard.webp';
 
 export const Background = () => {
     return (

@@ -91,6 +91,12 @@ const VerifyOTP = (props) => {
         if (!user) setEmail(event.target.value);
     };
 
+    const handleEnter = (event) => {
+        if (event.keyCode === 13) {
+            requestOTP();
+        }
+    };
+
     return (
         <div className="welcome-screen">
             <Background />
@@ -116,6 +122,8 @@ const VerifyOTP = (props) => {
                                             otp={otp}
                                             setOtp={setOtp}
                                             inputsRef={inputsRef}
+                                            isOTPValid={isOTPValid}
+                                            handleVerifyOTP={handleVerifyOTP}
                                         />
                                     </div>
                                     <div className="form-error-row" />
@@ -151,13 +159,17 @@ const VerifyOTP = (props) => {
                                             readOnly={Boolean(user)}
                                             onChange={updateEmail}
                                             autoFocus
+                                            onKeyDown={handleEnter}
                                         />
                                     </div>
                                     <div className="form-error-row" />
                                 </div>
                                 <footer className="login-footer">
                                     <div className="login-footer-link-wrapper" />
-                                    <button className="standard-button" onClick={requestOTP}>
+                                    <button
+                                        className="standard-button"
+                                        onClick={requestOTP}
+                                    >
                                         {loading ? <Loader /> : 'Confirm'}
                                     </button>
                                 </footer>

@@ -31,6 +31,12 @@ export const ChangePassword = (props) => {
 
     const samePassword = passwordOne === passwordTwo;
 
+    const handleEnter = (event) => {
+        if (passwordOne.length && samePassword && event.keyCode === 13) {
+            changePassword();
+        }
+    };
+
     return (
         <div className="modal-content">
             <header className="modal-content-header">Change Password</header>
@@ -45,6 +51,7 @@ export const ChangePassword = (props) => {
                     type="password"
                     value={passwordOne}
                     onChange={(e) => setPasswordOne(e.target.value)}
+                    onKeyDown={handleEnter}
                 />
                 <div className="form-label">
 					CONFIRM NEW PASSWORD
@@ -53,6 +60,7 @@ export const ChangePassword = (props) => {
                     type="password"
                     value={passwordTwo}
                     onChange={(e) => setPasswordTwo(e.target.value)}
+                    onKeyDown={handleEnter}
                 />
                 <div className="form-error-row">{message}</div>
                 <footer className="modal-footer">

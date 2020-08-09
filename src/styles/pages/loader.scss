@@ -49,9 +49,15 @@
           color: $lightgray;
           font-weight: bold;
           margin-bottom: 20px;
+          span {
+            cursor: pointer;
+            color: $green;
+            margin-left: 5px;
+          }
         }
         .standard-button {
           margin-top: 5px;
+          margin-bottom: 15px;
           @include big-button();
         }
       }
