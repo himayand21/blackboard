@@ -5,7 +5,9 @@ export const OTPBox = (props) => {
         OTPInputIds,
         otp,
         setOtp,
-        inputsRef
+        isOTPValid,
+        inputsRef,
+        handleVerifyOTP
     } = props;
     const lengthOfOTP = OTPInputIds.length;
 
@@ -28,6 +30,9 @@ export const OTPBox = (props) => {
         if ((event.key === 'Backspace' || event.keyCode === 8) && !otp[otpid]) {
             event.preventDefault();
             focusToPreviousBox(index);
+        }
+        if (isOTPValid && event.keyCode === 13) {
+            handleVerifyOTP();
         }
     };
 

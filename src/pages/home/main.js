@@ -3,17 +3,20 @@ import PropTypes from 'prop-types';
 import {useQuery, useMutation} from '@apollo/react-hooks';
 import {useHistory, Route, useRouteMatch, Switch} from 'react-router-dom';
 
-import {NavBar} from '../../components/navBar';
-import {Boards} from '../boards';
-import {Board} from '../notes';
 import {ViewNote} from '../../pages/notes/common/ViewNote';
+
+import {NavBar} from '../../components/navBar';
 import {Toast} from '../../components/toast/Toast';
 import {withToast} from '../../components/toast/withToast';
+import {Popup} from '../../components/popup';
+import {Modal} from '../../components/modal';
 
 import getUserDetails from '../../queries/userDetails';
 import addUser from '../../mutations/addUser';
-import {Popup} from '../../components/popup';
-import {Modal} from '../../components/modal';
+
+import {Boards} from '../boards';
+import {Board} from '../notes';
+import {Tour} from '../tour';
 import {RedirectToBoard} from '../boards/RedirectToBoard';
 
 import {
@@ -39,6 +42,7 @@ const MainComponent = (props) => {
     const [changePasswordVisible, setChangePasswordVisible] = useState(false);
     const [connectionsVisible, setConnectionsVisible] = useState(false);
     const [loggingOut, setLoggingOut] = useState(false);
+    const [showTour, setShowTour] = useState(false);
 
     const history = useHistory();
     const match = useRouteMatch();
@@ -157,6 +161,14 @@ const MainComponent = (props) => {
         history.push(DASHBOARD);
     };
 
+    const openGithubIssues = () => {
+        const GITHUB_URL = 'https://github.com/himayand21/blackboard/issues';
+        window.open(GITHUB_URL, '_blank');
+    };
+
+    const openTourModal = () => setShowTour(true);
+    const hideTourModal = () => setShowTour(false);
+
     return (
         <>
             <NavBar onTitleClick={onTitleClick}>
@@ -179,6 +191,9 @@ const MainComponent = (props) => {
                                 <span>Logout</span>
                                 {loggingOut ? <Loader /> : null}
                             </li>
+                            <li className="popup-dividor" />
+                            <li onClick={openTourModal}>Quick Tour</li>
+                            <li onClick={openGithubIssues}>Report an Issue</li>
                         </ul>
                     </Popup>
                     <i className="fas fa-ellipsis-v popup-trigger" onClick={showPopup} />
@@ -194,6 +209,14 @@ const MainComponent = (props) => {
                         hideModal={hideEditForm}
                         placeholder={userName}
                     />
+                </Modal>
+            ) : null}
+            {showTour ? (
+                <Modal
+                    show={showTour}
+                    hideModal={hideTourModal}
+                >
+                    <Tour />
                 </Modal>
             ) : null}
             {changePasswordVisible ? (

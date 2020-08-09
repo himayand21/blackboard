@@ -13,6 +13,12 @@ export const NameForm = (props) => {
         if (newName.length <= 20) setName(newName);
     };
 
+    const handleEnter = (event) => {
+        if (name.length && event.keyCode === 13) {
+            addUser(name);
+        }
+    };
+
     return (
         <section
             className="login-content"
@@ -31,6 +37,7 @@ export const NameForm = (props) => {
                                 value={name}
                                 placeholder="Maximum 20 characters"
                                 onChange={updateName}
+                                onKeyDown={handleEnter}
                             />
                         </div>
                         <div className="form-error-row" />

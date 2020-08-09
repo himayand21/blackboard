@@ -34,6 +34,12 @@ export const Comments = (props) => {
         setText('');
     };
 
+    const handleEnter = (event) => {
+        if (text.length && event.keyCode === 13) {
+            sendComment();
+        }
+    };
+
     return (
         <div className="modal-content">
             {mutationError ? (
@@ -86,11 +92,13 @@ export const Comments = (props) => {
                             placeholder="Type your comment ..."
                             onChange={(event) => setText(event.target.value)}
                             value={text}
+                            onKeyDown={handleEnter}
                         />
                     </div>
                     <div className="action-button">
                         <button
                             className="standard-button footer-button"
+                            disabled={!text.length}
                             onClick={sendComment}
                         >
                             {updating ? <Loader /> : 'Send'}

@@ -51,6 +51,12 @@ export const UpdateNameForm = (props) => {
         if (newName.length <= 20) setName(newName);
     };
 
+    const handleEnter = (event) => {
+        if (name.length && event.keyCode === 13) {
+            handleUpdateUser();
+        }
+    };
+
     return (
         <div className="modal-content">
             {mutationError ? (
@@ -71,6 +77,7 @@ export const UpdateNameForm = (props) => {
                     value={name}
                     placeholder="Maximum 20 characters"
                     onChange={updateName}
+                    onKeyDown={handleEnter}
                 />
                 <div className="form-error-row" />
             </div>

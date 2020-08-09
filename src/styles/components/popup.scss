@@ -16,7 +16,7 @@
         overflow: hidden;
         position: fixed;
 		z-index: 10;
-		border: 1px solid $black;
+		border: 1px solid $darkgray;
 		.popup-message {
 			@include typography-body-reduced();
 			padding: 5px 10px;
@@ -46,6 +46,10 @@
 				}
 				.loader {
 					margin-left: 10px;
+				}
+				&.popup-dividor {
+					border-top: 1px solid $darkgray;
+					padding: 0;
 				}
 			}
 		}

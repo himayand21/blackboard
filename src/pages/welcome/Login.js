@@ -21,6 +21,12 @@ export const Login = (props) => {
 
     const switchToVerify = () => history.push(VERIFY);
 
+    const handleEnter = (event) => {
+        if (event.keyCode === 13) {
+            handleLogin();
+        }
+    };
+
     if (loginActive) {
         return (
             <section className="login-content">
@@ -35,6 +41,7 @@ export const Login = (props) => {
                                     autoFocus
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
+                                    onKeyDown={handleEnter}
                                 />
                             </div>
                             <div className="form-row">
@@ -43,6 +50,7 @@ export const Login = (props) => {
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     type="password"
+                                    onKeyDown={handleEnter}
                                 />
                                 <div className="form-forgot-password">
                                     <span
@@ -62,10 +70,13 @@ export const Login = (props) => {
                                     className="login-footer-link"
                                     onClick={showSignup}
                                 >
-                                        Sign Up
+                                    Sign Up
                                 </span>
                             </div>
-                            <button className="standard-button" onClick={handleLogin}>
+                            <button
+                                className="standard-button"
+                                onClick={handleLogin}
+                            >
                                 {loading ? <Loader /> : 'Sign In'}
                             </button>
                         </footer>

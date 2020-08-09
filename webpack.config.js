@@ -84,7 +84,7 @@ const config = function(env) {
                     }],
                 },
                 {
-                    test: /.(jpg|png|ogg|mp3|svg|eot|woff|woff2|ttf)$/,
+                    test: /.(jpg|png|webp|ogg|mp3|svg|eot|woff|woff2|ttf)$/,
                     use: {
                         loader: 'file-loader',
                         options: {
