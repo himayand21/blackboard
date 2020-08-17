@@ -81,6 +81,7 @@ export const Notes = (props) => {
                         <button
                             className="standard-button"
                             onClick={createNote}
+                            disabled={loading}
                         >
 							Create a Note
                         </button>
