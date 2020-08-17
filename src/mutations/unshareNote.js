@@ -5,7 +5,11 @@ mutation unshareNote($id: ID, $unsharingWith: ID) {
     unshareNote(id: $id, unsharingWith: $unsharingWith) {
         id,
         name,
-        sharedWith
+        sharedWith,
+        sharedWithDetails {
+            id,
+            name
+        }
     }
 }
 `;

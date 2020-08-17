@@ -6,7 +6,6 @@ import {Loader} from '../../components/loader';
 import {Icon} from '../../components/icon';
 import {Toast} from '../../components/toast/Toast';
 
-import getNoteDetails from '../../queries/noteDetails';
 import addComment from '../../mutations/addComment';
 import {getRelativeTime} from '../../util/getRelativeTime';
 
@@ -16,20 +15,14 @@ export const Comments = (props) => {
 
     const [text, setText] = useState('');
 
-    const [add, {loading: updating, error: mutationError}] = useMutation(addComment, {
-        awaitRefetchQueries: true
-    });
+    const [add, {loading: updating, error: mutationError}] = useMutation(addComment);
 
     const sendComment = async () => {
         await add({
             variables: {
                 content: text,
                 note: note.id
-            },
-            refetchQueries: [{
-                query: getNoteDetails,
-                variables: {id: note.id}
-            }]
+            }
         });
         setText('');
     };

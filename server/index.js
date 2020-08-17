@@ -30,8 +30,11 @@ const app = express();
 mongoose.connect(MONGO_URI, {
     useNewUrlParser: true,
     useCreateIndex: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false
+    useUnifiedTopology: false,
+    useFindAndModify: false,
+    dbName: 'test',
+    reconnectInterval: 60,
+    reconnectTries: 60
 });
 
 const db = mongoose.connection;

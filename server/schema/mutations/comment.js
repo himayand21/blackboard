@@ -7,22 +7,26 @@ const {
 } = graphql;
 
 const Comment = mongoose.model('comment');
-const CommentType = require('../types/comment');
+const Note = mongoose.model('note');
+
+const NoteType = require('../types/note');
 
 const commentMutation = {
     addComment: {
-        type: CommentType,
+        type: NoteType,
         args: {
             content: {type: GraphQLString},
             note: {type: GraphQLID}
         },
-        resolve(parentValue, args, context) {
+        async resolve(parentValue, args, context) {
             const {user: {id: userId}} = context;
-            return (new Comment({
+            const comment = new Comment({
                 ...args,
                 sender: userId,
                 time: Date.now()
-            })).save();
+            });
+            await comment.save();
+            return Note.findById(args.note);
         }
     }
 };

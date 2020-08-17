@@ -3,8 +3,13 @@ import {gql} from 'apollo-boost';
 export default gql`
 mutation removeConnection($connection: ID) {
   removeConnection(connection: $connection) {
-    name,
-    id
+    id,
+    connections,
+    connectionDetails {
+      id,
+      name,
+      email
+    }
   }
 }
 `;

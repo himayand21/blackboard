@@ -1,11 +1,7 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
-import {useQuery} from '@apollo/react-hooks';
 
 import {Loader} from '../../../components/loader';
-import {Toast} from '../../../components/toast/Toast';
-
-import getBoards from '../../../queries/boards';
 
 export const SwitchBoard = (props) => {
     const {
@@ -16,43 +12,9 @@ export const SwitchBoard = (props) => {
     } = props;
 
     const [selectedBoard, setSelectedBoard] = useState(board);
-    const {data, error, loading} = useQuery(getBoards);
-
-    if (error) {
-        return (
-            <>
-                <Toast content={{
-                    message: 'Uh oh! Failed to load your boards.',
-                    type: 'error'
-                }} />
-                <div className="modal-content">
-                    <div className="modal-content-header">
-                        Sorry
-                    </div>
-                    <div className="modal-content-intro delete-board">
-                        There seems to be a problem loading your boards ...
-                    </div>
-                </div>
-            </>
-        );
-    }
+    const {boards} = props;
 
     const updateSelectedBoard = (boardId) => setSelectedBoard(boardId);
-
-    if (loading) {
-        return (
-            <div className="modal-content">
-                <div className="modal-content-header">
-                Switch Board
-                </div>
-                <div className="modal-content-intro delete-board">
-                Just a Second ...
-                </div>
-            </div>
-        );
-    }
-
-    const {boards} = data;
 
     return (
         <div className="modal-content">
@@ -100,5 +62,6 @@ SwitchBoard.propTypes = {
     board: PropTypes.string,
     hideModal: PropTypes.func,
     switching: PropTypes.bool,
-    handleConfirm: PropTypes.func
+    handleConfirm: PropTypes.func,
+    boards: PropTypes.array
 };

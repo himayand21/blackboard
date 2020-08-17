@@ -9,7 +9,6 @@ import {Toast} from '../../../components/toast/Toast';
 
 import removeConnection from '../../../mutations/removeConnection';
 import addConnection from '../../../mutations/addConnection';
-import getUserDetails from '../../../queries/userDetails';
 
 export const AddConnection = (props) => {
     const {connections} = props;
@@ -32,11 +31,7 @@ export const AddConnection = (props) => {
         remove({
             variables: {
                 connection: id
-            },
-            refetchQueries: [{
-                query: getUserDetails
-            }],
-            awaitRefetchQueries: true
+            }
         });
     };
 
@@ -44,11 +39,7 @@ export const AddConnection = (props) => {
         add({
             variables: {
                 connection: id
-            },
-            refetchQueries: [{
-                query: getUserDetails
-            }],
-            awaitRefetchQueries: true
+            }
         });
     };
 

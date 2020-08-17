@@ -11,7 +11,7 @@ import {
 
 import getNoteDetails from '../../../queries/noteDetails';
 import updateNote from '../../../mutations/updateNote';
-import refetchQuery from '../../../queries/refetchQuery';
+import dashboardRefresh from '../../../queries/dashboardRefresh';
 
 import {Toast} from '../../../components/toast/Toast';
 import {Loader} from '../../../components/loader';
@@ -36,7 +36,9 @@ export const EditNote = (props) => {
     });
 
     const [update, {loading: updating, error: mutationError}] = useMutation(updateNote, {
-        awaitRefetchQueries: true
+        refetchQueries: [{
+            query: dashboardRefresh
+        }]
     });
 
     const history = useHistory();
@@ -116,13 +118,7 @@ export const EditNote = (props) => {
                 name: newTitle,
                 description: newDescription,
                 editor: JSON.stringify(convertToRaw(editorState.getCurrentContent()))
-            },
-            refetchQueries: [{
-                query: getNoteDetails,
-                variables: {id}
-            }, {
-                query: refetchQuery
-            }]
+            }
         });
     };
 

@@ -6,7 +6,6 @@ import {Loader} from '../../components/loader';
 import {Pallete} from '../../components/pallete';
 import {Toast} from '../../components/toast/Toast';
 
-import getBoards from '../../queries/boards';
 import updateBoard from '../../mutations/updateBoard';
 
 export const EditBoard = (props) => {
@@ -16,9 +15,7 @@ export const EditBoard = (props) => {
         setSelectedBoard
     } = props;
 
-    const [update, {loading: updating, error: mutationError}] = useMutation(updateBoard, {
-        awaitRefetchQueries: true
-    });
+    const [update, {loading: updating, error: mutationError}] = useMutation(updateBoard);
 
     const handleClick = async () => {
         await update({
@@ -26,10 +23,7 @@ export const EditBoard = (props) => {
                 id: selectedBoard.id,
                 name: selectedBoard.name,
                 color: selectedBoard.color
-            },
-            refetchQueries: [{
-                query: getBoards
-            }]
+            }
         });
         hideModal();
     };

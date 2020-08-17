@@ -1,43 +1,33 @@
 import {gql} from 'apollo-boost';
 
 export default gql`
-query ___composed {
-    boards:
+query dashboardRefresh {
+  userDetail {
+    id,
     boards {
-        name,
         id,
-        user,
-        color,
-        time,
         notes {
             name,
-            board,
-            owner,
-            id,
-            time,
-            pinned,
-            boardDetails {
-                color,
-                name
-            }
+            id
         }
     },
-    recentNotes:
-    getRecentNotes {
+    recentNotes {
         id,
         name,
         description,
         board,
         boardDetails {
             color,
-            name
+            name,
+            id
         }
         editor,
         time,
         owner,
         pinned,
         ownerDetails {
-            name
+            name,
+            id
         },
         sharedWith,
         sharedWithDetails {
@@ -50,18 +40,19 @@ query ___composed {
             content,
             time,
             senderDetails {
-                name
+                name,
+                id
             }
         }
     },
-    pinnedNotes:
-    getPinnedNotes {
+    pinnedNotes {
         id,
         name,
         description,
         board,
         boardDetails {
             color,
+            id,
             name
         }
         editor,
@@ -69,7 +60,8 @@ query ___composed {
         owner,
         pinned,
         ownerDetails {
-            name
+            name,
+            id
         },
         sharedWith,
         sharedWithDetails {
@@ -82,9 +74,11 @@ query ___composed {
             content,
             time,
             senderDetails {
-                name
+                name,
+                id
             }
         }
     }
+  }
 }
 `;

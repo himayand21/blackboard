@@ -9,23 +9,27 @@ const {
 const Board = mongoose.model('board');
 const Note = mongoose.model('note');
 const Comment = mongoose.model('comment');
+const UserDetail = mongoose.model('userdetail');
 
+const UserDetailType = require('../types/userDetail');
 const BoardType = require('../types/board');
 
 const boardMutation = {
     addBoard: {
-        type: BoardType,
+        type: UserDetailType,
         args: {
             name: {type: GraphQLString},
             color: {type: GraphQLString}
         },
-        resolve(parentValue, args, context) {
+        async resolve(parentValue, args, context) {
             const {user: {id: userId}} = context;
-            return (new Board({
+            const board = new Board({
                 ...args,
                 user: userId,
                 time: Date.now()
-            })).save();
+            });
+            await board.save();
+            return UserDetail.findById(userId);
         }
     },
     updateBoard: {
@@ -50,22 +54,22 @@ const boardMutation = {
         }
     },
     deleteBoard: {
-        type: BoardType,
+        type: UserDetailType,
         args: {
             id: {type: GraphQLID}
         },
-        resolve(parentValue, {id}) {
-            return Board.findById(id, function(err, board) {
-                // eslint-disable-next-line no-underscore-dangle
-                Note.find({board: board._id}, function(err, notes) {
-                    notes.forEach(function(note) {
-                        // eslint-disable-next-line no-underscore-dangle
-                        Comment.deleteMany({note: note._id});
-                        note.deleteOne();
-                    });
+        async resolve(parentValue, {id}, context) {
+            const {user: {id: userId}} = context;
+            const board = Board.findById(id);
+            await Note.find({board: id}, function(err, notes) {
+                notes.forEach(function(note) {
+                    // eslint-disable-next-line no-underscore-dangle
+                    Comment.deleteMany({note: note._id});
+                    note.deleteOne();
                 });
-                board.deleteOne();
             });
+            await board.deleteOne();
+            return UserDetail.findById(userId);
         }
     }
 };

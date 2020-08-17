@@ -6,14 +6,16 @@ import {useMutation} from '@apollo/react-hooks';
 import {Loader} from '../../../components/loader';
 import {Toast} from '../../../components/toast/Toast';
 
-import refetchQuery from '../../../queries/refetchQuery';
 import deleteNote from '../../../mutations/deleteNote';
+import dashboardRefresh from '../../../queries/dashboardRefresh';
 
 import {REDIRECT_TOKEN} from '../../../constants';
 
 export const DeleteNote = (props) => {
     const [remove, {loading: deleting, error: mutationError}] = useMutation(deleteNote, {
-        awaitRefetchQueries: true
+        refetchQueries: [{
+            query: dashboardRefresh
+        }]
     });
 
     const {note, hideModal, backURL} = props;
@@ -25,10 +27,7 @@ export const DeleteNote = (props) => {
         await remove({
             variables: {
                 id
-            },
-            refetchQueries: [{
-                query: refetchQuery
-            }]
+            }
         });
         sessionStorage.setItem(REDIRECT_TOKEN, backURL);
         hideModal();
