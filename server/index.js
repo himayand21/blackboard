@@ -16,7 +16,6 @@ const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
 const netlifyPrefix = process.env.NETLIFY_PREFIX;
 
-mongoose.Promise = global.Promise;
 
 const {
     createSchema,
@@ -35,6 +34,7 @@ mongoose.connect(MONGO_URI, {
     reconnectInterval: 60000,
     reconnectTries: 30
 });
+mongoose.Promise = global.Promise;
 
 const db = mongoose.connection;
 const model = createSchema(db);
