@@ -16,7 +16,6 @@ const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
 const netlifyPrefix = process.env.NETLIFY_PREFIX;
 
-mongoose.Promise = global.Promise;
 
 const {
     createSchema,
@@ -30,12 +29,13 @@ const app = express();
 mongoose.connect(MONGO_URI, {
     useNewUrlParser: true,
     useCreateIndex: true,
-    useUnifiedTopology: false,
+    dbName: process.env.DB_NAME,
     useFindAndModify: false,
-    dbName: 'test',
-    reconnectInterval: 60,
-    reconnectTries: 60
+    reconnectInterval: 60000,
+    reconnectTries: 30
 });
+
+mongoose.Promise = global.Promise;
 
 const db = mongoose.connection;
 const model = createSchema(db);
