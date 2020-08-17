@@ -66,25 +66,33 @@ export const Tour = () => {
                     </span>
                 )}
             </div>
-            <div className="tour-box-image-wrapper">
-                <img
-                    src={boxes[selected].image}
-                    className="tour-box-image"
-                />
-                <div className="tour-box-message">
-                    {boxes[selected].message}
-                </div>
-                <div className="tour-box-footer">
-                    Illustrations by
-                    <a
-                        href="https://undraw.co"
-                        target="_blank"
-                        rel="noreferrer"
+            {boxes.map((each, index) => {
+                return (
+                    <div
+                        className="tour-box-image-wrapper"
+                        key={`tour-image-${index}`}
+                        style={{display: selected === index ? 'block' : 'none'}}
                     >
-                        undraw.co
-                    </a>
-                </div>
-            </div>
+                        <img
+                            src={each.image}
+                            className="tour-box-image"
+                        />
+                        <div className="tour-box-message">
+                            {each.message}
+                        </div>
+                        <div className="tour-box-footer">
+                            Illustrations by
+                            <a
+                                href="https://undraw.co"
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                undraw.co
+                            </a>
+                        </div>
+                    </div>
+                );
+            })}
             <div className="tour-right-button">
                 {selected === (boxes.length - 1) ? null : (
                     <span
