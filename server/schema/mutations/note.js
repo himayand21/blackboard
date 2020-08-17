@@ -9,27 +9,32 @@ const {
 
 const Note = mongoose.model('note');
 const Comment = mongoose.model('comment');
+const Board = mongoose.model('board');
 const UserDetail = mongoose.model('userdetail');
 
 const NoteType = require('../types/note');
+const BoardType = require('../types/board');
+const UserDetailType = require('../types/userDetail');
 
 const noteMutation = {
     addNote: {
-        type: NoteType,
+        type: BoardType,
         args: {
             name: {type: GraphQLString},
             description: {type: GraphQLString},
             board: {type: GraphQLID},
             editor: {type: GraphQLString}
         },
-        resolve(parentValue, args, context) {
+        async resolve(parentValue, args, context) {
             const {user: {id: userId}} = context;
-            return (new Note({
+            const note = new Note({
                 ...args,
                 owner: userId,
                 time: Date.now(),
                 pinned: false
-            })).save();
+            });
+            await note.save();
+            return Board.findById(args.board);
         }
     },
     updateNote: {
@@ -93,7 +98,7 @@ const noteMutation = {
                 $addToSet: {
                     sharedWith: sharingWith
                 }
-            });
+            }, {'new': true});
         }
     },
     unshareNote: {
@@ -110,34 +115,37 @@ const noteMutation = {
                 $pull: {
                     sharedWith: unsharingWith
                 }
-            });
+            }, {'new': true});
         }
     },
     deleteNote: {
-        type: NoteType,
+        type: UserDetailType,
         args: {
             id: {type: GraphQLID}
         },
-        resolve(parentValue, {id}) {
-            return Note.findById(id, function(err, note) {
-                // eslint-disable-next-line no-underscore-dangle
-                Comment.deleteMany({note: note._id});
-                note.deleteOne();
-            });
+        async resolve(parentValue, {id}, context) {
+            const {user: {id: userId}} = context;
+            const note = Note.findById(id);
+            // eslint-disable-next-line no-underscore-dangle
+            await Comment.deleteMany({note: id});
+            await note.deleteOne();
+            return UserDetail.findById(userId);
         }
     },
     togglePinNote: {
-        type: NoteType,
+        type: UserDetailType,
         args: {
             pinned: {type: GraphQLBoolean},
             id: {type: GraphQLID}
         },
-        resolve(parentValue, {pinned, id}) {
-            return Note.findByIdAndUpdate(id, {
+        async resolve(parentValue, {pinned, id}, context) {
+            const {user: {id: userId}} = context;
+            await Note.findByIdAndUpdate(id, {
                 $set: {
                     pinned
                 }
             }, {'new': true});
+            return UserDetail.findById(userId);
         }
     },
     toggleShareWithEveryone: {

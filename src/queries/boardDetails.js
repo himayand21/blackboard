@@ -8,24 +8,29 @@ query board ($id: ID!) {
     color,
     time,
 	  user,
+    userDetails {
+      id
+    }
     notes {
       id,
       name,
       description,
       sharedWith,
       sharedWithDetails {
-        name
+        name,
+        id
       }
 	    time,
       board,
       owner,
       pinned,
       comments {
+        id,
         time,
         senderDetails {
-          name
+          name,
+          id
         }
-        id
       },
       sharedWithEveryone
     }

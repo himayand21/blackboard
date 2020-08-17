@@ -1,13 +1,11 @@
 /* eslint-disable no-nested-ternary */
 import React, {useState, useEffect} from 'react';
+import PropTypes from 'prop-types';
 import {useHistory, useRouteMatch} from 'react-router-dom';
-import {useQuery} from '@apollo/react-hooks';
 
 import {getRelativeTime} from '../../util/getRelativeTime';
 import {getSpan} from '../../util/getSpan';
 import {getPlural} from '../../util/getPlural';
-
-import dashboardQuery from '../../queries/dashboardDetails';
 
 import {Modal} from '../../components/modal';
 import {Interactive} from '../../components/interactive';
@@ -16,15 +14,14 @@ import {NoteBox} from '../notes/components/NoteBox';
 import {
     REDIRECT_TOKEN,
     DASHBOARD,
-    NOTES,
-    ERROR
+    NOTES
 } from '../../constants';
 
 import {DeleteBoard} from './DeleteBoard';
 import {EditBoard} from './EditBoard';
 import {CreateBoard} from './CreateBoard';
 
-export const Boards = () => {
+export const Boards = (props) => {
     const [show, setShow] = useState(false);
     const [editMode, setEditMode] = useState(false);
     const [deleteMode, setDeleteMode] = useState(false);
@@ -34,34 +31,12 @@ export const Boards = () => {
     const history = useHistory();
     const match = useRouteMatch();
 
-    const {error, loading, data} = useQuery(dashboardQuery);
+    const {data} = props;
 
     useEffect(() => {
         document.title = 'My Dashbaord - Blackboard';
         return (() => document.title = 'Blackboard');
     }, []);
-
-    useEffect(() => {
-        if (error) {
-            history.push(ERROR);
-        }
-    }, [error]);
-
-    if (error) {
-        return null;
-    }
-
-    if (loading) {
-        return (
-            <div className="boards-wrapper">
-                <div className="loading-section">
-                    <span className="loading-board-details">
-                        Almost there ...
-                    </span>
-                </div>
-            </div>
-        );
-    }
 
     const {boards, recentNotes, pinnedNotes, sharedNotes} = data;
 
@@ -306,4 +281,8 @@ export const Boards = () => {
             </Modal>
         </>
     );
+};
+
+Boards.propTypes = {
+    data: PropTypes.object
 };

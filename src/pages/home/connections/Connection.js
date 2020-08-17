@@ -6,7 +6,6 @@ import {Toast} from '../../../components/toast/Toast';
 import {Icon} from '../../../components/icon';
 import {Loader} from '../../../components/loader';
 import removeConnection from '../../../mutations/removeConnection';
-import getUserDetails from '../../../queries/userDetails';
 
 export const Connection = (props) => {
     const {connection} = props;
@@ -18,11 +17,7 @@ export const Connection = (props) => {
         remove({
             variables: {
                 connection: id
-            },
-            refetchQueries: [{
-                query: getUserDetails
-            }],
-            awaitRefetchQueries: true
+            }
         });
     };
 
