@@ -34,6 +34,7 @@ mongoose.connect(MONGO_URI, {
     reconnectInterval: 60000,
     reconnectTries: 30
 });
+
 mongoose.Promise = global.Promise;
 
 const db = mongoose.connection;

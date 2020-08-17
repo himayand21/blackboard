@@ -9,18 +9,20 @@ import {
     NOTES
 } from '../../../constants';
 
-import refetchQuery from '../../../queries/refetchQuery';
 import moveNote from '../../../mutations/moveNote';
+import dashboardRefresh from '../../../queries/dashboardRefresh';
 
 import {Toast} from '../../../components/toast/Toast';
 import {SwitchBoard} from '../components/SwitchBoard';
 
 export const MoveNote = (props) => {
-    const {note, hideModal} = props;
+    const {note, hideModal, boards} = props;
 
     const history = useHistory();
     const [move, {loading: moving, error: mutationError}] = useMutation(moveNote, {
-        awaitRefetchQueries: true
+        refetchQueries: [{
+            query: dashboardRefresh
+        }]
     });
 
     const handleConfirm = async (selectedBoard) => {
@@ -28,10 +30,7 @@ export const MoveNote = (props) => {
             variables: {
                 id: note.id,
                 board: selectedBoard
-            },
-            refetchQueries: [{
-                query: refetchQuery
-            }]
+            }
         });
         const newRoute = `${DASHBOARD}/${selectedBoard}${NOTES}/${note.id}`;
         hideModal();
@@ -51,6 +50,7 @@ export const MoveNote = (props) => {
                 board={note.board}
                 switching={moving}
                 hideModal={hideModal}
+                boards={boards}
                 handleConfirm={handleConfirm}
             />
         </>
@@ -60,5 +60,6 @@ export const MoveNote = (props) => {
 MoveNote.propTypes = {
     data: PropTypes.object,
     note: PropTypes.object,
-    hideModal: PropTypes.func
+    hideModal: PropTypes.func,
+    boards: PropTypes.array
 };

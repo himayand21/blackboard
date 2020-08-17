@@ -50,8 +50,10 @@ const MainComponent = (props) => {
     const {id, logout, email, csrfToken, addToast} = props;
 
     const {data, loading, error} = useQuery(getUserDetails);
-
     const [add, {loading: adding, error: mutationError}] = useMutation(addUser, {
+        refetchQueries: [{
+            query: getUserDetails
+        }],
         awaitRefetchQueries: true
     });
 
@@ -91,10 +93,7 @@ const MainComponent = (props) => {
                 id,
                 name,
                 email
-            },
-            refetchQueries: [{
-                query: getUserDetails
-            }]
+            }
         });
     };
 
@@ -247,16 +246,20 @@ const MainComponent = (props) => {
                     <ViewNote
                         backURL={`${match.path}`}
                         user={props.id}
+                        boards={userDetail.boards}
                     />
                 </Route>
                 <Route path={`${match.path}/:boardId${NOTES}`}>
-                    <Board user={props.id} />
+                    <Board
+                        user={props.id}
+                        boards={userDetail.boards}
+                    />
                 </Route>
                 <Route exact path={`${match.path}/:boardId`}>
                     <RedirectToBoard />
                 </Route>
                 <Route exact path={match.path}>
-                    <Boards />
+                    <Boards data={userDetail} />
                 </Route>
             </Switch>
         </>

@@ -16,7 +16,7 @@ import {NoteEditor} from '../components/NoteEditor';
 import {Options} from './Options';
 
 export const ViewNote = (props) => {
-    const {backURL, user} = props;
+    const {backURL, user, boards} = props;
     const [editorState, onChange] = useState(null);
 
     const history = useHistory();
@@ -101,6 +101,7 @@ export const ViewNote = (props) => {
                             backURL={backURL}
                             switchToEdit={switchToEdit}
                             isOwner={isOwner}
+                            boards={boards}
                         />
                     </div>
                 </div>
@@ -141,5 +142,6 @@ export const ViewNote = (props) => {
 ViewNote.propTypes = {
     color: PropTypes.string,
     backURL: PropTypes.string,
-    user: PropTypes.string
+    user: PropTypes.string,
+    boards: PropTypes.array
 };

@@ -4,7 +4,7 @@ import {useHistory, useRouteMatch} from 'react-router-dom';
 import {useMutation} from '@apollo/react-hooks';
 
 import addNote from '../../mutations/addNote';
-import getBoardDetails from '../../queries/boardDetails';
+import dashboardRefresh from '../../queries/dashboardRefresh';
 
 import {Loader} from '../../components/loader';
 import {Toast} from '../../components/toast/Toast';
@@ -21,12 +21,9 @@ export const Notes = (props) => {
 
     const {color, notes, boardName, boardId} = props;
 
-    const [add, {loading, data, error: mutationError}] = useMutation(addNote, {
+    const [add, {loading, error: mutationError}] = useMutation(addNote, {
         refetchQueries: [{
-            query: getBoardDetails,
-            variables: {
-                id: boardId
-            }
+            query: dashboardRefresh
         }]
     });
 
@@ -41,7 +38,7 @@ export const Notes = (props) => {
         sessionStorage.setItem(REDIRECT_TOKEN, noteURL);
     };
 
-    const goToCreateNote = async () => {
+    const createNote = async () => {
         add({
             variables: {
                 board: boardId,
@@ -51,15 +48,6 @@ export const Notes = (props) => {
             }
         });
     };
-
-    useEffect(() => {
-        if (data?.addNote?.id) {
-            const {addNote: {id}} = data;
-            const noteURL = `${match.url}/${id}/edit`;
-            history.push(noteURL);
-            sessionStorage.setItem(REDIRECT_TOKEN, noteURL);
-        }
-    }, [data]);
 
     useEffect(() => {
         document.title = `[Board]: ${boardName || 'Untitled'} - Blackboard`;
@@ -92,7 +80,7 @@ export const Notes = (props) => {
                     <div className="notes-button-row">
                         <button
                             className="standard-button"
-                            onClick={goToCreateNote}
+                            onClick={createNote}
                         >
 							Create a Note
                         </button>
@@ -140,7 +128,7 @@ export const Notes = (props) => {
             <div className="absolute-button-wrapper">
                 <button
                     className="standard-button"
-                    onClick={goToCreateNote}
+                    onClick={createNote}
                 >
                     {loading ? <Loader /> : <i className="fas fa-plus" />}
                 </button>

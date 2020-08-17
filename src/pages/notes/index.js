@@ -47,7 +47,7 @@ export const Board = (props) => {
 
     const {board} = data;
     const {notes, color, name} = board;
-    const {user} = props;
+    const {user, boards} = props;
 
     return (
         <Switch>
@@ -59,9 +59,9 @@ export const Board = (props) => {
             </Route>
             <Route path={`${match.path}/:noteId`}>
                 <ViewNote
-                    color={color}
                     backURL={backURL}
                     user={user}
+                    boards={boards}
                 />
             </Route>
             <Route path={match.path}>
@@ -77,5 +77,6 @@ export const Board = (props) => {
 };
 
 Board.propTypes = {
-    user: PropTypes.string
+    user: PropTypes.string,
+    boards: PropTypes.array
 };

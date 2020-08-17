@@ -31,8 +31,9 @@ const Home = (props) => {
     const client = new ApolloClient({
         shouldBatch: true,
         link: authLink.concat(httpLink),
-        cache: new InMemoryCache(),
-        dataIdFromObject: (o) => o.id
+        cache: new InMemoryCache({
+            dataIdFromObject: (o) => o.id
+        })
     });
 
     return (

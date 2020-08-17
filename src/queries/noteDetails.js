@@ -13,7 +13,9 @@ query getNote($id: ID!) {
     sharedWith,
     pinned,
     boardDetails {
-      color
+      color,
+      name,
+      id
     }
     sharedWithDetails {
       name,
@@ -25,7 +27,8 @@ query getNote($id: ID!) {
       content,
       time,
       senderDetails {
-        name
+        name,
+        id
       }
     },
     sharedWithEveryone

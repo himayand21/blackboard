@@ -9,7 +9,6 @@ import {Toast} from '../../../components/toast/Toast';
 import {Loader} from '../../../components/loader';
 import {Popup} from '../../../components/popup';
 
-import refetchQuery from '../../../queries/refetchQuery';
 import togglePinNote from '../../../mutations/togglePinNote';
 import {DASHBOARD, NOTES, REDIRECT_TOKEN} from '../../../constants';
 
@@ -47,9 +46,7 @@ export const NoteBox = (props) => {
     const relativeTime = getRelativeTime(time);
     const showCommentBox = comments.length || sharedWith.length;
 
-    const [togglePin, {loading, error: mutationError}] = useMutation(togglePinNote, {
-        awaitRefetchQueries: true
-    });
+    const [togglePin, {loading, error: mutationError}] = useMutation(togglePinNote);
 
     const handleTogglePin = (event) => {
         event.stopPropagation();
@@ -57,10 +54,7 @@ export const NoteBox = (props) => {
             variables: {
                 id,
                 pinned: !pinned
-            },
-            refetchQueries: [{
-                query: refetchQuery
-            }]
+            }
         });
     };
 

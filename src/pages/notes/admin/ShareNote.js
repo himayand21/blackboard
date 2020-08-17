@@ -4,7 +4,6 @@ import {useQuery, useMutation} from '@apollo/react-hooks';
 
 import shareNote from '../../../mutations/shareNote';
 import unshareNote from '../../../mutations/unshareNote';
-import getNoteDetails from '../../../queries/noteDetails';
 import getUserDetails from '../../../queries/userDetails';
 import shareWithEveryoneMutation from '../../../mutations/toggleSharedWithEveryone';
 
@@ -39,16 +38,7 @@ const ShareNoteComponent = (props) => {
             variables: {
                 id: note.id,
                 unsharingWith
-            },
-            awaitRefetchQueries: true,
-            refetchQueries: [{
-                query: getNoteDetails,
-                variables: {
-                    id: note.id
-                },
-            }, {
-                query: getUserDetails
-            }]
+            }
         });
         addToast({
             type: 'success',
@@ -61,16 +51,7 @@ const ShareNoteComponent = (props) => {
             variables: {
                 id: note.id,
                 sharingWith
-            },
-            awaitRefetchQueries: true,
-            refetchQueries: [{
-                query: getNoteDetails,
-                variables: {
-                    id: note.id
-                },
-            }, {
-                query: getUserDetails
-            }]
+            }
         });
         addToast({
             type: 'success',
@@ -83,14 +64,7 @@ const ShareNoteComponent = (props) => {
             variables: {
                 id: note.id,
                 sharedWithEveryone: !note.sharedWithEveryone
-            },
-            awaitRefetchQueries: true,
-            refetchQueries: [{
-                query: getNoteDetails,
-                variables: {
-                    id: note.id
-                }
-            }]
+            }
         });
         addToast({
             type: 'success',

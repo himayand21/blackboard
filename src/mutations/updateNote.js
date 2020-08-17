@@ -7,10 +7,7 @@ mutation updateNote($id: ID, $name: String, $description: String, $editor: Strin
     name,
     description,
     editor,
-    board,
-    boardDetails {
-      color
-    }
+    time
   }
 }
 `;

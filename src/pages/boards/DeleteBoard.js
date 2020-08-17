@@ -5,7 +5,6 @@ import {useMutation} from '@apollo/react-hooks';
 import {Loader} from '../../components/loader';
 import {Toast} from '../../components/toast/Toast';
 
-import getBoards from '../../queries/boards';
 import deleteBoard from '../../mutations/deleteBoard';
 
 export const DeleteBoard = (props) => {
@@ -14,18 +13,13 @@ export const DeleteBoard = (props) => {
         selectedBoard
     } = props;
 
-    const [remove, {loading: deleting, error: mutationError}] = useMutation(deleteBoard, {
-        awaitRefetchQueries: true
-    });
+    const [remove, {loading: deleting, error: mutationError}] = useMutation(deleteBoard);
 
     const handleClick = async () => {
         await remove({
             variables: {
                 id: selectedBoard.id
-            },
-            refetchQueries: [{
-                query: getBoards
-            }]
+            }
         });
         hideModal();
     };

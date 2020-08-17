@@ -6,7 +6,7 @@
       "scope-enum": [
         2,
         "always",
-        ["build", "ui", "design", "api", "data", "patch"]
+        ["build", "ui", "design", "api", "data", "patch", "perf"]
       ],
       "scope-case": [2, "always", "lowerCase"],
       "subject-empty": [2, "never"],

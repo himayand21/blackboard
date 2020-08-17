@@ -10,6 +10,9 @@ const {
 
 const UserDetail = mongoose.model('userdetail');
 const Board = mongoose.model('board');
+const Note = mongoose.model('note');
+
+const NoteType = require('../types/note');
 
 const UserDetailType = new GraphQLObjectType({
     name: 'UserDetailType',
@@ -33,7 +36,35 @@ const UserDetailType = new GraphQLObjectType({
             resolve(parentValue) {
                 return Board.find({
                     user: parentValue.id
-                });
+                }).sort('-time');
+            }
+        },
+        pinnedNotes: {
+            type: new GraphQLList(NoteType),
+            resolve(parentValue, args, context) {
+                const {user: {id: userId}} = context;
+                return Note.find({
+                    owner: userId,
+                    pinned: true
+                }).sort('-time');
+            }
+        },
+        sharedNotes: {
+            type: new GraphQLList(NoteType),
+            resolve(parentValue, args, context) {
+                const {user: {id: userId}} = context;
+                return Note.find({
+                    sharedWith: userId.toString()
+                }).sort('-time');
+            }
+        },
+        recentNotes: {
+            type: new GraphQLList(NoteType),
+            resolve(parentValue, args, context) {
+                const {user: {id: userId}} = context;
+                return Note.find({
+                    owner: userId
+                }).sort('-time').limit(4);
             }
         }
     })
