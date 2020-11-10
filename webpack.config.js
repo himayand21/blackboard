@@ -29,7 +29,7 @@ const config = function(env) {
             new CopyPlugin({
                 patterns: [
                     {from: './public/favicon.svg', to: './favicon.svg'},
-                    {from: './src/assets/pin.svg', to: './hero.svg'},
+                    {from: './public/hero.png', to: './hero.png'},
                 ]
             }),
             new HtmlWebpackPlugin({
